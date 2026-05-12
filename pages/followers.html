@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Followers | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .content-section {
+        padding: 5.5rem 0 4rem;
+        margin-top: 1rem;
+      }
+
+      .page-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .page-header h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Unified Table/List Design */
+      .user-list {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .list-header {
+        background: var(--bg-soft);
+        display: grid;
+        grid-template-columns: 2fr 1fr 140px;
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        border-bottom: 1px solid var(--border);
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        align-items: center;
+      }
+
+      .user-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 140px;
+        gap: 1rem;
+        padding: 1.2rem;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        transition: background-color 0.2s ease;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .user-row:last-child {
+        border-bottom: none;
+      }
+
+      .user-row:hover {
+        background-color: var(--bg-soft);
+      }
+
+      .user-main-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .user-handle {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--primary);
+        font-family: 'Fira Code', monospace;
+      }
+
+      .user-name {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-weight: 400;
+      }
+
+      .user-stats {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .action-cell {
+        text-align: right;
+      }
+
+      .follow-btn {
+        padding: 0.4rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        min-width: 100px;
+      }
+
+      @media (max-width: 768px) {
+        .list-header {
+          grid-template-columns: 1.5fr 1fr;
+          font-size: 0.75rem;
+          padding: 1rem;
+        }
+        .user-row {
+          grid-template-columns: 1.5fr 1fr;
+          padding: 1rem;
+        }
+        .user-stats, .list-header .text-end {
+          display: none;
+        }
+        .user-row .action-cell {
+            display: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm" style="backdrop-filter: blur(10px)">
+      <div class="container px-4">
+        <a class="navbar-brand d-flex align-items-center gap-2 brand-logo" href="../index.html">
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+          <a href="profile.html" class="btn btn-sm btn-light border rounded-pill px-3">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to Profile
+          </a>
+          <button id="themeToggle" class="theme-toggle btn btn-link p-0 border-0 ms-2" style="color: var(--text-main)" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="1.5em" height="1.5em" fill="currentColor" class="theme-toggle__around" viewBox="0 0 32 32">
+              <clipPath id="theme-toggle__around__cutout"><path d="M0 0h42v30a1 1 0 00-16 13H0Z" /></clipPath>
+              <g clip-path="url(#theme-toggle__around__cutout)">
+                <circle cx="16" cy="16" r="8.4" />
+                <g><circle cx="16" cy="3.3" r="2.3" /><circle cx="27" cy="9.7" r="2.3" /><circle cx="27" cy="22.3" r="2.3" /><circle cx="16" cy="28.7" r="2.3" /><circle cx="5" cy="22.3" r="2.3" /><circle cx="5" cy="9.7" r="2.3" /></g>
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow-1 content-section">
+      <div class="container animate-slide-up">
+        <div class="page-header d-flex align-items-center gap-3">
+          <div class="header-icon-box bg-primary bg-opacity-10 p-3 rounded-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <h1 class="mb-0">Followers</h1>
+            <p class="text-muted mb-0">People following <span class="fw-bold text-primary">@sabid179</span></p>
+          </div>
+        </div>
+
+        <div class="user-list">
+          <div class="list-header">
+            <div>User</div>
+            <div class="text-center">Stats</div>
+            <div class="text-end pe-4">Action</div>
+          </div>
+
+          <!-- Sample User 1 -->
+          <div class="user-row">
+            <div class="user-main-info">
+              <span class="user-handle">@arun_prat</span>
+              <span class="user-name">(Arun Prat)</span>
+            </div>
+            <div class="user-stats">1,520 pts</div>
+            <div class="action-cell pe-3">
+              <button class="btn btn-sm btn-primary follow-btn">Follow</button>
+            </div>
+          </div>
+
+          <!-- Sample User 2 -->
+          <div class="user-row">
+            <div class="user-main-info">
+              <span class="user-handle">@tarun_dol</span>
+              <span class="user-name">(Tarun Dol)</span>
+            </div>
+            <div class="user-stats">980 pts</div>
+            <div class="action-cell pe-3">
+              <button class="btn btn-sm btn-outline-primary follow-btn">Following</button>
+            </div>
+          </div>
+
+          <!-- Sample User 3 -->
+          <div class="user-row">
+            <div class="user-main-info">
+              <span class="user-handle">@zaman_h</span>
+              <span class="user-name">(Zaman Hasan)</span>
+            </div>
+            <div class="user-stats">2,100 pts</div>
+            <div class="action-cell pe-3">
+              <button class="btn btn-sm btn-primary follow-btn">Follow</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg)">
+      <div class="container text-center">
+        <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const themeToggle = document.getElementById("themeToggle");
+      const html = document.documentElement;
+      function updateTheme(theme) {
+        html.setAttribute("data-theme", theme);
+        html.setAttribute("data-bs-theme", theme);
+        localStorage.setItem("theme", theme);
+      }
+      const savedTheme = localStorage.getItem("theme") || "light";
+      updateTheme(savedTheme);
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = html.getAttribute("data-theme");
+        updateTheme(currentTheme === "light" ? "dark" : "light");
+      });
+    </script>
+  </body>
+</html>

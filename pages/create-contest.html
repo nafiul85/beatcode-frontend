@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Contest | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .create-contest-section {
+        padding: 5.5rem 0 4rem;
+        margin-top: 1rem;
+      }
+
+      .btn-square {
+        border-radius: 0.5rem;
+        font-weight: 700;
+        transition: all 0.2s;
+      }
+
+      .progress-container {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
+        width: 100%;
+      }
+      .step-progress-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding-bottom: 1.5rem;
+        position: relative;
+      }
+      .step-progress-wrapper::before {
+        content: "";
+        position: absolute;
+        top: 18px; /* Half of circle height */
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--border);
+        z-index: 1;
+      }
+      .progress-line-fill {
+        position: absolute;
+        top: 18px;
+        left: 0;
+        height: 2px;
+        background: var(--primary);
+        z-index: 1;
+        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        width: 0%;
+      }
+      .step-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+        flex: 1;
+      }
+      .step-circle {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--card-bg);
+        border: 2px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        transition: all 0.3s ease;
+      }
+      .step-item.active .step-circle {
+        background: var(--card-bg);
+        border-color: var(--primary);
+        color: var(--primary);
+        box-shadow: 0 0 0 4px var(--glow-primary);
+        transform: scale(1.1);
+      }
+      .step-item.completed .step-circle {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+      }
+      .step-label {
+        position: absolute;
+        top: 45px;
+        text-align: center;
+        white-space: nowrap;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        transition: all 0.3s ease;
+      }
+      .step-item.active .step-label {
+        color: var(--primary);
+      }
+
+      .card-step {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
+        display: none;
+      }
+      .card-step.active {
+        display: block;
+        animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      @keyframes slideUpFade {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Professional Form Styling */
+      .form-label-custom {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.6rem;
+      }
+      .form-control-custom {
+        background: var(--bg-soft);
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        color: var(--text-main);
+        transition: all 0.2s ease;
+      }
+      .form-control-custom:focus {
+        background: var(--card-bg);
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px var(--glow-primary);
+        outline: none;
+      }
+
+      /* Drag and Drop Problems Display */
+      .problem-row {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        padding: 1.15rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        margin-bottom: 0.75rem;
+        transition: all 0.2s ease;
+        cursor: grab;
+      }
+      .problem-row:hover {
+        background-color: var(--bg-soft);
+        transform: translateX(4px);
+      }
+      .problem-row:active {
+        cursor: grabbing;
+      }
+      .problem-row.dragging {
+        opacity: 0.4;
+        border: 2px dashed var(--primary);
+        transform: scale(0.98);
+      }
+      .problem-alias {
+        width: 38px;
+        height: 38px;
+        background: var(--bg-soft);
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: var(--primary);
+        font-family: 'Fira Code', monospace;
+        font-size: 1rem;
+      }
+      .drag-handle {
+        color: var(--text-muted);
+        cursor: grab;
+        padding: 0.5rem;
+      }
+
+      /* Custom Tabs for Step 3 */
+      .nav-tabs-custom {
+        border-bottom: 2px solid var(--border);
+        margin-bottom: 2rem;
+        gap: 0;
+      }
+      .nav-tabs-custom .nav-link {
+        color: var(--text-muted);
+        border-bottom: 3px solid transparent;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        margin-bottom: -2px;
+        background: transparent;
+      }
+      .nav-tabs-custom .nav-link:hover {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+      }
+      .nav-tabs-custom .nav-link.active {
+        color: var(--primary) !important;
+        border-bottom-color: var(--primary) !important;
+        background-color: transparent !important;
+      }
+
+      .drop-zone {
+        border: 2px dashed var(--border);
+        border-radius: 0.75rem;
+        padding: 3rem 2rem;
+        text-align: center;
+        background: var(--bg-soft);
+        transition: all 0.2s;
+      }
+      .drop-zone:hover {
+        border-color: var(--primary);
+        background: var(--glow-primary);
+      }
+
+      .modal-content-custom {
+        border-radius: 1rem;
+        border: none;
+        box-shadow: var(--shadow-md);
+        background: var(--card-bg);
+      }
+
+      .hover-bg-light:hover {
+        background-color: var(--bg-soft);
+      }
+
+      .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+      }
+      .btn-primary:hover {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+      }
+
+      .text-primary {
+        color: var(--primary) !important;
+      }
+
+      .brand-icon {
+        color: var(--primary);
+        font-size: 1.5rem;
+      }
+
+      .brand-text {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--text-main);
+      }
+
+      .nav-link {
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-link:hover, .nav-link.active {
+        color: var(--primary);
+        background: var(--bg-soft);
+      }
+
+      .beat-nav {
+        background-color: var(--nav-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--nav-border);
+      }
+
+      /* Theme Toggle Styles */
+      .theme-toggle-btn {
+        background: var(--bg-soft);
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .theme-toggle-btn:hover {
+        background: var(--border);
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div
+        class="container-fluid"
+        style="padding-left: 2rem; padding-right: 2rem"
+      >
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 brand-logo"
+          href="../index.html"
+        >
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul
+            class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center gap-2 justify-center"
+          >
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-newspaper me-2"></i>Updates
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="problemset.html">
+                <i class="fa-solid fa-code me-2"></i>Problem Set
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contests.html">
+                <i class="fa-solid fa-trophy me-2"></i>Contests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="submissions.html">
+                <i class="fa-solid fa-paper-plane me-2"></i>Submissions
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="leaderboard.html">
+                <i class="fa-solid fa-ranking-star me-2"></i>Leaderboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-pen-nib me-2"></i>Contribution
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <button
+                id="themeToggle"
+                class="theme-toggle btn btn-link p-0 border-0"
+                style="
+                  color: var(--text-main);
+                  display: flex;
+                  align-items: center;
+                "
+                type="button"
+                title="Toggle theme"
+                aria-label="Toggle theme"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  width="1.5em"
+                  height="1.5em"
+                  fill="currentColor"
+                  class="theme-toggle__around"
+                  viewBox="0 0 32 32"
+                >
+                  <clipPath id="theme-toggle__around__cutout">
+                    <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
+                  </clipPath>
+                  <g clip-path="url(#theme-toggle__around__cutout)">
+                    <circle cx="16" cy="16" r="8.4" />
+                    <g>
+                      <circle cx="16" cy="3.3" r="2.3" />
+                      <circle cx="27" cy="9.7" r="2.3" />
+                      <circle cx="27" cy="22.3" r="2.3" />
+                      <circle cx="16" cy="28.7" r="2.3" />
+                      <circle cx="5" cy="22.3" r="2.3" />
+                      <circle cx="5" cy="9.7" r="2.3" />
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a
+                class="nav-link p-0 border-0 position-relative d-flex align-items-center"
+                href="#"
+                onclick="requireLogin(event)"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-bell fs-5"></i>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="font-size: 0.6rem; padding: 0.25rem 0.4rem"
+                  >3</span
+                >
+              </a>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+              <button
+                class="btn btn-link nav-link dropdown-toggle p-0 border-0 d-flex align-items-center"
+                id="profileDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-user-circle fs-5"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end shadow-sm"
+                aria-labelledby="profileDropdown"
+                style="
+                  background-color: var(--card-bg);
+                  border: 1px solid var(--border-color, #e0e0e0);
+                "
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-user me-2"></i>Profile</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-gear me-2"></i>Settings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="snippets.html"
+                    ><i class="fa-solid fa-code me-2"></i>Snippets</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="community.html"
+                    ><i class="fa-solid fa-users me-2"></i>Community</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="create-contest-section container">
+      <div class="row">
+        <div class="col-12 mb-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h1 class="fw-800 mb-1">
+                <i class="fa-solid fa-trophy me-2 text-primary"></i>Create New Contest
+              </h1>
+              <p class="text-muted small m-0"><i class="fa-solid fa-cloud-arrow-up me-1"></i> Autosaved your progress</p>
+            </div>
+            <button class="btn btn-outline-secondary btn-square btn-sm px-3 fw-700">Discard</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="progress-container">
+            <div class="step-progress-wrapper">
+              <div class="progress-line-fill" id="progress-line-fill"></div>
+              <div class="step-item active" id="step-item-1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Basic Info</div>
+              </div>
+              <div class="step-item" id="step-item-2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Problems</div>
+              </div>
+              <div class="step-item" id="step-item-3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Finalize</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+
+          <!-- Step 1 -->
+          <div class="card-step active" id="step-1">
+            <h5 class="fw-700 mb-4">Contest Details</h5>
+            <div class="row g-4">
+              <div class="col-12">
+                <label class="form-label-custom">TITLE</label>
+                <input type="text" class="form-control form-control-custom w-100" placeholder="e.g. Weekly Algorithm Challenge #42">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-custom">START DATE & TIME</label>
+                <input type="datetime-local" class="form-control form-control-custom w-100">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label-custom">DURATION (MIN)</label>
+                <input type="number" class="form-control form-control-custom w-100" placeholder="120">
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom">DESCRIPTION</label>
+                <textarea class="form-control form-control-custom w-100" rows="5" placeholder="Add rules, prize info, or instructions..."></textarea>
+              </div>
+            </div>
+            <div class="mt-5 pt-3 d-flex justify-content-end">
+              <button class="btn btn-primary btn-square px-5 py-2 fw-800" onclick="goToStep(2)">
+                Add Problems <i class="fa-solid fa-arrow-right ms-2"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="card-step" id="step-2">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h5 class="fw-700 m-0">Problems Selection</h5>
+              <button class="btn btn-sm btn-primary btn-square px-3 fw-700" data-bs-toggle="modal" data-bs-target="#addProblemModal">
+                <i class="fa-solid fa-plus me-1"></i> New Problem
+              </button>
+            </div>
+            
+            <div id="problemList" ondragover="handleDragOver(event)">
+              <div class="problem-row" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                <div class="problem-alias">A</div>
+                <div class="flex-grow-1">
+                  <div class="fw-700">Two Sum</div>
+                  <div class="text-muted small">#841 • Easy</div>
+                </div>
+                <div class="d-flex gap-2">
+                  <div class="drag-handle"><i class="fa-solid fa-grip-vertical"></i></div>
+                  <button class="btn btn-sm text-danger hover-bg-light btn-square"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </div>
+              <div class="problem-row" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
+                <div class="problem-alias">B</div>
+                <div class="flex-grow-1">
+                  <div class="fw-700">Palindrome Number</div>
+                  <div class="text-muted small">#902 • Medium</div>
+                </div>
+                <div class="d-flex gap-2">
+                  <div class="drag-handle"><i class="fa-solid fa-grip-vertical"></i></div>
+                  <button class="btn btn-sm text-danger hover-bg-light btn-square"><i class="fa-solid fa-trash"></i></button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="text-center py-5 border rounded mt-3 bg-light opacity-50 border-dashed" style="border-style: dashed !important; border-width: 2px !important;">
+               <p class="small text-muted mb-2">Drag and drop to reorder problems</p>
+               <button class="btn btn-outline-secondary btn-sm btn-square" data-bs-toggle="modal" data-bs-target="#addProblemModal">Search Library</button>
+            </div>
+
+            <div class="mt-5 pt-3 d-flex justify-content-between">
+              <button class="btn btn-light border btn-square px-4 py-2 fw-700" onclick="goToStep(1)">
+                Back
+              </button>
+              <button class="btn btn-primary btn-square px-5 py-2 fw-800" onclick="goToStep(3)">
+                Configure Access <i class="fa-solid fa-arrow-right ms-2"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="card-step" id="step-3">
+            <h5 class="fw-700 mb-4">Contest Access</h5>
+            <ul class="nav nav-tabs nav-tabs-custom mb-4" id="accessTabs">
+              <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#publicTab">Public</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#privateTab">Private</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#collabTab">Collaborators</button>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="publicTab">
+                <div class="p-4 bg-soft rounded border border-info border-opacity-25">
+                  <p class="small fw-600 m-0"><i class="fa-solid fa-globe me-2 text-info"></i> Visible to all users. Registration opens at start time.</p>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="privateTab">
+                <div class="row g-4">
+                  <div class="col-md-6">
+                    <div class="drop-zone" onclick="document.getElementById('csvInp').click()">
+                      <i class="fa-solid fa-file-import fs-2 mb-3 text-muted"></i>
+                      <div class="fw-700 small">Upload Invitations</div>
+                      <div class="text-muted" style="font-size: 0.7rem;">CSV with handles or emails</div>
+                      <input type="file" id="csvInp" class="d-none">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="p-4 bg-soft border rounded h-100 d-flex flex-column">
+                      <div class="fw-700 small mb-2">Mass Creation</div>
+                      <p class="text-muted mb-4" style="font-size: 0.75rem;">Generate temporary credentials for onsite competitions.</p>
+                      <button class="btn btn-outline-secondary btn-sm btn-square mt-auto">Batch Generate</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="collabTab">
+                <div class="fw-700 small mb-2 uppercase text-muted">Add Moderator</div>
+                <div class="input-group mb-4">
+                  <input type="text" class="form-control form-control-custom" placeholder="Search by name or @handle">
+                  <button class="btn btn-primary btn-square px-4">Add</button>
+                </div>
+                <div class="collab-list border rounded overflow-hidden">
+                  <div class="d-flex align-items-center gap-3 p-3 border-bottom last-border-0 hover-bg-light">
+                    <img src="https://ui-avatars.com/api/?name=Sabid+Hasan" width="40" class="rounded-circle border border-primary border-2">
+                    <div>
+                      <div class="fw-700 small">Sabid Hasan (@sabid_hasan)</div>
+                      <div class="text-muted" style="font-size: 0.7rem;">Owner • Administrator</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-5 pt-3 d-flex justify-content-between">
+              <button class="btn btn-outline-secondary border btn-square px-4 py-2 fw-700" onclick="goToStep(2)">
+                <i class="fa-solid fa-arrow-left me-2"></i> Back
+              </button>
+              <div class="d-flex gap-3">
+                <button class="btn btn-outline-primary btn-square px-4 py-2 fw-800">
+                  Save as Draft
+                </button>
+                <button class="btn btn-success btn-square px-5 py-2 fw-800">
+                  Go Live <i class="fa-solid fa-rocket ms-2"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Selection -->
+    <div class="modal fade" id="addProblemModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-content-custom bg-white">
+          <div class="modal-header border-0 pb-0 pt-4 px-4">
+            <h6 class="fw-800 m-0">Library Search</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body p-4">
+            <div class="input-group mb-4">
+                <span class="input-group-text bg-transparent border-end-0 border-primary border-opacity-25"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                <input type="text" class="form-control border-start-0 ps-0 form-control-custom" placeholder="Type name, tag, or ID #...">
+            </div>
+            <div class="results scrollbar-hide" style="max-height: 400px; overflow-y: auto;">
+              <div class="d-flex justify-content-between align-items-center p-3 border-bottom hover-bg-light cursor-pointer">
+                <div>
+                  <div class="fw-700 small">Valid Parentheses</div>
+                  <div class="text-muted small">#20 • Stack, Strings</div>
+                </div>
+                <button class="btn btn-sm btn-primary btn-square px-3">Assign</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <h4 class="fw-bold" style="color: var(--text-main)">Login</h4>
+            </div>
+            <form>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Email or Username</label>
+                <input
+                  type="text"
+                  class="form-control rounded-2"
+                  placeholder="Enter your email or username"
+                />
+              </div>
+              <div class="mb-3">
+                <div class="d-flex justify-content-between">
+                  <label class="form-label fw-semibold">Password</label>
+                  <a
+                    href="pages/forgot-password.html"
+                    class="text-primary text-decoration-none small"
+                    >Forgot Password?</a
+                  >
+                </div>
+                <input
+                  type="password"
+                  class="form-control rounded-2"
+                  placeholder="Enter your password"
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary w-100 rounded-2 fw-semibold py-2"
+              >
+                Login
+              </button>
+            </form>
+
+            <div class="d-flex align-items-center gap-3 my-4">
+              <hr class="flex-grow-1" />
+              <small class="text-muted">OR</small>
+              <hr class="flex-grow-1" />
+            </div>
+
+            <div class="row g-2">
+              <div class="col-6">
+                <button class="btn btn-outline-secondary w-100 rounded-2">
+                  <i class="fa-brands fa-google"></i> Google
+                </button>
+              </div>
+              <div class="col-6">
+                <button class="btn btn-outline-secondary w-100 rounded-2">
+                  <i class="fa-brands fa-github"></i> GitHub
+                </button>
+              </div>
+            </div>
+
+            <p class="text-center text-muted small mt-4">
+              Don't have an account?
+              <a
+                href="#"
+                class="text-primary fw-semibold text-decoration-none"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#signupModal"
+                >Sign Up</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <h4 class="fw-bold" style="color: var(--text-main)">
+                Create Account
+              </h4>
+            </div>
+            <form>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Full Name</label>
+                <input
+                  type="text"
+                  class="form-control rounded-2"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input
+                  type="email"
+                  class="form-control rounded-2"
+                  placeholder="Enter email"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Username</label>
+                <input
+                  type="text"
+                  class="form-control rounded-2"
+                  placeholder="Choose a username"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Password</label>
+                <input
+                  type="password"
+                  class="form-control rounded-2"
+                  placeholder="Create a password"
+                />
+              </div>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="termsCheck"
+                />
+                <label class="form-check-label small" for="termsCheck">
+                  I agree to the
+                  <a
+                    href="../pages/terms.html"
+                    class="text-primary text-decoration-none"
+                    >Terms of Service</a
+                  >
+                  and
+                  <a
+                    href="../pages/privacy-policy.html"
+                    class="text-primary text-decoration-none"
+                    >Privacy Policy</a
+                  >
+                </label>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary w-100 rounded-2 fw-semibold py-2"
+              >
+                Sign Up
+              </button>
+            </form>
+
+            <p class="text-center text-muted small mt-4">
+              Already have an account?
+              <a
+                href="#"
+                class="text-primary fw-semibold text-decoration-none"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+                >Login</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      class="footer py-4 border-top mt-auto"
+      style="background-color: var(--footer-bg)"
+    >
+      <div class="container text-center">
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+          <i class="fa-solid fa-code fs-4"></i>
+          <span class="fw-bold fs-5">beatCode</span>
+        </div>
+        <p class="text-muted mb-0">
+          Developed by
+          <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span>
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggle = document.getElementById("themeToggle");
+        const documentElement = document.documentElement;
+
+        // Initialize theme from localStorage or fallback to default
+        const savedTheme = localStorage.getItem("beatCode-theme") || "light";
+        documentElement.setAttribute("data-theme", savedTheme);
+        documentElement.setAttribute("data-bs-theme", savedTheme);
+        if (savedTheme === "dark") {
+          themeToggle.classList.add("theme-toggle--toggled");
+        }
+
+        themeToggle.addEventListener("click", () => {
+          const currentTheme = documentElement.getAttribute("data-theme");
+          const newTheme = currentTheme === "light" ? "dark" : "light";
+
+          documentElement.setAttribute("data-theme", newTheme);
+          documentElement.setAttribute("data-bs-theme", newTheme);
+          localStorage.setItem("beatCode-theme", newTheme);
+          themeToggle.classList.toggle("theme-toggle--toggled");
+        });
+      });
+
+      // Require Login Logic for protected links
+      function requireLogin(e) {
+        e.preventDefault();
+        const loginModal = new bootstrap.Modal(
+          document.getElementById("loginModal"),
+        );
+        loginModal.show();
+      }
+
+      function updateProgress(s) {
+        const fill = document.getElementById('progress-line-fill');
+        if (fill) {
+          const percentage = ((s - 1) / 2) * 100;
+          fill.style.width = `${percentage}%`;
+        }
+      }
+
+      function goToStep(s) {
+        document.querySelectorAll('.card-step').forEach(c => c.classList.remove('active'));
+        document.getElementById(`step-${s}`).classList.add('active');
+        
+        document.querySelectorAll('.step-item').forEach((it, idx) => {
+          const n = idx + 1;
+          const circ = it.querySelector('.step-circle');
+          it.classList.remove('active', 'completed');
+          if (n === s) {
+            it.classList.add('active');
+            circ.innerHTML = n;
+          } else if (n < s) {
+            it.classList.add('completed');
+            circ.innerHTML = '<i class="fa-solid fa-check"></i>';
+          } else {
+            circ.innerHTML = n;
+          }
+        });
+        updateProgress(s);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      let dragSrc = null;
+      function handleDragStart(e) {
+        dragSrc = e.currentTarget;
+        e.currentTarget.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+      }
+      function handleDragEnd(e) {
+        e.currentTarget.classList.remove('dragging');
+        dragSrc = null;
+        updateRank();
+      }
+      function handleDragOver(e) {
+        e.preventDefault();
+        const list = document.getElementById('problemList');
+        const after = getAfterElem(list, e.clientY);
+        if (after == null) list.appendChild(dragSrc);
+        else list.insertBefore(dragSrc, after);
+      }
+      function getAfterElem(cont, y) {
+        const draggables = [...cont.querySelectorAll('.problem-row:not(.dragging)')];
+        return draggables.reduce((cl, ch) => {
+          const b = ch.getBoundingClientRect();
+          const off = y - b.top - b.height / 2;
+          if (off < 0 && off > cl.offset) return { offset: off, element: ch };
+          return cl;
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+      }
+      function updateRank() {
+        document.querySelectorAll('.problem-row').forEach((r, idx) => {
+          r.querySelector('.problem-alias').innerText = String.fromCharCode(65 + idx);
+        });
+      }
+    </script>
+  </body>
+</html>

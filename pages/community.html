@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .community-section {
+        padding: 5.5rem 0 4rem;
+        margin-top: 1rem;
+      }
+
+      .community-header {
+        margin-bottom: 3rem;
+        text-align: center;
+      }
+
+      .community-header h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 800;
+        margin-bottom: 1rem;
+      }
+
+      .community-header p {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .community-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .community-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1.2rem;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .community-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary);
+      }
+
+      .community-card-icon {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+      }
+
+      .community-card-icon.discord {
+        color: #5865f2;
+      }
+
+      .community-card-icon.facebook {
+        color: #1877f2;
+      }
+
+      .community-card h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-main);
+      }
+
+      .community-card p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+      }
+
+      .community-benefits {
+        background: var(--bg-soft);
+        border-radius: 0.8rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        text-align: left;
+      }
+
+      .community-benefits h5 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 0.8rem;
+        letter-spacing: 0.5px;
+      }
+
+      .benefit-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.9rem;
+        color: var(--text-main);
+        margin-bottom: 0.6rem;
+      }
+
+      .benefit-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .benefit-item i {
+        color: var(--primary);
+        font-size: 1rem;
+      }
+
+      .community-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 0.6rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 0.95rem;
+      }
+
+      .community-btn.discord-btn {
+        background: linear-gradient(135deg, #5865f2, #4751c4);
+        color: white;
+      }
+
+      .community-btn.discord-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
+        color: white;
+      }
+
+      .community-btn.facebook-btn {
+        background: linear-gradient(135deg, #1877f2, #0a66c2);
+        color: white;
+      }
+
+      .community-btn.facebook-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+        color: white;
+      }
+
+      .info-box {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .info-box h3 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--text-main);
+      }
+
+      .info-box p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 768px) {
+        .community-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .community-card {
+          padding: 1.5rem;
+        }
+
+        .community-card-icon {
+          font-size: 2.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div
+        class="container-fluid"
+        style="padding-left: 2rem; padding-right: 2rem"
+      >
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 brand-logo"
+          href="../index.html"
+        >
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul
+            class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center gap-2 justify-center"
+          >
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-newspaper me-2"></i>Updates
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="problemset.html">
+                <i class="fa-solid fa-code me-2"></i>Problem Set
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contests.html">
+                <i class="fa-solid fa-trophy me-2"></i>Contests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="submissions.html">
+                <i class="fa-solid fa-paper-plane me-2"></i>Submissions
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="leaderboard.html">
+                <i class="fa-solid fa-ranking-star me-2"></i>Leaderboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-pen-nib me-2"></i>Contribution
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <button
+                id="themeToggle"
+                class="theme-toggle btn btn-link p-0 border-0"
+                style="
+                  color: var(--text-main);
+                  display: flex;
+                  align-items: center;
+                "
+                type="button"
+                title="Toggle theme"
+                aria-label="Toggle theme"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  width="1.5em"
+                  height="1.5em"
+                  fill="currentColor"
+                  class="theme-toggle__around"
+                  viewBox="0 0 32 32"
+                >
+                  <clipPath id="theme-toggle__around__cutout">
+                    <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
+                  </clipPath>
+                  <g clip-path="url(#theme-toggle__around__cutout)">
+                    <circle cx="16" cy="16" r="8.4" />
+                    <g>
+                      <circle cx="16" cy="3.3" r="2.3" />
+                      <circle cx="27" cy="9.7" r="2.3" />
+                      <circle cx="27" cy="22.3" r="2.3" />
+                      <circle cx="16" cy="28.7" r="2.3" />
+                      <circle cx="5" cy="22.3" r="2.3" />
+                      <circle cx="5" cy="9.7" r="2.3" />
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a
+                class="nav-link p-0 border-0 position-relative d-flex align-items-center"
+                href="#"
+                onclick="requireLogin(event)"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-bell fs-5"></i>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="font-size: 0.6rem; padding: 0.25rem 0.4rem"
+                  >3</span
+                >
+              </a>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+              <button
+                class="btn btn-link nav-link dropdown-toggle p-0 border-0 d-flex align-items-center"
+                id="profileDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-user-circle fs-5"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end shadow-sm"
+                aria-labelledby="profileDropdown"
+                style="
+                  background-color: var(--card-bg);
+                  border: 1px solid var(--border-color, #e0e0e0);
+                "
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-user me-2"></i>Profile</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-gear me-2"></i>Settings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-code me-2"></i>Snippets</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+              <a class="nav-link" href="community.html"><i class="fa-solid fa-users me-2"></i>Community</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <section class="community-section position-relative overflow-hidden">
+        <div class="container position-relative z-1">
+          <!-- Header -->
+          <div class="community-header animate-slide-up">
+            <h1 class="gradient-text">
+              <i
+                class="fa-solid fa-users me-3"
+                style="color: var(--primary)"
+              ></i>Join Our Community
+            </h1>
+            <p>Connect with thousands of competitive programmers and grow together. Share knowledge, ask questions, and participate in events.</p>
+          </div>
+
+          <!-- Community Cards -->
+          <div class="community-grid">
+            <!-- Discord Card -->
+            <div class="community-card animate-slide-up">
+              <div>
+                <div class="community-card-icon discord">
+                  <i class="fa-brands fa-discord"></i>
+                </div>
+                <h3>Discord Server</h3>
+                <p>Join our active Discord community where members discuss problems, share solutions, and collaborate on coding challenges in real-time.</p>
+                
+                <div class="community-benefits">
+                  <h5>What You'll Get</h5>
+                  <div class="benefit-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Live coding discussions</span>
+                  </div>
+                  <div class="benefit-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Expert help & mentoring</span>
+                  </div>
+                  <div class="benefit-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Daily coding challenges</span>
+                  </div>
+                  <div class="benefit-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Community events & contests</span>
+                  </div>
+                </div>
+              </div>
+              <a 
+                href="https://discord.gg/beatcode" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="community-btn discord-btn"
+              >
+                <i class="fa-brands fa-discord"></i>
+                Join Discord
+              </a>
+            </div>
+
+            <!-- Facebook Card -->
+            <div class="community-card animate-slide-up">
+              <div>
+                <div class="community-card-icon facebook">
+                  <i class="fa-brands fa-facebook"></i>
+                </div>
+                <h3>Facebook Group</h3>
+                <p>Connect with our Facebook community to stay updated on announcements, share achievements, and network with fellow competitive programmers.</p>
+                
+                <div class="community-benefits">
+                  <h5>What You'll Get</h5>
+                  <div class="benefit-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Latest announcements</span>
+                  </div>
+                  <div class="benefit-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Problem discussions</span>
+                  </div>
+                  <div class="benefit-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Community posts & tips</span>
+                  </div>
+                  <div class="benefit-item">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Success stories & achievements</span>
+                  </div>
+                </div>
+              </div>
+              <a 
+                href="https://facebook.com/groups/beatcode" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="community-btn facebook-btn"
+              >
+                <i class="fa-brands fa-facebook"></i>
+                Join Facebook
+              </a>
+            </div>
+          </div>
+
+          <!-- Info Box -->
+          <div class="info-box animate-slide-up">
+            <h3>Community Guidelines</h3>
+            <p>Our communities are built on respect, collaboration, and the spirit of learning together. We welcome everyone from beginners to advanced programmers. Be helpful, be kind, and help others grow their skills. Let's build something amazing together!</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg);">
+        <div class="container text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                <i class="fa-solid fa-code fs-4"></i>
+                <span class="fw-bold fs-5">beatCode</span>
+            </div>
+            <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Theme Toggle Logic -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggleBtn = document.getElementById("themeToggle");
+        const htmlElement = document.documentElement;
+
+        // Check local storage for theme
+        const currentTheme = localStorage.getItem("beatCode-theme") || "light";
+        htmlElement.setAttribute("data-theme", currentTheme);
+        htmlElement.setAttribute("data-bs-theme", currentTheme);
+        if (currentTheme === "dark") {
+          themeToggleBtn.classList.add("theme-toggle--toggled");
+        }
+
+        themeToggleBtn.addEventListener("click", () => {
+          const newTheme =
+            htmlElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+          htmlElement.setAttribute("data-theme", newTheme);
+          htmlElement.setAttribute("data-bs-theme", newTheme);
+          localStorage.setItem("beatCode-theme", newTheme);
+          themeToggleBtn.classList.toggle("theme-toggle--toggled");
+        });
+      });
+
+      // Require Login Logic for protected links
+      function requireLogin(e) {
+        e.preventDefault();
+        const loginModal = new bootstrap.Modal(
+          document.getElementById("loginModal")
+        );
+        loginModal.show();
+      }
+    </script>
+  </body>
+</html>

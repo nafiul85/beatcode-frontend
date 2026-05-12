@@ -1,0 +1,652 @@
+cat > pages/profile.html << 'END'
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .profile-section {
+        padding: 6.5rem 0 4rem;
+      }
+
+      .user-main-info {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .user-handle {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--text-main);
+        text-decoration: none;
+      }
+
+      .info-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0.95rem;
+        color: var(--text-main);
+      }
+
+      .info-list li {
+        margin-bottom: 0.6rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .info-list li i {
+        width: 20px;
+        color: var(--text-muted);
+        text-align: center;
+      }
+
+      .user-avatar-container {
+        width: 220px;
+        height: 220px;
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 8px;
+        background: var(--bg-soft);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .user-avatar-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0.6rem;
+      }
+
+      /* Stat Cards Ultra Professional */
+      .stat-card-simple {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.6rem;
+        padding: 0.85rem 1.25rem;
+        height: auto;
+        text-align: left;
+        transition: all 0.2s ease-in-out;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        position: relative;
+        width: fit-content;
+        min-width: 220px;
+      }
+
+      .stat-card-simple:hover {
+        border-color: var(--primary);
+        background: var(--bg-soft);
+      }
+
+      .stat-card-simple .stat-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stat-card-simple .value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-main);
+        line-height: 1.2;
+      }
+
+      .stat-card-simple .label {
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        letter-spacing: 0.5px;
+        margin-bottom: 0;
+      }
+
+      .stat-card-simple .stat-icon {
+        font-size: 1.1rem;
+        color: var(--primary);
+        opacity: 0.8;
+      }
+
+      /* ICPC Style Progress */
+      .progress-card-full {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .icpc-progress {
+        height: 10px;
+        border-radius: 5px;
+        background: var(--bg-soft);
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Activity Calendar */
+      .calendar-card-full {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .activity-grid {
+        display: grid;
+        grid-template-columns: repeat(53, 1fr);
+        grid-template-rows: repeat(7, 1fr);
+        gap: 3px;
+        width: 100%;
+        min-height: 110px;
+      }
+
+      .activity-cell {
+        aspect-ratio: 1;
+        background: var(--bg-soft);
+        border-radius: 2px;
+      }
+
+      .lvl-1 {
+        background: #9be9a8;
+      }
+      .lvl-2 {
+        background: #40c463;
+      }
+      .lvl-3 {
+        background: #30a14e;
+      }
+      .lvl-4 {
+        background: #216e39;
+      }
+
+      /* Tabs */
+      .profile-nav-tabs {
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 2rem;
+        gap: 0.5rem;
+      }
+
+      .profile-nav-tabs .nav-link {
+        border: none;
+        color: var(--text-muted);
+        font-weight: 600;
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+        background: transparent;
+        position: relative;
+      }
+
+      .profile-nav-tabs .nav-link.active {
+        color: var(--primary);
+        background: var(--bg-soft);
+      }
+
+      .profile-nav-tabs .nav-link.active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--primary);
+      }
+
+      .edit-info-btn {
+        padding: 0.4rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .hover-link {
+        color: var(--primary);
+        transition: color 0.2s ease;
+      }
+
+      .hover-link:hover {
+        color: var(--primary-dark);
+        text-decoration: underline !important;
+      }
+
+      .hover-link-dark {
+        color: var(--text-main);
+        transition: all 0.2s ease;
+      }
+
+      .hover-link-dark:hover {
+        color: var(--primary);
+        transform: translateY(-1px);
+      }
+
+      /* Social Pill Design */
+      .social-stat-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.35rem 0.75rem;
+        background: var(--bg-soft);
+        border: 1px solid var(--border);
+        border-radius: 2rem;
+        transition: all 0.2s ease;
+        text-decoration: none !important;
+      }
+
+      .social-stat-pill:hover {
+        border-color: var(--primary);
+        background: var(--card-bg);
+        box-shadow: var(--shadow-sm);
+        transform: translateY(-2px);
+      }
+
+      .social-stat-pill .count {
+        font-weight: 700;
+        color: var(--text-main);
+        font-size: 1rem;
+      }
+
+      .social-stat-pill .label {
+        color: var(--text-muted);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+      }
+
+      .tracking-wider {
+        letter-spacing: 0.05em;
+      }
+
+      /* Unsolved Problems Section */
+      .unsolved-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin-top: 2rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .unsolved-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .unsolved-item {
+        background: var(--bg-soft);
+        color: var(--text-main);
+        padding: 0.35rem 0.8rem;
+        border-radius: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-decoration: none;
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+      }
+
+      .unsolved-item:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm"
+      style="backdrop-filter: blur(10px)"
+    >
+      <div class="container px-4">
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 brand-logo"
+          href="../index.html"
+        >
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+          <button
+            id="themeToggle"
+            class="theme-toggle btn btn-link p-0 border-0 ms-2"
+            style="color: var(--text-main)"
+            type="button"
+            title="Toggle theme"
+            aria-label="Toggle theme"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              width="1.5em"
+              height="1.5em"
+              fill="currentColor"
+              class="theme-toggle__around"
+              viewBox="0 0 32 32"
+            >
+              <clipPath id="theme-toggle__around__cutout">
+                <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
+              </clipPath>
+              <g clip-path="url(#theme-toggle__around__cutout)">
+                <circle cx="16" cy="16" r="8.4" />
+                <g>
+                  <circle cx="16" cy="3.3" r="2.3" />
+                  <circle cx="27" cy="9.7" r="2.3" />
+                  <circle cx="27" cy="22.3" r="2.3" />
+                  <circle cx="16" cy="28.7" r="2.3" />
+                  <circle cx="5" cy="22.3" r="2.3" />
+                  <circle cx="5" cy="9.7" r="2.3" />
+                </g>
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow-1 profile-section">
+      <div class="container animate-slide-up">
+        <!-- User Info Header Card -->
+        <div class="user-main-info">
+          <div class="row g-4">
+            <div class="col-md-9 border-end">
+              <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap">
+                <div class="d-flex flex-column">
+                  <h1 class="user-handle mb-3">sabid179</h1>
+                  <div class="d-flex gap-2 mb-2">
+                    <a href="followers.html" class="social-stat-pill">
+                      <span class="count">245</span>
+                      <span class="label">followers</span>
+                    </a>
+                    <a href="following.html" class="social-stat-pill">
+                      <span class="count">182</span>
+                      <span class="label">following</span>
+                    </a>
+                  </div>
+                </div>
+                <div class="d-flex gap-2">
+                  <div class="stat-card-simple py-2 px-3" style="min-width: 140px; border-radius: 0.5rem;">
+                    <i class="fa-solid fa-trophy stat-icon small"></i>
+                    <div class="stat-content">
+                      <span class="label" style="font-size: 0.6rem;">Solve Points</span>
+                      <span class="value" style="font-size: 1rem;">1,250</span>
+                    </div>
+                  </div>
+                  <div class="stat-card-simple py-2 px-3" style="min-width: 140px; border-radius: 0.5rem;">
+                    <i class="fa-solid fa-heart-pulse stat-icon small"></i>
+                    <div class="stat-content">
+                      <span class="label" style="font-size: 0.6rem;">Contribution Points</span>
+                      <span class="value" style="font-size: 1rem;">160</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row g-4">
+                <div class="col-md-12">
+                  <ul class="info-list">
+                    <li>
+                      <i class="fa-solid fa-user"></i>
+                      <strong>Full Name:</strong> Sabid Hasan
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-location-dot"></i>
+                      <strong>Location:</strong> 
+                      <a href="leaderboard.html" class="text-decoration-none hover-link">Dhaka, Bangladesh</a>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-building"></i>
+                      <strong>Institution:</strong> 
+                      <a href="leaderboard.html" class="text-decoration-none hover-link">United International University</a>
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-envelope"></i>
+                      <strong>Email:</strong> sabid@example.com
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-clock-rotate-left"></i>
+                      <strong>Last Submission:</strong> 2 hours ago
+                    </li>
+                    <li>
+                      <i class="fa-solid fa-calendar-plus"></i>
+                      <strong>Joined:</strong> May 12, 2025
+                    </li>
+                  </ul>
+                  <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a href="submissions.html" class="btn btn-sm btn-light border edit-info-btn">
+                      <i class="fa-solid fa-file-code me-1"></i> Submissions
+                    </a>
+                    <a href="contests.html" class="btn btn-sm btn-light border edit-info-btn">
+                      <i class="fa-solid fa-trophy me-1"></i> Contests
+                    </a>
+                    <a href="community.html" class="btn btn-sm btn-light border edit-info-btn">
+                      <i class="fa-solid fa-users me-1"></i> Contribution
+                    </a>
+                    <a href="snippets.html" class="btn btn-sm btn-light border edit-info-btn">
+                      <i class="fa-solid fa-code me-1"></i> Snippets
+                    </a>
+                    <a href="settings.html" class="btn btn-sm btn-light border edit-info-btn">
+                      <i class="fa-solid fa-user-gear me-1"></i> Settings
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 d-flex flex-column align-items-center justify-content-center">
+              <div class="user-avatar-container mx-auto">
+                <img
+                  src="https://ui-avatars.com/api/?name=Sabid+Hasan&background=6366f1&color=fff&size=200"
+                  alt="Avatar"
+                />
+              </div>
+              <div class="mt-3">
+                <a
+                  href="#"
+                  class="btn btn-sm btn-outline-secondary rounded-pill px-4"
+                >
+                  <i class="fa-solid fa-rss me-1"></i> Follow
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-content-area">
+          <!-- Removed Recent Submissions Problems -->
+        </div>
+
+        <!-- ICPC Style Progress (100% Width) -->
+        <div class="progress-card-full mt-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h6 class="fw-bold text-uppercase text-muted small mb-0">
+              Problems Solved Statistics
+            </h6>
+            <span class="badge bg-light text-dark border fw-bold px-3 py-2"
+              >Total Solved: 75</span
+            >
+          </div>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="d-flex justify-content-between small fw-bold mb-1">
+                <span>EASY</span>
+                <span>45/100</span>
+              </div>
+              <div class="progress icpc-progress">
+                <div class="progress-bar bg-success" style="width: 45%"></div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="d-flex justify-content-between small fw-bold mb-1">
+                <span>MEDIUM</span>
+                <span>22/100</span>
+              </div>
+              <div class="progress icpc-progress">
+                <div class="progress-bar bg-warning" style="width: 22%"></div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="d-flex justify-content-between small fw-bold mb-1">
+                <span>HARD</span>
+                <span>8/100</span>
+              </div>
+              <div class="progress icpc-progress">
+                <div class="progress-bar bg-danger" style="width: 8%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Calendar (Full Width) -->
+        <div class="calendar-card-full">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center gap-3">
+              <h6 class="fw-bold text-uppercase text-muted small mb-0">
+                Activity Calendar
+              </h6>
+              <select
+                class="form-select form-select-sm border-0 bg-light fw-bold"
+                style="width: auto"
+              >
+                <option value="2026">2026</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+              </select>
+            </div>
+            <span class="small text-muted">742 submissions in this year</span>
+          </div>
+
+          <div class="overflow-auto">
+            <div class="activity-grid" style="min-width: 900px">
+              <script>
+                for (let i = 0; i < 371; i++) {
+                  let lvl = Math.floor(Math.random() * 5);
+                  document.write(
+                    `<div class="activity-cell ${lvl > 0 ? "lvl-" + lvl : ""}"></div>`,
+                  );
+                }
+              </script>
+            </div>
+          </div>
+
+          <div
+            class="mt-4 d-flex align-items-center gap-2 small text-muted justify-content-end"
+          >
+            <span>Less</span>
+            <div class="activity-cell" style="width: 12px; height: 12px"></div>
+            <div
+              class="activity-cell lvl-1"
+              style="width: 12px; height: 12px"
+            ></div>
+            <div
+              class="activity-cell lvl-2"
+              style="width: 12px; height: 12px"
+            ></div>
+            <div
+              class="activity-cell lvl-3"
+              style="width: 12px; height: 12px"
+            ></div>
+            <div
+              class="activity-cell lvl-4"
+              style="width: 12px; height: 12px"
+            ></div>
+            <span>More</span>
+          </div>
+        </div>
+
+        <!-- Left Unsolved Problems -->
+        <div class="unsolved-card">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <i class="fa-solid fa-circle-exclamation text-warning fs-5"></i>
+            <h6 class="fw-bold text-uppercase text-muted small mb-0">Problems Unsolved</h6>
+          </div>
+          <p class="small text-muted mb-3">Problems attempted but not yet accepted. Go finish them! 🚀</p>
+          <div class="unsolved-list">
+            <a href="problem.html?id=101" class="unsolved-item">101A - Array Sum</a>
+            <a href="problem.html?id=205" class="unsolved-item">205B - Binary Search Tree</a>
+            <a href="problem.html?id=312" class="unsolved-item">312C - Graph Traversal</a>
+            <a href="problem.html?id=124" class="unsolved-item">124A - Maximum XOR</a>
+            <a href="problem.html?id=456" class="unsolved-item">456D - String Matching</a>
+            <a href="problem.html?id=789" class="unsolved-item">789B - Dynamic Programming</a>
+            <a href="problem.html?id=102" class="unsolved-item">102E - Geometry Basics</a>
+            <a href="problem.html?id=567" class="unsolved-item">567A - Sorting Algorithms</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="footer py-4 border-top mt-auto"
+      style="background-color: var(--footer-bg)"
+    >
+      <div class="container text-center">
+        <div
+          class="d-flex align-items-center justify-content-center gap-2 mb-3"
+        >
+          <i class="fa-solid fa-code fs-4"></i>
+          <span class="fw-bold fs-5">beatCode</span>
+        </div>
+        <p class="text-muted mb-0">
+          Developed by
+          <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Theme Logic
+      const themeToggle = document.getElementById("themeToggle");
+      const html = document.documentElement;
+
+      function updateTheme(theme) {
+        html.setAttribute("data-theme", theme);
+        html.setAttribute("data-bs-theme", theme);
+        localStorage.setItem("theme", theme);
+      }
+
+      const savedTheme = localStorage.getItem("theme") || "light";
+      updateTheme(savedTheme);
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = html.getAttribute("data-theme");
+        updateTheme(currentTheme === "light" ? "dark" : "light");
+      });
+    </script>
+  </body>
+</html>

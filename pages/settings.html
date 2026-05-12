@@ -1,0 +1,596 @@
+cat << 'EOF' > pages/settings.html
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Settings | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .settings-section {
+        padding: 5.5rem 0 4rem;
+        margin-top: 1rem;
+      }
+
+      .settings-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .settings-header h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .settings-header-icon {
+        color: var(--primary);
+      }
+
+      /* Tabs Navigation like contest.html */
+      .nav-tabs {
+        border-bottom: 2px solid var(--border);
+        margin-bottom: 2rem;
+      }
+
+      .nav-tabs .nav-link {
+        color: var(--text-muted);
+        border-bottom: 3px solid transparent;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        margin-bottom: -2px;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        cursor: pointer;
+      }
+
+      .nav-tabs .nav-link:hover {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        background-color: transparent;
+      }
+
+      .nav-tabs .nav-link.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        background-color: transparent;
+      }
+
+      /* Action Card Design */
+      .settings-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        padding: 2.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
+        display: none;
+      }
+
+      .settings-card.active-panel {
+        display: block;
+        animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .settings-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 0.75rem;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .settings-subtitle {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        margin-bottom: 2.5rem;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1.5rem;
+      }
+
+      /* Form Enhancements */
+      .form-label {
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        margin-bottom: 0.6rem;
+      }
+
+      .form-control {
+        background-color: var(--bg-soft);
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        padding: 0.85rem 1.1rem;
+        border-radius: 0.4rem;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+      }
+
+      .form-control:focus {
+        background-color: var(--card-bg);
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+      }
+
+      .form-control:disabled {
+        background-color: var(--bg-soft);
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .avatar-edit-container {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        padding: 1.5rem;
+        background: var(--bg-soft);
+        border-radius: 0.5rem;
+        margin-bottom: 2.5rem;
+        border: 1px solid var(--border);
+      }
+
+      .avatar-preview-wrapper {
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .avatar-preview-lg {
+        width: 100px;
+        height: 100px;
+        border-radius: 0.5rem;
+        object-fit: cover;
+        border: 3px solid var(--card-bg);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .avatar-edit-actions {
+        flex-grow: 1;
+      }
+
+      .btn-primary-gradient {
+        background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+        border: none;
+        padding: 0.8rem 2.5rem;
+        border-radius: 0.4rem;
+        font-weight: 700;
+        color: white;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary-gradient:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+      }
+
+      .danger-zone-box {
+        background: rgba(224, 36, 36, 0.03);
+        border: 1px solid rgba(224, 36, 36, 0.1);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      @media (max-width: 768px) {
+        .nav-tabs {
+          display: flex;
+          overflow-x: auto;
+          width: 100%;
+          flex-wrap: nowrap;
+        }
+        .nav-tabs .nav-link {
+          padding: 0.75rem 1rem;
+          white-space: nowrap;
+        }
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div
+        class="container-fluid"
+        style="padding-left: 2rem; padding-right: 2rem"
+      >
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 brand-logo"
+          href="../index.html"
+        >
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul
+            class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center gap-2 justify-center"
+          >
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="fa-solid fa-newspaper me-2"></i>Updates
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="problemset.html">
+                <i class="fa-solid fa-code me-2"></i>Problem Set
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contests.html">
+                <i class="fa-solid fa-trophy me-2"></i>Contests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="submissions.html">
+                <i class="fa-solid fa-paper-plane me-2"></i>Submissions
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="leaderboard.html">
+                <i class="fa-solid fa-ranking-star me-2"></i>Leaderboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <i class="fa-solid fa-pen-nib me-2"></i>Contribution
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <button
+                id="themeToggle"
+                class="theme-toggle btn btn-link p-0 border-0"
+                style="color: var(--text-main)"
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  width="1.5em"
+                  height="1.5em"
+                  fill="currentColor"
+                  class="theme-toggle__around"
+                  viewBox="0 0 32 32"
+                >
+                  <circle cx="16" cy="16" r="8.4" />
+                  <g>
+                    <circle cx="16" cy="3.3" r="2.3" />
+                    <circle cx="27" cy="9.7" r="2.3" />
+                    <circle cx="27" cy="22.3" r="2.3" />
+                    <circle cx="16" cy="28.7" r="2.3" />
+                    <circle cx="5" cy="22.3" r="2.3" />
+                    <circle cx="5" cy="9.7" r="2.3" />
+                  </g>
+                </svg>
+              </button>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle d-flex align-items-center gap-2 p-0"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                <div class="user-avatar-sm">
+                  <img
+                    src="https://ui-avatars.com/api/?name=Sabid+Hasan&background=6366f1&color=fff"
+                    class="rounded-circle"
+                    width="32"
+                    alt="User"
+                  />
+                </div>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                <li>
+                  <a class="dropdown-item" href="profile.html">
+                    <i class="fa-solid fa-user me-2"></i>Profile
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item active" href="settings.html">
+                    <i class="fa-solid fa-gears me-2"></i>Settings
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item text-danger" href="#">
+                    <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow-1 settings-section">
+      <div class="container-fluid px-4 px-lg-5 animate-slide-up">
+        <div class="settings-header">
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <div>
+              <h1 class="mb-0">
+                <i class="fa-solid fa-gears settings-header-icon"></i>
+                Settings
+              </h1>
+              <p class="text-muted mb-0">Manage your account preferences and profile settings</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs border-0 mb-4 px-0">
+          <li class="nav-item">
+            <a class="nav-link active" data-tab="personal">
+              <i class="fa-solid fa-user-astronaut"></i> Profile
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-tab="account">
+              <i class="fa-solid fa-shield-halved"></i> Security
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-tab="notifications">
+              <i class="fa-solid fa-bell"></i> Notifications
+            </a>
+          </li>
+        </ul>
+
+        <div class="settings-content">
+          <!-- Personal Information -->
+          <section id="personal" class="settings-card active-panel">
+            <div class="settings-title">
+              <i class="fa-solid fa-id-card text-primary opacity-50"></i>
+              Public Profile
+            </div>
+            <div class="settings-subtitle">Enter your public information to build your identity in the community.</div>
+            
+            <div class="avatar-edit-container">
+              <div class="avatar-preview-wrapper">
+                <img src="https://ui-avatars.com/api/?name=Sabid+Hasan&background=6366f1&color=fff&size=200" alt="Avatar" class="avatar-preview-lg">
+              </div>
+              <div class="avatar-edit-actions">
+                <h6 class="fw-bold mb-1" style="font-size: 0.9rem;">Profile Picture</h6>
+                <p class="text-muted small mb-3">JPG, GIF or PNG. Max size 2MB</p>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-sm btn-primary rounded-1 px-3">
+                    <i class="fa-solid fa-upload me-1"></i> Upload
+                  </button>
+                  <button class="btn btn-sm btn-outline-secondary rounded-1 px-3">Reset</button>
+                </div>
+              </div>
+            </div>
+
+            <form class="row g-4">
+              <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent border-end-0 text-muted">
+                    <i class="fa-solid fa-user"></i>
+                  </span>
+                  <input type="text" class="form-control border-start-0" value="Sabid Hasan">
+                </div>
+                <div class="text-muted small mt-1">Last updated: Apr 12, 2026. (Min. 7 days wait)</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Username (Handle)</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent border-end-0 text-muted">
+                    <i class="fa-solid fa-at"></i>
+                  </span>
+                  <input type="text" class="form-control border-start-0" value="sabid179" disabled>
+                </div>
+                <div class="text-muted small mt-1">Last updated: Jan 01, 2026. (Once per 1 year)</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Bio / Headline</label>
+                <textarea class="form-control" rows="4" placeholder="Write a short bit about yourself...">Competitive programmer at UIU. Passionate about algorithms and data structures.</textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">City</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent border-end-0 text-muted">
+                    <i class="fa-solid fa-city"></i>
+                  </span>
+                  <input type="text" class="form-control border-start-0" value="Dhaka">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Country</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent border-end-0 text-muted">
+                    <i class="fa-solid fa-globe"></i>
+                  </span>
+                  <select class="form-select form-control border-start-0">
+                    <option value="BD" selected>Bangladesh</option>
+                    <option value="IN">India</option>
+                    <option value="US">USA</option>
+                    <!-- More options... -->
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Institution / Organization</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-transparent border-end-0 text-muted">
+                    <i class="fa-solid fa-building-columns"></i>
+                  </span>
+                  <input type="text" class="form-control border-start-0" value="United International University">
+                </div>
+              </div>
+              <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-primary-gradient">Save Profile Changes</button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Account Security -->
+          <section id="account" class="settings-card">
+            <div class="settings-title">
+              <i class="fa-solid fa-lock text-primary opacity-50"></i>
+              Security Settings
+            </div>
+            <div class="settings-subtitle">Manage your credentials and protect your account.</div>
+            
+            <div class="row g-4 mb-5">
+              <div class="col-md-8">
+                <label class="form-label">Email Address</label>
+                <div class="input-group mb-2">
+                  <span class="input-group-text bg-transparent border-end-0 text-muted">
+                    <i class="fa-solid fa-envelope"></i>
+                  </span>
+                  <input type="email" class="form-control border-start-0" value="sabid@example.com">
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-muted small">Once per 7 days. Verified.</span>
+                  <button class="btn btn-sm btn-outline-primary fw-800 px-4" style="border-radius:0.4rem">Change Email</button>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-5 opacity-10">
+
+            <div class="mb-4">
+              <h6 class="fw-800 text-main mb-3">Update Password</h6>
+              <div class="alert alert-info border-0 rounded-2 p-3 small">
+                <i class="fa-solid fa-circle-info me-2"></i> Password must be at least 8 characters and contain numbers. Last updated: 3 months ago.
+              </div>
+            </div>
+
+            <form class="row g-4">
+              <div class="col-12">
+                <label class="form-label">Current Password</label>
+                <input type="password" class="form-control" placeholder="••••••••••••">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">New Password</label>
+                <input type="password" class="form-control" placeholder="••••••••••••">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" placeholder="••••••••••••">
+              </div>
+              <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-primary-gradient">Update Password</button>
+              </div>
+            </form>
+
+            <div class="danger-zone-box mt-5">
+              <h6 class="text-danger fw-800 mb-2">Danger Zone</h6>
+              <p class="text-muted small mb-3">Deleting your account will remove all your solve points, contributions, and submission history. This cannot be undone.</p>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-danger btn-sm rounded-1 px-4 fw-700">Deactivate Account</button>
+                <a href="delete-account-confirmation.html" class="btn btn-danger btn-sm rounded-1 px-4 fw-700">Delete Permanently</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Notifications -->
+          <section id="notifications" class="settings-card">
+            <div class="settings-title">
+              <i class="fa-solid fa-bell text-primary opacity-50"></i>
+              Notifications
+            </div>
+            <div class="settings-subtitle">Manage how you receive updates and alerts.</div>
+            <p class="text-muted">Notification preferences coming soon...</p>
+          </section>
+
+          <!-- Appearance -->
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg)">
+      <div class="container text-center">
+        <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const themeToggle = document.getElementById("themeToggle");
+      const html = document.documentElement;
+      function updateTheme(theme) {
+        html.setAttribute("data-theme", theme);
+        html.setAttribute("data-bs-theme", theme);
+        localStorage.setItem("theme", theme);
+      }
+      const savedTheme = localStorage.getItem("theme") || "light";
+      updateTheme(savedTheme);
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = html.getAttribute("data-theme");
+        updateTheme(currentTheme === "light" ? "dark" : "light");
+      });
+
+      // Tab Switching Logic
+      const tabs = document.querySelectorAll(".nav-link[data-tab]");
+      const panels = document.querySelectorAll(".settings-card");
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", (e) => {
+          e.preventDefault();
+          const target = tab.getAttribute("data-tab");
+
+          tabs.forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+
+          panels.forEach((p) => {
+            p.classList.remove("active-panel");
+            if (p.id === target) {
+              p.classList.add("active-panel");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+EOF

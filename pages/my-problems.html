@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Problems | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .my-problems-section {
+        padding: 6rem 0 4rem;
+      }
+
+      .dashboard-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .dashboard-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        overflow: hidden;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .stat-item {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        transition: transform 0.2s ease;
+      }
+
+      .stat-item:hover {
+        transform: translateY(-4px);
+      }
+
+      .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+      }
+
+      .table thead th {
+        background: var(--bg-soft);
+        color: var(--text-muted);
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 1rem 1.25rem;
+        border-bottom: 2px solid var(--border);
+      }
+
+      .table tbody td {
+        padding: 1.25rem;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .problem-title {
+        font-weight: 700;
+        color: var(--text-main);
+        text-decoration: none;
+        transition: color 0.15s ease;
+      }
+
+      .problem-title:hover {
+        color: var(--primary);
+      }
+
+      .status-badge {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border-radius: 6px;
+      }
+
+      .btn-action {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+      }
+
+      .btn-action:hover {
+        background: var(--bg-soft);
+        color: var(--primary);
+        border-color: var(--border);
+      }
+
+      .btn-action.delete:hover {
+        color: var(--danger);
+      }
+
+      .search-box {
+        position: relative;
+        max-width: 400px;
+      }
+
+      .search-box i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+      }
+
+      .search-box input {
+        padding-left: 2.75rem;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center gap-2 brand-logo" href="../index.html">
+          <i class="fa-solid fa-code brand-icon"></i><span class="brand-text">beatCode</span>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-4 me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="problemset.html">Problems</a></li>
+                <li class="nav-item"><a class="nav-link" href="contests.html">Contests</a></li>
+                <li class="nav-item"><a class="nav-link" href="community.html">Community</a></li>
+            </ul>
+        </div>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <button id="themeToggle" class="theme-toggle btn btn-link p-0 border-0" style="color: var(--text-main)" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="1.5em" height="1.5em" fill="currentColor" class="theme-toggle__around" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="8.4" /><g><circle cx="16" cy="3.3" r="2.3" /><circle cx="27" cy="9.7" r="2.3" /><circle cx="27" cy="22.3" r="2.3" /><circle cx="16" cy="28.7" r="2.3" /><circle cx="5" cy="22.3" r="2.3" /><circle cx="5" cy="9.7" r="2.3" /></g>
+                </svg>
+            </button>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-menu" data-bs-toggle="dropdown">
+                    <img src="https://ui-avatars.com/api/?name=Sabid+Hasan" class="rounded-circle" width="32">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                    <li><a class="dropdown-item" href="profile.html"><i class="fa-solid fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item active" href="my-problems.html"><i class="fa-solid fa-folder-open me-2"></i>My Problems</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="fa-solid fa-gear me-2"></i>Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow-1 my-problems-section">
+      <div class="container-fluid px-4 px-lg-5">
+        <div class="dashboard-header d-flex flex-wrap justify-content-between align-items-end gap-4">
+            <div>
+                <nav aria-label="breadcrumb" class="mb-2">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="../index.html">Home</a></li>
+                        <li class="breadcrumb-item active">Author Dashboard</li>
+                    </ol>
+                </nav>
+                <h1 class="fw-800 mb-1">My Created Problems</h1>
+                <p class="text-muted mb-0">Manage and track all the challenges you have contributed to the community.</p>
+            </div>
+            <a href="create-problem.html" class="btn btn-primary d-flex align-items-center gap-2">
+                <i class="fa-solid fa-plus"></i>Create New Problem
+            </a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                    <i class="fa-solid fa-book"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-600">Total Problems</div>
+                    <div class="h4 fw-800 mb-0">12</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-600">Published</div>
+                    <div class="h4 fw-800 mb-0">8</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                    <i class="fa-solid fa-pen-ruler"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-600">Drafts</div>
+                    <div class="h4 fw-800 mb-0">4</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-600">Total Solves</div>
+                    <div class="h4 fw-800 mb-0">1,240</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="p-4 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div class="search-box flex-grow-1">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="form-control" placeholder="Search problems by name, tag or ID...">
+                </div>
+                <div class="d-flex gap-2">
+                    <select class="form-select w-auto">
+                        <option value="all">All Status</option>
+                        <option value="public">Published</option>
+                        <option value="private">Private</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                    <button class="btn btn-light border"><i class="fa-solid fa-filter me-2"></i>Filter</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px">ID</th>
+                            <th>Problem Name</th>
+                            <th>Created On</th>
+                            <th>Status</th>
+                            <th>Difficulty</th>
+                            <th>Solves</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-muted fw-600">#P1024</td>
+                            <td>
+                                <a href="problem.html" class="problem-title">The Greatest XOR Sum</a>
+                                <div class="small text-muted mt-1">Tags: bit manipulation, dp</div>
+                            </td>
+                            <td class="text-muted small">Oct 12, 2023</td>
+                            <td><span class="status-badge bg-success bg-opacity-10 text-success">Published</span></td>
+                            <td><span class="badge bg-danger bg-opacity-10 text-danger" style="font-size: 0.7rem">Hard</span></td>
+                            <td class="fw-700">842</td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-1">
+                                    <a href="create-problem.html" class="btn-action" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="submissions.html" class="btn-action" title="Submissions"><i class="fa-solid fa-chart-line"></i></a>
+                                    <button class="btn-action delete" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-600">#P1028</td>
+                            <td>
+                                <a href="problem.html" class="problem-title">Path to Valhalla</a>
+                                <div class="small text-muted mt-1">Tags: graph, shortest path</div>
+                            </td>
+                            <td class="text-muted small">Nov 05, 2023</td>
+                            <td><span class="status-badge bg-warning bg-opacity-10 text-warning">Draft</span></td>
+                            <td><span class="badge bg-warning bg-opacity-10 text-warning" style="font-size: 0.7rem">Medium</span></td>
+                            <td class="fw-700">0</td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-1">
+                                    <a href="create-problem.html" class="btn-action" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <button class="btn-action delete" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted fw-600">#P1032</td>
+                            <td>
+                                <a href="problem.html" class="problem-title">String Reversal Pro</a>
+                                <div class="small text-muted mt-1">Tags: implementation</div>
+                            </td>
+                            <td class="text-muted small">Dec 20, 2023</td>
+                            <td><span class="status-badge bg-secondary bg-opacity-10 text-secondary">Private</span></td>
+                            <td><span class="badge bg-success bg-opacity-10 text-success" style="font-size: 0.7rem">Easy</span></td>
+                            <td class="fw-700">12</td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-1">
+                                    <a href="create-problem.html" class="btn-action" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="submissions.html" class="btn-action" title="Submissions"><i class="fa-solid fa-chart-line"></i></a>
+                                    <button class="btn-action delete" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4 border-top d-flex justify-content-between align-items-center">
+                <p class="text-muted mb-0 small">Showing 3 of 12 problems</p>
+                <nav>
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item disabled"><a class="page-link" href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-chevron-right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg)">
+      <div class="container text-center">
+        <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const themeToggle = document.getElementById("themeToggle");
+      const html = document.documentElement;
+
+      function updateTheme(theme) {
+        html.setAttribute("data-theme", theme);
+        html.setAttribute("data-bs-theme", theme);
+        localStorage.setItem("theme", theme);
+      }
+
+      const savedTheme = localStorage.getItem("theme") || "light";
+      updateTheme(savedTheme);
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = html.getAttribute("data-theme");
+        updateTheme(currentTheme === "light" ? "dark" : "light");
+      });
+    </script>
+  </body>
+</html>

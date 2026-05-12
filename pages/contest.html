@@ -1,0 +1,1847 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekly Contest #245 | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .contest-section {
+        padding: 5.5rem 0 4rem;
+        margin-top: 1rem;
+      }
+
+      .contest-header {
+        margin-bottom: 3rem;
+      }
+
+      .contest-title-block {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .contest-title-block h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+
+      .contest-title-block p {
+        color: var(--text-muted);
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .contest-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .meta-item {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.4rem;
+      }
+
+      .meta-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-main);
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        font-family: "Fira Code", monospace;
+        letter-spacing: 0.5px;
+      }
+
+      .status-upcoming {
+        background: rgba(100, 150, 200, 0.2);
+        color: #6496c8;
+        border: 1px solid #6496c8;
+      }
+
+      .status-running {
+        background: rgba(20, 151, 78, 0.2);
+        color: var(--success);
+        border: 1px solid var(--success);
+      }
+
+      .status-ended {
+        background: rgba(91, 107, 132, 0.15);
+        color: var(--text-muted);
+        border: 1px solid var(--text-muted);
+      }
+
+      .pill-tag {
+        display: inline-block;
+        padding: 0.35rem 0.9rem;
+        border-radius: 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: capitalize;
+      }
+
+      .pill-easy {
+        background: rgba(20, 151, 78, 0.15);
+        color: var(--success);
+      }
+
+      .pill-medium {
+        background: rgba(147, 93, 7, 0.15);
+        color: #935d07;
+      }
+
+      .pill-hard {
+        background: rgba(159, 18, 57, 0.15);
+        color: #9f1239;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .action-buttons .btn {
+        padding: 0.6rem 1.5rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+      }
+
+      /* Tabs Navigation */
+      .nav-tabs {
+        border-bottom: 2px solid var(--border);
+        margin-bottom: 2rem;
+      }
+
+      .nav-tabs .nav-link {
+        color: var(--text-muted);
+        border-bottom: 3px solid transparent;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        margin-bottom: -2px;
+      }
+
+      .nav-tabs .nav-link:hover {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+      }
+
+      .nav-tabs .nav-link.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        background-color: transparent;
+      }
+
+      .tab-content {
+        animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* Problems Table */
+      .problems-table {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .table-header {
+        background: var(--bg-soft);
+        display: grid;
+        grid-template-columns: 60px 2fr 120px 100px;
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        border-bottom: 1px solid var(--border);
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        align-items: center;
+      }
+
+      .table-row {
+        display: grid;
+        grid-template-columns: 60px 2fr 120px 100px;
+        gap: 1rem;
+        padding: 1.2rem;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        transition: background-color 0.2s ease;
+      }
+
+      .table-row:last-child {
+        border-bottom: none;
+      }
+
+      .table-row:hover {
+        background-color: var(--bg-soft);
+      }
+
+      .row-index {
+        text-align: center;
+        font-weight: 700;
+        color: white;
+        padding: 0.5rem;
+        border-radius: 0.4rem;
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+      }
+
+      .row-index.accepted {
+        background-color: #20a84f;
+      }
+
+      .row-index.wrong-answer {
+        background-color: #dc2626;
+      }
+
+      .row-index.unsolved {
+        color: var(--text-muted);
+        background-color: transparent;
+      }
+
+      .problem-link {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+        display: block;
+        word-break: break-word;
+      }
+
+      .problem-link:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+      }
+
+      .problem-meta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .accept-rate {
+        text-align: center;
+        font-weight: 600;
+      }
+
+      /* Standings Table */
+      .standings-table {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .standings-header {
+        background: var(--bg-soft);
+        display: grid;
+        grid-template-columns: 60px 2fr 100px 100px 120px;
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        border-bottom: 1px solid var(--border);
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        align-items: center;
+      }
+
+      .standings-row {
+        display: grid;
+        grid-template-columns: 60px 2fr 100px 100px 120px;
+        gap: 1rem;
+        padding: 1.2rem;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        transition: background-color 0.2s ease;
+      }
+
+      .standings-row:last-child {
+        border-bottom: none;
+      }
+
+      .standings-row:hover {
+        background-color: var(--bg-soft);
+      }
+
+      .rank {
+        text-align: center;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .user-name {
+        color: var(--text-main);
+        font-weight: 600;
+      }
+
+      .score-value {
+        text-align: center;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .time-value {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      /* Verdict Links */
+      a.verdict-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        border-radius: 0.4rem;
+        transition: all 0.2s ease;
+      }
+
+      a.verdict-link:hover {
+        transform: scale(1.05);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      a.column-header-link {
+        display: block;
+        text-decoration: none;
+        color: var(--text-muted);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.85rem;
+        text-align: center;
+        padding: 0.5rem;
+        border-radius: 0.4rem;
+        transition: all 0.2s ease;
+      }
+
+      a.column-header-link:hover {
+        background: white;
+        color: var(--primary);
+      }
+
+      /* Stats Section */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .table-header,
+        .table-row {
+          grid-template-columns: 50px 1.5fr 100px 80px;
+          font-size: 0.85rem;
+          padding: 1rem;
+          gap: 0.8rem;
+        }
+
+        .standings-header,
+        .standings-row {
+          grid-template-columns: 50px 1.5fr 80px 80px 100px;
+          font-size: 0.85rem;
+          padding: 1rem;
+          gap: 0.8rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .contest-meta-grid {
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
+
+        .table-header,
+        .table-row {
+          grid-template-columns: 45px 1fr 80px 70px;
+          gap: 0.5rem;
+          padding: 0.8rem;
+        }
+
+        .standings-header,
+        .standings-row {
+          grid-template-columns: 45px 1fr 70px 70px 80px;
+          gap: 0.5rem;
+          padding: 0.8rem;
+        }
+
+        .nav-tabs .nav-link {
+          padding: 0.6rem 1rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .contest-title-block {
+          padding: 1.5rem;
+        }
+
+        .contest-title-block h1 {
+          font-size: 1.5rem;
+        }
+
+        .contest-meta-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .action-buttons {
+          flex-direction: column;
+        }
+
+        .action-buttons .btn {
+          width: 100%;
+        }
+
+        .table-header,
+        .table-row {
+          grid-template-columns: 40px 1fr 70px 70px;
+          gap: 0.3rem;
+          padding: 0.6rem;
+        }
+
+        .problem-meta {
+          display: none;
+        }
+
+        .standings-header,
+        .standings-row {
+          grid-template-columns: 40px 1fr 60px;
+          gap: 0.3rem;
+          padding: 0.6rem;
+        }
+
+        .accept-rate {
+          display: none;
+        }
+
+        .time-value {
+          display: none;
+        }
+
+        .nav-tabs {
+          margin-bottom: 1rem;
+        }
+
+        .nav-tabs .nav-link {
+          padding: 0.5rem 0.8rem;
+          font-size: 0.85rem;
+        }
+      }
+
+      /* Submissions Modal */
+      .submissions-modal .modal-header {
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1.5rem;
+      }
+
+      .submissions-modal .modal-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-main);
+      }
+
+      .submissions-table {
+        display: grid;
+        gap: 2rem;
+      }
+
+      .submissions-header {
+        display: grid;
+        grid-template-columns: 80px 150px 120px 100px;
+        gap: 1rem;
+        padding: 1rem;
+        background: var(--bg-soft);
+        border-radius: 0.4rem;
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .submissions-row {
+        display: grid;
+        grid-template-columns: 80px 150px 120px 100px;
+        gap: 1rem;
+        padding: 1rem;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.4rem;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .submissions-row:hover {
+        background: var(--bg-soft);
+      }
+
+      .submission-id {
+        text-align: center;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .submission-time {
+        text-align: center;
+        font-family: 'Fira Code', monospace;
+        color: var(--text-main);
+        font-size: 0.9rem;
+      }
+
+      .submission-verdict {
+        text-align: center;
+        padding: 0.4rem 0.6rem;
+        border-radius: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: white;
+      }
+
+      .verdict-accepted {
+        background: #20a84f;
+      }
+
+      .verdict-wrong {
+        background: #dc2626;
+      }
+
+      .submission-score {
+        text-align: center;
+        font-weight: 700;
+        color: var(--text-main);
+      }
+
+      /* Clickable submissions */
+      .submissions-row {
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      /* User profile link */
+      a.user-profile-link {
+        text-decoration: none;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: color 0.2s ease;
+      }
+
+      a.user-profile-link:hover {
+        color: var(--primary);
+      }
+
+      /* Status badges */
+      .status-badge {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+      }
+
+      .status-accepted {
+        background: #20a84f;
+        color: white;
+      }
+
+      .status-wrong-answer {
+        background: #dc2626;
+        color: white;
+      }
+
+      .status-unsolved {
+        background: var(--bg-soft);
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div
+        class="container-fluid"
+        style="padding-left: 2rem; padding-right: 2rem"
+      >
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 brand-logo"
+          href="../index.html"
+        >
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul
+            class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center gap-2 justify-center"
+          >
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-newspaper me-2"></i>Updates
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="problemset.html">
+                <i class="fa-solid fa-code me-2"></i>Problem Set
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contests.html">
+                <i class="fa-solid fa-trophy me-2"></i>Contests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="submissions.html">
+                <i class="fa-solid fa-paper-plane me-2"></i>Submissions
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="leaderboard.html">
+                <i class="fa-solid fa-ranking-star me-2"></i>Leaderboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-pen-nib me-2"></i>Contribution
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <button
+                id="themeToggle"
+                class="theme-toggle btn btn-link p-0 border-0"
+                style="
+                  color: var(--text-main);
+                  display: flex;
+                  align-items: center;
+                "
+                type="button"
+                title="Toggle theme"
+                aria-label="Toggle theme"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  width="1.5em"
+                  height="1.5em"
+                  fill="currentColor"
+                  class="theme-toggle__around"
+                  viewBox="0 0 32 32"
+                >
+                  <clipPath id="theme-toggle__around__cutout">
+                    <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
+                  </clipPath>
+                  <g clip-path="url(#theme-toggle__around__cutout)">
+                    <circle cx="16" cy="16" r="8.4" />
+                    <g>
+                      <circle cx="16" cy="3.3" r="2.3" />
+                      <circle cx="27" cy="9.7" r="2.3" />
+                      <circle cx="27" cy="22.3" r="2.3" />
+                      <circle cx="16" cy="28.7" r="2.3" />
+                      <circle cx="5" cy="22.3" r="2.3" />
+                      <circle cx="5" cy="9.7" r="2.3" />
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a
+                class="nav-link p-0 border-0 position-relative d-flex align-items-center"
+                href="#"
+                onclick="requireLogin(event)"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-bell fs-5"></i>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="font-size: 0.6rem; padding: 0.25rem 0.4rem"
+                  >3</span
+                >
+              </a>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+              <button
+                class="btn btn-link nav-link dropdown-toggle p-0 border-0 d-flex align-items-center"
+                id="profileDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-user-circle fs-5"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end shadow-sm"
+                aria-labelledby="profileDropdown"
+                style="
+                  background-color: var(--card-bg);
+                  border: 1px solid var(--border-color, #e0e0e0);
+                "
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-user me-2"></i>Profile</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-gear me-2"></i>Settings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="snippets.html"
+                    ><i class="fa-solid fa-code me-2"></i>Snippets</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="community.html"
+                    ><i class="fa-solid fa-users me-2"></i>Community</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <section class="contest-section position-relative overflow-hidden">
+        <div class="container position-relative z-1">
+          <!-- Contest Info Header -->
+          <div class="contest-header animate-slide-up">
+            <div class="contest-title-block">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <div>
+                  <h1 class="mb-0">Weekly Contest #245</h1>
+                  <p class="mb-0">Practice your coding skills in a timed competition</p>
+                </div>
+                <span class="status-badge status-running">RUNNING</span>
+              </div>
+
+              <div class="contest-meta-grid">
+                <div class="meta-item">
+                  <span class="meta-label">
+                    <i class="fa-solid fa-calendar-days me-1"></i>Start Time
+                  </span>
+                  <span class="meta-value">May 5, 2:00 PM</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">
+                    <i class="fa-solid fa-hourglass-end me-1"></i>Duration
+                  </span>
+                  <span class="meta-value">2h 30m</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">
+                    <i class="fa-solid fa-signal me-1"></i>Level
+                  </span>
+                  <span class="pill-tag pill-easy">Beginner</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">
+                    <i class="fa-solid fa-users me-1"></i>Registered
+                  </span>
+                  <span class="meta-value">1,234</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">
+                    <i class="fa-solid fa-puzzle-piece me-1"></i>Problems
+                  </span>
+                  <span class="meta-value">5</span>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
+                <span style="font-weight: 600; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Time Remaining</span>
+                <div style="flex: 1; height: 8px; background-color: var(--bg-soft); border-radius: 1rem; overflow: hidden; margin: 0 1rem;">
+                  <div class="progress-bar" role="progressbar" style="width: 70%; background-color: var(--primary); height: 100%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <span style="font-weight: 700; color: var(--primary); font-size: 1.1rem; font-family: 'Fira Code', monospace; letter-spacing: 0.1em;">01:45:23</span>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 0.75rem; color: var(--success); font-weight: 600; margin-bottom: 1rem;">
+                <i class="fa-solid fa-check-circle" style="font-size: 1.3rem;"></i>
+                <span>You are registered for this contest</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabs Navigation -->
+          <ul class="nav nav-tabs animate-slide-up" id="contestTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="problems-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#problems"
+                type="button"
+                role="tab"
+                aria-controls="problems"
+                aria-selected="true"
+              >
+                <i class="fa-solid fa-code me-2"></i>Problems
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="standings-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#standings"
+                type="button"
+                role="tab"
+                aria-controls="standings"
+                aria-selected="false"
+              >
+                <i class="fa-solid fa-ranking-star me-2"></i>Standings
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="submissions-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#submissions"
+                type="button"
+                role="tab"
+                aria-controls="submissions"
+                aria-selected="false"
+              >
+                <i class="fa-solid fa-paper-plane me-2"></i>Submissions
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="clarification-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#clarification"
+                type="button"
+                role="tab"
+                aria-controls="clarification"
+                aria-selected="false"
+              >
+                <i class="fa-solid fa-comments me-2"></i>Clarifications
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="announcements-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#announcements"
+                type="button"
+                role="tab"
+                aria-controls="announcements"
+                aria-selected="false"
+              >
+                <i class="fa-solid fa-bullhorn me-2"></i>Announcements
+              </button>
+            </li>
+          </ul>
+
+          <!-- Tab Content -->
+          <div class="tab-content" id="contestTabContent">
+            <!-- Problems Tab -->
+            <div
+              class="tab-pane fade show active"
+              id="problems"
+              role="tabpanel"
+              aria-labelledby="problems-tab"
+            >
+              <div class="problems-table animate-slide-up">
+                <!-- Header -->
+                <div class="table-header">
+                  <div style="text-align: center">ID</div>
+                  <div>Problem Name</div>
+                  <div style="text-align: center">Difficulty</div>
+                  <div style="text-align: center">Accepted</div>
+                </div>
+
+                <!-- Problem 1 -->
+                <div id="problem-a" class="table-row">
+                  <div class="row-index accepted">A</div>
+                  <div>
+                    <a href="problem.html" class="problem-link">
+                      Two Sum
+                    </a>
+                  </div>
+                  <div style="text-align: center">
+                    <span class="pill-tag pill-easy">Easy</span>
+                  </div>
+                  <div class="problem-meta" style="justify-content: center;">
+                    <span>842/1000</span>
+                  </div>
+                </div>
+
+                <!-- Problem 2 -->
+                <div id="problem-b" class="table-row">
+                  <div class="row-index accepted">B</div>
+                  <div>
+                    <a href="#" onclick="requireLogin(event)" class="problem-link">
+                      Reverse Integer
+                    </a>
+                  </div>
+                  <div style="text-align: center">
+                    <span class="pill-tag pill-medium">Medium</span>
+                  </div>
+                  <div class="problem-meta" style="justify-content: center;">
+                    <span>654/1000</span>
+                  </div>
+                </div>
+
+                <!-- Problem 3 -->
+                <div id="problem-c" class="table-row">
+                  <div class="row-index accepted">C</div>
+                  <div>
+                    <a href="#" onclick="requireLogin(event)" class="problem-link">
+                      Palindrome String
+                    </a>
+                  </div>
+                  <div style="text-align: center">
+                    <span class="pill-tag pill-medium">Medium</span>
+                  </div>
+                  <div class="problem-meta" style="justify-content: center;">
+                    <span>523/1000</span>
+                  </div>
+                </div>
+
+                <!-- Problem 4 -->
+                <div id="problem-d" class="table-row">
+                  <div class="row-index unsolved">D</div>
+                  <div>
+                    <a href="#" onclick="requireLogin(event)" class="problem-link">
+                      Longest Substring
+                    </a>
+                  </div>
+                  <div style="text-align: center">
+                    <span class="pill-tag pill-hard">Hard</span>
+                  </div>
+                  <div class="problem-meta" style="justify-content: center;">
+                    <span>234/1000</span>
+                  </div>
+                </div>
+
+                <!-- Problem 5 -->
+                <div id="problem-e" class="table-row">
+                  <div class="row-index wrong-answer">E</div>
+                  <div>
+                    <a href="#" onclick="requireLogin(event)" class="problem-link">
+                      Median of Two Arrays
+                    </a>
+                  </div>
+                  <div style="text-align: center">
+                    <span class="pill-tag pill-hard">Hard</span>
+                  </div>
+                  <div class="problem-meta" style="justify-content: center;">
+                    <span>89/1000</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Standings Tab -->
+            <div
+              class="tab-pane fade"
+              id="standings"
+              role="tabpanel"
+              aria-labelledby="standings-tab"
+            >
+              <div class="standings-table animate-slide-up">
+                <!-- Header -->
+                <div class="standings-header" style="grid-template-columns: 60px 1.5fr 100px repeat(5, 1fr); gap: 0.8rem;">
+                  <div style="text-align: center">Rank</div>
+                  <div>User</div>
+                  <div style="text-align: center">Penalty</div>
+                  <a href="#problem-a" class="column-header-link">A</a>
+                  <a href="#problem-b" class="column-header-link">B</a>
+                  <a href="#problem-c" class="column-header-link">C</a>
+                  <a href="#problem-d" class="column-header-link">D</a>
+                  <a href="#problem-e" class="column-header-link">E</a>
+                </div>
+
+                <div class="standings-row" style="grid-template-columns: 60px 1.5fr 100px repeat(5, 1fr); gap: 0.8rem;">
+                  <div class="rank">1</div>
+                  <a href="#" onclick="goToProfile('john_dev', event)" class="user-profile-link">
+                    <i class="fa-solid fa-medal" style="color: #ffd700;"></i>
+                    john_dev
+                  </a>
+                  <div style="text-align: center; font-weight: 700; color: var(--primary);">20</div>
+                  <a href="#problem-a" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">0:32 (+0)</a>
+                  <a href="#problem-b" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">2:15 (+0)</a>
+                  <a href="#problem-c" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">4:48 (+0)</a>
+                  <a href="#problem-d" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">6:52 (+0)</a>
+                  <a href="#problem-e" class="verdict-link" style="text-align: center; background: #dc2626; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">1:20 (-1)</a>
+                </div>
+
+                <div class="standings-row" style="grid-template-columns: 60px 1.5fr 100px repeat(5, 1fr); gap: 0.8rem;">
+                  <div class="rank">2</div>
+                  <a href="#" onclick="goToProfile('alice_code', event)" class="user-profile-link">
+                    <i class="fa-solid fa-medal" style="color: #c0c0c0;"></i>
+                    alice_code
+                  </a>
+                  <div style="text-align: center; font-weight: 700; color: var(--primary);">0</div>
+                  <a href="#problem-a" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">1:05 (+0)</a>
+                  <a href="#problem-b" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">3:22 (+0)</a>
+                  <a href="#problem-c" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">5:10 (+0)</a>
+                  <a href="#problem-d" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">8:45 (+0)</a>
+                  <div style="text-align: center; background: var(--bg-soft); padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">-</div>
+                </div>
+
+                <div class="standings-row" style="grid-template-columns: 60px 1.5fr 100px repeat(5, 1fr); gap: 0.8rem;">
+                  <div class="rank">3</div>
+                  <a href="#" onclick="goToProfile('bob_expert', event)" class="user-profile-link">
+                    <i class="fa-solid fa-medal" style="color: #cd7f32;"></i>
+                    bob_expert
+                  </a>
+                  <div style="text-align: center; font-weight: 700; color: var(--primary);">40</div>
+                  <a href="#problem-a" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">0:45 (+0)</a>
+                  <a href="#problem-b" class="verdict-link" style="text-align: center; background: #dc2626; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">2:10 (-1)</a>
+                  <a href="#problem-c" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">7:30 (+0)</a>
+                  <div style="text-align: center; background: var(--bg-soft); padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">-</div>
+                  <div style="text-align: center; background: var(--bg-soft); padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">-</div>
+                </div>
+
+                <div class="standings-row" style="grid-template-columns: 60px 1.5fr 100px repeat(5, 1fr); gap: 0.8rem;">
+                  <div class="rank">4</div>
+                  <a href="#" onclick="goToProfile('carol_ninja', event)" class="user-profile-link">
+                    <i class="fa-solid fa-star" style="color: var(--primary);"></i>
+                    carol_ninja
+                  </a>
+                  <div style="text-align: center; font-weight: 700; color: var(--primary);">0</div>
+                  <div style="text-align: center; background: var(--bg-soft); padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">-</div>
+                  <a href="#problem-b" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">5:18 (+0)</a>
+                  <a href="#problem-c" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">8:12 (+0)</a>
+                  <a href="#problem-d" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">12:05 (+0)</a>
+                  <div style="text-align: center; background: var(--bg-soft); padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">-</div>
+                </div>
+
+                <div class="standings-row" style="grid-template-columns: 60px 1.5fr 100px repeat(5, 1fr); gap: 0.8rem;">
+                  <div class="rank">5</div>
+                  <a href="#" onclick="goToProfile('dave_coder', event)" class="user-profile-link">
+                    <i class="fa-solid fa-star" style="color: var(--primary);"></i>
+                    dave_coder
+                  </a>
+                  <div style="text-align: center; font-weight: 700; color: var(--primary);">0</div>
+                  <a href="#problem-a" class="verdict-link" style="text-align: center; background: #20a84f; padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: white; font-weight: 700; cursor: pointer;">1:42 (+0)</a>
+                  <div style="text-align: center; background: var(--bg-soft); padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">-</div>
+                  <div style="text-align: center; background: var(--bg-soft); padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">-</div>
+                  <div style="text-align: center; background: var(--bg-soft); padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">-</div>
+                  <div style="text-align: center; background: var(--bg-soft); padding: 0.4rem; border-radius: 0.4rem; font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">-</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submissions Tab -->
+            <div
+              class="tab-pane fade"
+              id="submissions"
+              role="tabpanel"
+              aria-labelledby="submissions-tab"
+            >
+              <div class="problems-table animate-slide-up">
+                <!-- Header -->
+                <div class="table-header" style="grid-template-columns: 80px 2fr 150px 120px 100px; gap: 1rem;">
+                  <div style="text-align: center">Submission</div>
+                  <div style="text-align: center">Problem</div>
+                  <div style="text-align: center">Submitted By</div>
+                  <div style="text-align: center">Verdict</div>
+                  <div style="text-align: center">Penalty</div>
+                </div>
+
+                <!-- Submission 1 -->
+                <div class="table-row" style="grid-template-columns: 80px 2fr 150px 120px 100px;">
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" style="color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.2s ease, text-decoration 0.2s ease;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                      #101234
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" class="problem-link">
+                      Two Sum
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" style="color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.2s ease, text-decoration 0.2s ease;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                      john_dev
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <span style="background: rgba(20, 151, 78, 0.15); color: var(--success); padding: 0.4rem 0.6rem; font-size: 0.85rem; font-weight: 600; border-radius: 0.4rem;">Accepted</span>
+                  </div>
+                  <div style="text-align: center; color: var(--text-muted);">0</div>
+                </div>
+
+                <!-- Submission 2 -->
+                <div class="table-row" style="grid-template-columns: 80px 2fr 150px 120px 100px;">
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" style="color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.2s ease, text-decoration 0.2s ease;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                      #101235
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" class="problem-link">
+                      Palindrome String
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" style="color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.2s ease, text-decoration 0.2s ease;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                      alice_code
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <span style="background: rgba(20, 151, 78, 0.15); color: var(--success); padding: 0.4rem 0.6rem; font-size: 0.85rem; font-weight: 600; border-radius: 0.4rem;">Accepted</span>
+                  </div>
+                  <div style="text-align: center; color: var(--text-muted);">2</div>
+                </div>
+
+                <!-- Submission 3 -->
+                <div class="table-row" style="grid-template-columns: 80px 2fr 150px 120px 100px;">
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" style="color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.2s ease, text-decoration 0.2s ease;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                      #101236
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" class="problem-link">
+                      Reverse Integer
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" style="color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.2s ease, text-decoration 0.2s ease;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                      bob_expert
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <span style="background: rgba(100, 150, 200, 0.15); color: #6496c8; padding: 0.4rem 0.6rem; font-size: 0.85rem; font-weight: 600; border-radius: 0.4rem;">Pending</span>
+                  </div>
+                  <div style="text-align: center; color: var(--text-muted);">-</div>
+                </div>
+
+                <!-- Submission 4 -->
+                <div class="table-row" style="grid-template-columns: 80px 2fr 150px 120px 100px;">
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" style="color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.2s ease, text-decoration 0.2s ease;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                      #101237
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" class="problem-link">
+                      Longest Substring
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <a href="#" onclick="requireLogin(event)" style="color: var(--primary); text-decoration: none; font-weight: 600; transition: color 0.2s ease, text-decoration 0.2s ease;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                      carol_ninja
+                    </a>
+                  </div>
+                  <div style="text-align: center;">
+                    <span style="background: rgba(159, 18, 57, 0.15); color: #9f1239; padding: 0.4rem 0.6rem; font-size: 0.85rem; font-weight: 600; border-radius: 0.4rem;">Wrong Answer</span>
+                  </div>
+                  <div style="text-align: center; color: var(--text-muted);">20</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clarification Tab -->
+            <div
+              class="tab-pane fade"
+              id="clarification"
+              role="tabpanel"
+              aria-labelledby="clarification-tab"
+            >
+              <div style="display: grid; grid-template-columns: 1fr 350px; gap: 2rem; margin-bottom: 2rem;">
+                <!-- Clarifications List -->
+                <div>
+                  <!-- Clarification Card 1 - With Reply -->
+                  <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 1.5rem;">
+                    <div style="padding: 1.5rem; border-bottom: 1px solid var(--border);">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                          <span style="background: var(--primary); color: white; padding: 0.3rem 0.7rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 700; min-width: 24px; text-align: center;">Q.1</span>
+                          <span style="color: var(--text-muted); font-size: 0.85rem;">2 hours ago</span>
+                        </div>
+                        <span style="background: var(--bg-soft); color: var(--text-muted); padding: 0.25rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">john_doe</span>
+                      </div>
+                      <div style="margin-bottom: 0.75rem;">
+                        <span style="background: rgba(20, 151, 78, 0.2); color: var(--success); padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">Problem A - Two Sum</span>
+                      </div>
+                      <div style="background: rgba(100, 100, 100, 0.1); padding: 1rem; border-radius: 0.4rem;">
+                        <p style="margin: 0; color: var(--text-main); font-weight: 600; font-size: 0.95rem;">Can we use external libraries?</p>
+                      </div>
+                    </div>
+                    
+                    <div style="padding: 1.5rem; background: rgba(20, 151, 78, 0.05); border-top: 2px solid rgba(20, 151, 78, 0.3);">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <span style="background: rgba(20, 151, 78, 0.2); color: var(--success); padding: 0.25rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">Admin Reply</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">1 hour ago</span>
+                      </div>
+                      <p style="margin: 0; color: var(--text-main); font-size: 0.9rem;">No, only standard library functions are allowed.</p>
+                    </div>
+                  </div>
+
+                  <!-- Clarification Card 2 - With Reply -->
+                  <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 1.5rem;">
+                    <div style="padding: 1.5rem; border-bottom: 1px solid var(--border);">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                          <span style="background: var(--primary); color: white; padding: 0.3rem 0.7rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 700; min-width: 24px; text-align: center;">Q.2</span>
+                          <span style="color: var(--text-muted); font-size: 0.85rem;">1 hour ago</span>
+                        </div>
+                        <span style="background: var(--bg-soft); color: var(--text-muted); padding: 0.25rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">alice_code</span>
+                      </div>
+                      <div style="margin-bottom: 0.75rem;">
+                        <span style="background: rgba(147, 93, 7, 0.2); color: #935d07; padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">Problem C - Palindrome String</span>
+                      </div>
+                      <div style="background: rgba(100, 100, 100, 0.1); padding: 1rem; border-radius: 0.4rem;">
+                        <p style="margin: 0; color: var(--text-main); font-weight: 600; font-size: 0.95rem;">What is the time limit per test case?</p>
+                      </div>
+                    </div>
+                    
+                    <div style="padding: 1.5rem; background: rgba(20, 151, 78, 0.05); border-top: 2px solid rgba(20, 151, 78, 0.3);">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <span style="background: rgba(20, 151, 78, 0.2); color: var(--success); padding: 0.25rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">Admin Reply</span>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">45 minutes ago</span>
+                      </div>
+                      <p style="margin: 0; color: var(--text-main); font-size: 0.9rem;">1 second per test case with 256MB memory limit.</p>
+                    </div>
+                  </div>
+
+                  <!-- Clarification Card 3 - No Reply Yet -->
+                  <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow-sm);">
+                    <div style="padding: 1.5rem;">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                          <span style="background: var(--primary); color: white; padding: 0.3rem 0.7rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 700; min-width: 24px; text-align: center;">Q.3</span>
+                          <span style="color: var(--text-muted); font-size: 0.85rem;">15 minutes ago</span>
+                        </div>
+                        <span style="background: var(--bg-soft); color: var(--text-muted); padding: 0.25rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">bob_expert</span>
+                      </div>
+                      <div style="margin-bottom: 0.75rem;">
+                        <span style="background: rgba(159, 18, 57, 0.2); color: #9f1239; padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">Problem E - Median of Two Arrays</span>
+                      </div>
+                      <div style="background: rgba(100, 100, 100, 0.1); padding: 1rem; border-radius: 0.4rem;">
+                        <p style="margin: 0; color: var(--text-main); font-weight: 600; font-size: 0.95rem;">Is there any penalty for wrong submissions?</p>
+                      </div>
+                      <div style="margin-top: 1rem; padding: 1rem; background: rgba(100, 150, 200, 0.1); border-radius: 0.4rem; text-align: center;">
+                        <p style="margin: 0; color: #6496c8; font-size: 0.85rem; font-weight: 600;">
+                          <i class="fa-solid fa-hourglass-end me-2"></i>Waiting for admin reply...
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Ask Clarification Form -->
+                <div>
+                  <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; box-shadow: var(--shadow-sm);">
+                    <h5 style="margin: 0 0 1rem 0; color: var(--text-main); font-weight: 600;">Ask Clarification</h5>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                      <div>
+                        <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.5px;">Select Problem/Issue</label>
+                        <select style="width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: 0.5rem; background-color: var(--bg-main); color: var(--text-main); font-family: 'Inter', sans-serif; font-size: 0.9rem;">
+                          <option value="">Choose a problem...</option>
+                          <option value="problem-a">Problem A - Two Sum</option>
+                          <option value="problem-b">Problem B - Reverse Integer</option>
+                          <option value="problem-c">Problem C - Palindrome String</option>
+                          <option value="problem-d">Problem D - Longest Substring</option>
+                          <option value="problem-e">Problem E - Median of Two Arrays</option>
+                          <option value="general">General Question</option>
+                        </select>
+                      </div>
+                      <textarea 
+                        style="width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; background-color: var(--bg-main); color: var(--text-main); font-family: 'Inter', sans-serif; font-size: 0.9rem; resize: vertical; min-height: 100px;" 
+                        placeholder="Type your question here..."
+                      ></textarea>
+                      <button type="button" class="btn btn-primary" style="width: 100%; padding: 0.6rem;">
+                        <i class="fa-solid fa-paper-plane me-2"></i>Send
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Announcements Tab -->
+            <div
+              class="tab-pane fade"
+              id="announcements"
+              role="tabpanel"
+              aria-labelledby="announcements-tab"
+            >
+              <div style="width: 100%;">
+                <!-- Announcement 1 -->
+                <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 1.5rem;">
+                  <div style="padding: 1.5rem; background: rgba(20, 151, 78, 0.1); border-bottom: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <div>
+                        <h5 style="margin: 0 0 0.3rem 0; color: var(--text-main); font-weight: 700; font-size: 1rem;">Contest Extended by 30 Minutes</h5>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">
+                          <i class="fa-solid fa-clock me-1"></i>1 hour ago
+                        </span>
+                      </div>
+                      <span style="background: rgba(20, 151, 78, 0.2); color: var(--success); padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">Host</span>
+                    </div>
+                  </div>
+                  <div style="padding: 1.5rem;">
+                    <p style="margin: 0; color: var(--text-main); font-size: 0.95rem; line-height: 1.6;">Due to technical issues, the contest duration has been extended by 30 minutes. All contestants will have additional time to solve the problems. The new end time is 5:00 PM IST.</p>
+                  </div>
+                </div>
+
+                <!-- Announcement 2 -->
+                <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 1.5rem;">
+                  <div style="padding: 1.5rem; background: rgba(100, 150, 200, 0.1); border-bottom: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <div>
+                        <h5 style="margin: 0 0 0.3rem 0; color: var(--text-main); font-weight: 700; font-size: 1rem;">Update to Problem D Test Cases</h5>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">
+                          <i class="fa-solid fa-clock me-1"></i>30 minutes ago
+                        </span>
+                      </div>
+                      <span style="background: rgba(100, 150, 200, 0.2); color: #6496c8; padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">Host</span>
+                    </div>
+                  </div>
+                  <div style="padding: 1.5rem;">
+                    <p style="margin: 0; color: var(--text-main); font-size: 0.95rem; line-height: 1.6;">The test cases for Problem D have been updated with additional edge cases. All submissions will be re-judged. Please check your solutions and resubmit if necessary.</p>
+                  </div>
+                </div>
+
+                <!-- Announcement 3 -->
+                <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 1rem; overflow: hidden; box-shadow: var(--shadow-sm);">
+                  <div style="padding: 1.5rem; background: rgba(159, 18, 57, 0.1); border-bottom: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <div>
+                        <h5 style="margin: 0 0 0.3rem 0; color: var(--text-main); font-weight: 700; font-size: 1rem;">Clarification for Problem B</h5>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">
+                          <i class="fa-solid fa-clock me-1"></i>2 hours ago
+                        </span>
+                      </div>
+                      <span style="background: rgba(159, 18, 57, 0.2); color: #9f1239; padding: 0.3rem 0.6rem; border-radius: 0.3rem; font-size: 0.75rem; font-weight: 600;">Host</span>
+                    </div>
+                  </div>
+                  <div style="padding: 1.5rem;">
+                    <p style="margin: 0; color: var(--text-main); font-size: 0.95rem; line-height: 1.6;">For Problem B, the input constraints have been clarified. The maximum value of n is 10^9. Please note that a brute force approach may not pass all test cases within the time limit.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <h4 class="fw-bold" style="color: var(--text-main)">Login to beatCode</h4>
+            </div>
+            <form>
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email or Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="loginEmail"
+                  placeholder="Enter your email or username"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="loginPassword"
+                  placeholder="Enter your password"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary w-100 rounded-2 fw-semibold py-2"
+              >
+                Login
+              </button>
+            </form>
+
+            <p class="text-center text-muted small mt-4">
+              Don't have an account?
+              <a
+                href="#"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#signupModal"
+                >Sign Up</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <h4 class="fw-bold" style="color: var(--text-main)">Join beatCode Today</h4>
+            </div>
+            <form>
+              <div class="mb-3">
+                <label for="signupEmail" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="signupEmail"
+                  placeholder="Enter your email"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="signupUsername" class="form-label">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="signupUsername"
+                  placeholder="Choose a username"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="signupPassword" class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="signupPassword"
+                  placeholder="Create a password"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="agreeTerms"
+                  style="border-color: var(--border); accent-color: var(--primary)"
+                />
+                <label class="form-check-label" for="agreeTerms">
+                  I agree to the Terms and Conditions
+                </label>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary w-100 rounded-2 fw-semibold py-2"
+              >
+                Sign Up
+              </button>
+            </form>
+
+            <p class="text-center text-muted small mt-4">
+              Already have an account?
+              <a
+                href="#"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+                >Login</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer
+      class="footer py-4 border-top mt-auto"
+      style="background-color: var(--footer-bg)"
+    >
+      <div class="container text-center">
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+          <i class="fa-solid fa-code fs-4"></i>
+          <span class="fw-bold fs-5">beatCode</span>
+        </div>
+        <p class="text-muted mb-0">
+          Developed by
+          <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Submissions Modal -->
+    <div class="modal fade submissions-modal" id="submissionsModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0" style="background-color: var(--card-bg); border-radius: 0.5rem">
+          <div class="modal-header border-0">
+            <h5 class="modal-title">
+              <span id="modalUserName"></span> - Problem <span id="modalProblemName"></span>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="submissions-table">
+              <div class="submissions-header">
+                <div style="text-align: center">Submission</div>
+                <div style="text-align: center">Time</div>
+                <div style="text-align: center">Verdict</div>
+                <div style="text-align: center">Penalty</div>
+              </div>
+              <div id="submissionsContainer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Theme Toggle Logic -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggle = document.getElementById("themeToggle");
+        const documentElement = document.documentElement;
+
+        // Initialize theme from localStorage or fallback to default
+        const savedTheme = localStorage.getItem("beatCode-theme") || "light";
+        documentElement.setAttribute("data-theme", savedTheme);
+        documentElement.setAttribute("data-bs-theme", savedTheme);
+        if (savedTheme === "dark") {
+          themeToggle.classList.add("theme-toggle--toggled");
+        }
+
+        themeToggle.addEventListener("click", () => {
+          const currentTheme = documentElement.getAttribute("data-theme");
+          const newTheme = currentTheme === "light" ? "dark" : "light";
+
+          documentElement.setAttribute("data-theme", newTheme);
+          documentElement.setAttribute("data-bs-theme", newTheme);
+          localStorage.setItem("beatCode-theme", newTheme);
+          themeToggle.classList.toggle("theme-toggle--toggled");
+        });
+      });
+
+      // Require Login Logic for protected links
+      function requireLogin(e) {
+        e.preventDefault();
+        const loginModal = new bootstrap.Modal(
+          document.getElementById("loginModal"),
+        );
+        loginModal.show();
+      }
+
+      // Sample submissions data for each user and problem
+      const submissionsData = {
+        john_dev: {
+          A: [
+            { id: 1, time: "0:32", verdict: "Accepted", penalty: 0, link: "submissions/12345" }
+          ],
+          B: [
+            { id: 1, time: "1:50", verdict: "Wrong Answer", penalty: 1, link: "submissions/12346" },
+            { id: 2, time: "2:15", verdict: "Accepted", penalty: 1, link: "submissions/12347" }
+          ],
+          B: [
+            { id: 1, time: "1:50", verdict: "Wrong Answer", penalty: 1, link: "submissions/12346" },
+            { id: 2, time: "2:15", verdict: "Accepted", penalty: 1, link: "submissions/12347" }
+          ],
+          C: [
+            { id: 1, time: "4:48", verdict: "Accepted", penalty: 0, link: "submissions/12348" }
+          ],
+          D: [
+            { id: 1, time: "6:52", verdict: "Accepted", penalty: 0, link: "submissions/12349" }
+          ],
+          E: [
+            { id: 1, time: "0:50", verdict: "Wrong Answer", penalty: 1, link: "submissions/12350" },
+            { id: 2, time: "1:20", verdict: "Wrong Answer", penalty: 2, link: "submissions/12351" },
+            { id: 3, time: "2:15", verdict: "Wrong Answer", penalty: 3, link: "submissions/12352" },
+            { id: 4, time: "3:40", verdict: "Wrong Answer", penalty: 4, link: "submissions/12353" },
+            { id: 5, time: "4:55", verdict: "Wrong Answer", penalty: 5, link: "submissions/12354" },
+            { id: 6, time: "6:10", verdict: "Wrong Answer", penalty: 6, link: "submissions/12355" },
+            { id: 7, time: "7:30", verdict: "Wrong Answer", penalty: 7, link: "submissions/12356" },
+            { id: 8, time: "8:45", verdict: "Wrong Answer", penalty: 8, link: "submissions/12357" },
+            { id: 9, time: "10:20", verdict: "Wrong Answer", penalty: 9, link: "submissions/12358" },
+            { id: 10, time: "11:50", verdict: "Wrong Answer", penalty: 10, link: "submissions/12359" },
+            { id: 11, time: "13:15", verdict: "Wrong Answer", penalty: 11, link: "submissions/12360" },
+            { id: 12, time: "14:40", verdict: "Wrong Answer", penalty: 12, link: "submissions/12361" },
+            { id: 13, time: "16:05", verdict: "Wrong Answer", penalty: 13, link: "submissions/12362" },
+            { id: 14, time: "17:30", verdict: "Wrong Answer", penalty: 14, link: "submissions/12363" },
+            { id: 15, time: "18:55", verdict: "Wrong Answer", penalty: 15, link: "submissions/12364" },
+            { id: 16, time: "20:10", verdict: "Wrong Answer", penalty: 16, link: "submissions/12365" },
+            { id: 17, time: "21:35", verdict: "Wrong Answer", penalty: 17, link: "submissions/12366" },
+            { id: 18, time: "23:00", verdict: "Wrong Answer", penalty: 18, link: "submissions/12367" },
+            { id: 19, time: "24:20", verdict: "Wrong Answer", penalty: 19, link: "submissions/12368" },
+            { id: 20, time: "25:45", verdict: "Accepted", penalty: 20, link: "submissions/12369" }
+          ]
+        },
+        alice_code: {
+          A: [
+            { id: 1, time: "1:05", verdict: "Accepted", penalty: 0, link: "submissions/12370" }
+          ],
+          B: [
+            { id: 1, time: "3:22", verdict: "Accepted", penalty: 0, link: "submissions/12371" }
+          ],
+          C: [
+            { id: 1, time: "5:10", verdict: "Accepted", penalty: 0, link: "submissions/12372" }
+          ],
+          D: [
+            { id: 1, time: "8:45", verdict: "Accepted", penalty: 0, link: "submissions/12373" }
+          ]
+        },
+        bob_expert: {
+          A: [
+            { id: 1, time: "0:45", verdict: "Accepted", penalty: 0, link: "submissions/12374" }
+          ],
+          B: [
+            { id: 1, time: "1:15", verdict: "Wrong Answer", penalty: 1, link: "submissions/12375" },
+            { id: 2, time: "2:10", verdict: "Wrong Answer", penalty: 2, link: "submissions/12376" }
+          ],
+          C: [
+            { id: 1, time: "7:30", verdict: "Accepted", penalty: 0, link: "submissions/12377" }
+          ]
+        },
+        carol_ninja: {
+          B: [
+            { id: 1, time: "5:18", verdict: "Accepted", penalty: 0, link: "submissions/12378" }
+          ],
+          C: [
+            { id: 1, time: "8:12", verdict: "Accepted", penalty: 0, link: "submissions/12379" }
+          ],
+          D: [
+            { id: 1, time: "12:05", verdict: "Accepted", penalty: 0, link: "submissions/12380" }
+          ]
+        },
+        dave_coder: {
+          A: [
+            { id: 1, time: "1:42", verdict: "Accepted", penalty: 0, link: "submissions/12381" }
+          ]
+        }
+      };
+
+      // Function to go to user profile
+      function goToProfile(userName, e) {
+        e.preventDefault();
+        alert(`Opening profile for ${userName}...`);
+        // In a real application, navigate to: /profile/${userName}
+        // window.location.href = `/profile/${userName}`;
+      }
+
+      // Function to go to submission detail
+      function goToSubmission(submissionLink) {
+        alert(`Opening submission: ${submissionLink}`);
+        // In a real application, navigate to: /submissions/${submissionLink}
+        // window.location.href = `/${submissionLink}`;
+      }
+
+      // Function to show submissions modal
+      function showSubmissions(userName, problemName) {
+        const modal = new bootstrap.Modal(document.getElementById('submissionsModal'));
+        document.getElementById('modalUserName').textContent = userName;
+        document.getElementById('modalProblemName').textContent = problemName;
+        
+        const submissions = submissionsData[userName]?.[problemName] || [];
+        const container = document.getElementById('submissionsContainer');
+        
+        container.innerHTML = submissions.map(sub => `
+          <div class="submissions-row" onclick="goToSubmission('${sub.link}')">
+            <div class="submission-id">#${sub.id}</div>
+            <div class="submission-time">${sub.time}</div>
+            <div class="submission-verdict ${sub.verdict === 'Accepted' ? 'verdict-accepted' : 'verdict-wrong'}">
+              ${sub.verdict}
+            </div>
+            <div class="submission-score">${sub.penalty}</div>
+          </div>
+        `).join('');
+        
+        modal.show();
+      }
+
+      // Add click handlers to verdict links
+      document.addEventListener('DOMContentLoaded', () => {
+        // Map for tracking which user is in which standings row
+        const userMap = {
+          'john_dev': { row: 0, user: 'john_dev' },
+          'alice_code': { row: 1, user: 'alice_code' },
+          'bob_expert': { row: 2, user: 'bob_expert' },
+          'carol_ninja': { row: 3, user: 'carol_ninja' },
+          'dave_coder': { row: 4, user: 'dave_coder' }
+        };
+
+        const problemMap = {
+          'problem-a': 'A',
+          'problem-b': 'B',
+          'problem-c': 'C',
+          'problem-d': 'D',
+          'problem-e': 'E'
+        };
+
+        // Get all verdict links that are colored (accepted or wrong)
+        const verdictLinks = document.querySelectorAll('a.verdict-link[style*="background: #"]');
+        
+        verdictLinks.forEach(link => {
+          link.style.cursor = 'pointer';
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Get the problem name from the href
+            const problemId = link.getAttribute('href').substring(1); // Remove #
+            const problemName = problemMap[problemId];
+            
+            // Find which user this verdict belongs to
+            let userName = '';
+            let parent = link.closest('.standings-row');
+            if (parent) {
+              const userProfileLink = parent.querySelector('a.user-profile-link');
+              if (userProfileLink) {
+                userName = userProfileLink.textContent.trim();
+              }
+            }
+            
+            if (userName && problemName) {
+              showSubmissions(userName, problemName);
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Theme Toggles CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm" style="backdrop-filter: blur(10px);">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2 brand-logo" href="../index.html">
+                <i class="fa-solid fa-code brand-icon"></i>
+                <span class="brand-text">beatCode</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+                    <li class="nav-item theme-switch-wrapper d-flex align-items-center">
+                        <button
+                          id="themeToggle"
+                          class="theme-toggle btn btn-link p-0 border-0 ms-2"
+                          style="color: var(--text-main);"
+                          type="button"
+                          title="Toggle theme"
+                          aria-label="Toggle theme"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            width="1.5em"
+                            height="1.5em"
+                            fill="currentColor"
+                            class="theme-toggle__around"
+                            viewBox="0 0 32 32"
+                          >
+                            <clipPath id="theme-toggle__around__cutout">
+                              <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
+                            </clipPath>
+                            <g clip-path="url(#theme-toggle__around__cutout)">
+                              <circle cx="16" cy="16" r="8.4" />
+                              <g>
+                                <circle cx="16" cy="3.3" r="2.3" />
+                                <circle cx="27" cy="9.7" r="2.3" />
+                                <circle cx="27" cy="22.3" r="2.3" />
+                                <circle cx="16" cy="28.7" r="2.3" />
+                                <circle cx="5" cy="22.3" r="2.3" />
+                                <circle cx="5" cy="9.7" r="2.3" />
+                              </g>
+                            </g>
+                          </svg>
+                        </button>
+                    </li>
+                    <li class="nav-item auth-buttons d-flex gap-2">
+                        <a href="../index.html" class="btn btn-outline-primary btn-sm px-4 rounded-3">Login</a>
+                        <a href="../index.html" class="btn btn-primary btn-sm px-4 rounded-3">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Terms of Service Section -->
+    <main class="flex-grow-1 position-relative overflow-hidden" style="padding-top: 8rem; padding-bottom: 4rem;">
+        <div class="bg-pattern" style="opacity: 0.5;"></div>
+        <div class="container position-relative z-1 animate-slide-up">
+            
+            <div class="text-center mb-5">
+                <h1 class="gradient-text display-5 fw-bold mb-3">Terms of Service</h1>
+                <p class="text-muted lead">The rules and guidelines for using beatCode.</p>
+                <p class="small text-muted">Last updated: April 17, 2026</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <!-- Policy Content Card -->
+                    <div class="p-4 p-md-5 border rounded-3 shadow-sm mb-4" style="background-color: var(--card-bg);">
+                        <div class="mb-5">
+                            <h4 class="fw-bold mb-3" style="color: var(--text-main);">1. Acceptance of Terms</h4>
+                            <p class="text-muted" style="line-height: 1.7;">
+                                By accessing or using beatCode, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you are prohibited from using our competitive programming platform.
+                            </p>
+                        </div>
+                        
+                        <div class="mb-5">
+                            <h4 class="fw-bold mb-3" style="color: var(--text-main);">2. User Accounts and Access</h4>
+                            <p class="text-muted mb-3">When you create an account on beatCode, you agree to the following:</p>
+                            <ul class="text-muted" style="line-height: 1.8;">
+                                <li>You will provide accurate, current, and complete registration information.</li>
+                                <li>You are responsible for safeguarding your password and account credentials.</li>
+                                <li>You will not share your account or use another user's account without explicit permission.</li>
+                                <li>Organization accounts created via mass creation tools remain subject to the overarching organization terms.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-5">
+                            <h4 class="fw-bold mb-3" style="color: var(--text-main);">3. Code of Conduct & Competitive Integrity</h4>
+                            <p class="text-muted mb-3">To maintain a fair and competitive environment, users must adhere to strict guidelines:</p>
+                            <ul class="text-muted" style="line-height: 1.8;">
+                                <li><strong>No Plagiarism:</strong> Copying code from external sources or other users during active contests is strictly prohibited.</li>
+                                <li><strong>No Exploitation:</strong> Attempting to compromise the Judge0 execution environment, bypass time limits, or exploit platform vulnerabilities is forbidden.</li>
+                                <li><strong>Respectful Interaction:</strong> In discussion boards and snippet sharing, hate speech, harassment, and spam are not tolerated.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-5">
+                            <h4 class="fw-bold mb-3" style="color: var(--text-main);">4. Code Submissions and Intellectual Property</h4>
+                            <p class="text-muted" style="line-height: 1.7;">
+                                You retain full ownership of the intellectual property rights for the code you write and submit on beatCode. However, by submitting code to our public problem sets or discussion forums, you grant beatCode a non-exclusive license to use, display, and execute your code for the purposes of platform functionality and displaying solutions.
+                            </p>
+                        </div>
+
+                        <div class="mb-5">
+                            <h4 class="fw-bold mb-3" style="color: var(--text-main);">5. Termination of Services</h4>
+                            <p class="text-muted" style="line-height: 1.7;">
+                                We reserve the right to suspend or terminate your account at our sole discretion, without prior notice, for conducts that we believe violate these Terms of Service or is harmful to other users of beatCode, us, or third parties, or for any other reason.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="fw-bold mb-3" style="color: var(--text-main);">6. Modifications to Terms</h4>
+                            <p class="text-muted" style="line-height: 1.7;">
+                                The <strong>অরুণ প্রাতের তরুণ দল</strong> development team reserves the right to revise these Terms of Service at any time without notice. By using this platform you are agreeing to be bound by the then current version of these Terms of Service.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Back Button Action -->
+                    <div class="text-center mt-5">
+                        <a href="../index.html" class="btn btn-outline-secondary btn-lg rounded-3 px-5 shadow-sm hover-scale">
+                            <i class="fa-solid fa-arrow-left me-2"></i> Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg);">
+        <div class="container text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                <i class="fa-solid fa-code fs-4"></i>
+                <span class="fw-bold fs-5">beatCode</span>
+            </div>
+            <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Theme Toggle Logic (Matches index.html logic) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('themeToggle');
+            const htmlElement = document.documentElement;
+
+            // Check local storage for theme
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            htmlElement.setAttribute('data-theme', currentTheme);
+            htmlElement.setAttribute('data-bs-theme', currentTheme);
+
+            themeToggleBtn.addEventListener('click', () => {
+                const newTheme = htmlElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+                htmlElement.setAttribute('data-theme', newTheme);
+                htmlElement.setAttribute('data-bs-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
+        });
+    </script>
+</body>
+</html>

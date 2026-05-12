@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Submissions | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .submissions-section {
+        padding: 5.5rem 0 4rem;
+        margin-top: 1rem;
+      }
+
+      .submissions-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .submissions-header h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+      }
+
+      .submission-table {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .submission-header {
+        background: var(--bg-soft);
+        display: grid;
+        grid-template-columns: 60px 2fr 80px 80px 80px 100px 120px;
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        border-bottom: 1px solid var(--border);
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        align-items: center;
+      }
+
+      .submission-row {
+        display: grid;
+        grid-template-columns: 60px 2fr 80px 80px 80px 100px 120px;
+        gap: 1rem;
+        padding: 1.2rem;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        transition: background-color 0.2s ease;
+      }
+
+      .submission-row:last-child {
+        border-bottom: none;
+      }
+
+      .submission-row:hover {
+        background-color: var(--bg-soft);
+      }
+
+      .submission-id {
+        text-align: center;
+        font-weight: 700;
+        color: var(--text-muted);
+        font-family: "Fira Code", monospace;
+      }
+
+      .submission-problem a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+        display: block;
+        word-break: break-word;
+      }
+
+      .submission-problem a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+      }
+
+      .submission-time,
+      .submission-memory,
+      .submission-language {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .submission-verdict {
+        text-align: center;
+      }
+
+      .verdict-badge {
+        display: inline-block;
+        padding: 0.4rem 0.6rem;
+        border-radius: 0.4rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        font-family: "Fira Code", monospace;
+        letter-spacing: 0.5px;
+        min-width: 50px;
+        text-align: center;
+      }
+
+      .verdict-accepted {
+        background: rgba(20, 151, 78, 0.2);
+        color: var(--success);
+        border: 1px solid var(--success);
+      }
+
+      .verdict-wrong-answer {
+        background: rgba(159, 18, 57, 0.2);
+        color: #9f1239;
+        border: 1px solid #9f1239;
+      }
+
+      .verdict-time-limit {
+        background: rgba(183, 121, 31, 0.2);
+        color: #935d07;
+        border: 1px solid #935d07;
+      }
+
+      .verdict-runtime-error {
+        background: rgba(217, 76, 76, 0.2);
+        color: #d94c4c;
+        border: 1px solid #d94c4c;
+      }
+
+      .verdict-compilation-error {
+        background: rgba(180, 126, 71, 0.2);
+        color: #b47e47;
+        border: 1px solid #b47e47;
+      }
+
+      .verdict-pending {
+        background: rgba(100, 150, 200, 0.2);
+        color: #6496c8;
+        border: 1px solid #6496c8;
+      }
+
+      .submission-date {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
+
+      @media (max-width: 1024px) {
+        .submission-header {
+          grid-template-columns: 50px 1.5fr 70px 70px 70px 90px 100px;
+          font-size: 0.75rem;
+          padding: 1rem;
+          gap: 0.8rem;
+        }
+
+        .submission-row {
+          grid-template-columns: 50px 1.5fr 70px 70px 70px 90px 100px;
+          padding: 1rem;
+          gap: 0.8rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .filter-row {
+          gap: 0.8rem;
+        }
+
+        .filter-group {
+          flex: 1;
+          min-width: 140px;
+        }
+
+        .filter-group select,
+        .filter-group input {
+          min-width: 100%;
+          font-size: 0.85rem;
+        }
+
+        .search-group {
+          margin-left: 0;
+          width: 100%;
+        }
+
+        .submission-header,
+        .submission-row {
+          grid-template-columns: 45px 1fr 60px 60px 60px 80px;
+          gap: 0.5rem;
+          padding: 0.8rem;
+        }
+
+        .submission-header {
+          font-size: 0.7rem;
+        }
+
+        .submission-date {
+          display: none;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .submissions-header h1 {
+          font-size: 1.8rem;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .filter-row {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .search-group {
+          width: 100%;
+          margin-left: 0;
+        }
+
+        .submission-header,
+        .submission-row {
+          grid-template-columns: 40px 1fr 50px 50px;
+          gap: 0.3rem;
+          padding: 0.6rem;
+        }
+
+        .submission-header {
+          font-size: 0.65rem;
+        }
+
+        .submission-memory,
+        .submission-language,
+        .submission-date {
+          display: none;
+        }
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div
+        class="container-fluid"
+        style="padding-left: 2rem; padding-right: 2rem"
+      >
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 brand-logo"
+          href="../index.html"
+        >
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul
+            class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center gap-2 justify-center"
+          >
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-newspaper me-2"></i>Updates
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="problemset.html">
+                <i class="fa-solid fa-code me-2"></i>Problem Set
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contests.html">
+                <i class="fa-solid fa-trophy me-2"></i>Contests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="submissions.html">
+                <i class="fa-solid fa-paper-plane me-2"></i>Submissions
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="leaderboard.html">
+                <i class="fa-solid fa-ranking-star me-2"></i>Leaderboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-pen-nib me-2"></i>Contribution
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <button
+                id="themeToggle"
+                class="theme-toggle btn btn-link p-0 border-0"
+                style="
+                  color: var(--text-main);
+                  display: flex;
+                  align-items: center;
+                "
+                type="button"
+                title="Toggle theme"
+                aria-label="Toggle theme"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  width="1.5em"
+                  height="1.5em"
+                  fill="currentColor"
+                  class="theme-toggle__around"
+                  viewBox="0 0 32 32"
+                >
+                  <clipPath id="theme-toggle__around__cutout">
+                    <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
+                  </clipPath>
+                  <g clip-path="url(#theme-toggle__around__cutout)">
+                    <circle cx="16" cy="16" r="8.4" />
+                    <g>
+                      <circle cx="16" cy="3.3" r="2.3" />
+                      <circle cx="27" cy="9.7" r="2.3" />
+                      <circle cx="27" cy="22.3" r="2.3" />
+                      <circle cx="16" cy="28.7" r="2.3" />
+                      <circle cx="5" cy="22.3" r="2.3" />
+                      <circle cx="5" cy="9.7" r="2.3" />
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a
+                class="nav-link p-0 border-0 position-relative d-flex align-items-center"
+                href="#"
+                onclick="requireLogin(event)"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-bell fs-5"></i>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="font-size: 0.6rem; padding: 0.25rem 0.4rem"
+                  >3</span
+                >
+              </a>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+              <button
+                class="btn btn-link nav-link dropdown-toggle p-0 border-0 d-flex align-items-center"
+                id="profileDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-user-circle fs-5"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end shadow-sm"
+                aria-labelledby="profileDropdown"
+                style="
+                  background-color: var(--card-bg);
+                  border: 1px solid var(--border-color, #e0e0e0);
+                "
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-user me-2"></i>Profile</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-gear me-2"></i>Settings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="snippets.html"
+                    ><i class="fa-solid fa-code me-2"></i>Snippets</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+              <a class="nav-link" href="community.html"><i class="fa-solid fa-users me-2"></i>Community</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <section class="submissions-section position-relative overflow-hidden">
+        <div class="container position-relative z-1">
+          <div class="submissions-header animate-slide-up">
+            <h1 class="gradient-text">
+              <i
+                class="fa-solid fa-paper-plane me-3"
+                style="color: var(--primary)"
+              ></i>My Submissions</h1>
+            <p class="text-muted">Track your coding attempts and solutions</p>
+          </div>
+
+          <!-- Statistics -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">456</div>
+                        <div class="stat-label">Total Submissions</div>
+                        <div class="stat-breakdown">
+                            <div class="stat-breakdown-item">
+                                <div class="stat-breakdown-label">AC</div>
+                                <div class="stat-breakdown-value breakdown-easy">234</div>
+                            </div>
+                            <div class="stat-breakdown-item">
+                                <div class="stat-breakdown-label">WA</div>
+                                <div class="stat-breakdown-value breakdown-medium">128</div>
+                            </div>
+                            <div class="stat-breakdown-item">
+                                <div class="stat-breakdown-label">TLE</div>
+                                <div class="stat-breakdown-value breakdown-hard">94</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">234</div>
+                        <div class="stat-label">Accepted</div>
+                        <div class="stat-breakdown">
+                            <div class="stat-breakdown-item">
+                                <div class="stat-breakdown-label">Easy</div>
+                                <div class="stat-breakdown-value breakdown-easy">89</div>
+                            </div>
+                            <div class="stat-breakdown-item">
+                                <div class="stat-breakdown-label">Medium</div>
+                                <div class="stat-breakdown-value breakdown-medium">98</div>
+                            </div>
+                            <div class="stat-breakdown-item">
+                                <div class="stat-breakdown-label">Hard</div>
+                                <div class="stat-breakdown-value breakdown-hard">47</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">51.3%</div>
+                        <div class="stat-label">Acceptance Rate</div>
+                        <div class="stat-breakdown">
+                            <div class="stat-breakdown-item">
+                                <div class="stat-breakdown-label">Avg Time</div>
+                                <div class="stat-breakdown-value">234ms</div>
+                            </div>
+                            <div class="stat-breakdown-item">
+                                <div class="stat-breakdown-label">Best Time</div>
+                                <div class="stat-breakdown-value">12ms</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+          <!-- Filters -->
+          <div class="filter-section animate-slide-up">
+            <div class="filter-row">
+              <div class="filter-group">
+                <label for="verdictFilter">Verdict</label>
+                <select id="verdictFilter">
+                  <option value="">All Verdicts</option>
+                  <option value="ac">Accepted (AC)</option>
+                  <option value="wa">Wrong Answer (WA)</option>
+                  <option value="tle">Time Limit (TLE)</option>
+                  <option value="re">Runtime Error (RE)</option>
+                  <option value="ce">Compilation Error (CE)</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label for="languageFilter">Language</label>
+                <select id="languageFilter">
+                  <option value="">All Languages</option>
+                  <option value="cpp">C++</option>
+                  <option value="java">Java</option>
+                  <option value="python">Python</option>
+                  <option value="csharp">C#</option>
+                  <option value="javascript">JavaScript</option>
+                </select>
+              </div>
+
+              <div class="filter-group search-group">
+                <label for="searchInput">Search</label>
+                <input
+                  type="text"
+                  id="searchInput"
+                  placeholder="Search problem name..."
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Submissions Table -->
+          <div class="submission-table animate-slide-up">
+            <!-- Header -->
+            <div class="submission-header">
+              <div style="text-align: center">ID</div>
+              <div>Problem Name</div>
+              <div style="text-align: center">Time (ms)</div>
+              <div style="text-align: center">Memory (MB)</div>
+              <div style="text-align: center">Language</div>
+              <div style="text-align: center">Verdict</div>
+              <div style="text-align: center">Date</div>
+            </div>
+
+            <!-- Submission 1 -->
+            <div class="submission-row">
+              <div class="submission-id">1</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)">Two Sum</a>
+              </div>
+              <div class="submission-time">45</div>
+              <div class="submission-memory">12.5</div>
+              <div class="submission-language">C++</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-accepted">AC</span>
+              </div>
+              <div class="submission-date">2 days ago</div>
+            </div>
+
+            <!-- Submission 2 -->
+            <div class="submission-row">
+              <div class="submission-id">2</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)"
+                  >Longest Substring Without Repeating</a
+                >
+              </div>
+              <div class="submission-time">156</div>
+              <div class="submission-memory">18.3</div>
+              <div class="submission-language">Python</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-wrong-answer">WA</span>
+              </div>
+              <div class="submission-date">3 days ago</div>
+            </div>
+
+            <!-- Submission 3 -->
+            <div class="submission-row">
+              <div class="submission-id">3</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)"
+                  >Median of Two Sorted Arrays</a
+                >
+              </div>
+              <div class="submission-time">2048</div>
+              <div class="submission-memory">64.2</div>
+              <div class="submission-language">Java</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-time-limit">TLE</span>
+              </div>
+              <div class="submission-date">1 week ago</div>
+            </div>
+
+            <!-- Submission 4 -->
+            <div class="submission-row">
+              <div class="submission-id">4</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)">Palindrome Number</a>
+              </div>
+              <div class="submission-time">23</div>
+              <div class="submission-memory">8.1</div>
+              <div class="submission-language">C++</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-accepted">AC</span>
+              </div>
+              <div class="submission-date">1 week ago</div>
+            </div>
+
+            <!-- Submission 5 -->
+            <div class="submission-row">
+              <div class="submission-id">5</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)"
+                  >Container With Most Water</a
+                >
+              </div>
+              <div class="submission-time">89</div>
+              <div class="submission-memory">15.7</div>
+              <div class="submission-language">Python</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-accepted">AC</span>
+              </div>
+              <div class="submission-date">2 weeks ago</div>
+            </div>
+
+            <!-- Submission 6 -->
+            <div class="submission-row">
+              <div class="submission-id">6</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)"
+                  >Regular Expression Matching</a
+                >
+              </div>
+              <div class="submission-time">0</div>
+              <div class="submission-memory">0</div>
+              <div class="submission-language">Java</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-compilation-error">CE</span>
+              </div>
+              <div class="submission-date">2 weeks ago</div>
+            </div>
+
+            <!-- Submission 7 -->
+            <div class="submission-row">
+              <div class="submission-id">7</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)"
+                  >Merge k Sorted Lists</a
+                >
+              </div>
+              <div class="submission-time">512</div>
+              <div class="submission-memory">32.4</div>
+              <div class="submission-language">C++</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-runtime-error">RE</span>
+              </div>
+              <div class="submission-date">3 weeks ago</div>
+            </div>
+
+            <!-- Submission 8 -->
+            <div class="submission-row">
+              <div class="submission-id">8</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)"
+                  >String to Integer (atoi)</a
+                >
+              </div>
+              <div class="submission-time">67</div>
+              <div class="submission-memory">11.2</div>
+              <div class="submission-language">JavaScript</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-accepted">AC</span>
+              </div>
+              <div class="submission-date">3 weeks ago</div>
+            </div>
+
+            <!-- Submission 9 -->
+            <div class="submission-row">
+              <div class="submission-id">9</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)"
+                  >Palindrome Partitioning</a
+                >
+              </div>
+              <div class="submission-time">234</div>
+              <div class="submission-memory">22.8</div>
+              <div class="submission-language">Python</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-wrong-answer">WA</span>
+              </div>
+              <div class="submission-date">1 month ago</div>
+            </div>
+
+            <!-- Submission 10 -->
+            <div class="submission-row">
+              <div class="submission-id">10</div>
+              <div class="submission-problem">
+                <a href="#" onclick="requireLogin(event)">Wildcard Matching</a>
+              </div>
+              <div class="submission-time">1234</div>
+              <div class="submission-memory">56.3</div>
+              <div class="submission-language">C#</div>
+              <div class="submission-verdict">
+                <span class="verdict-badge verdict-accepted">AC</span>
+              </div>
+              <div class="submission-date">1 month ago</div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination-section">
+            <button class="btn btn-outline-secondary">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="btn btn-primary">1</button>
+            <button class="btn btn-outline-secondary">2</button>
+            <button class="btn btn-outline-secondary">3</button>
+            <button class="btn btn-outline-secondary">...</button>
+            <button class="btn btn-outline-secondary">45</button>
+            <button class="btn btn-outline-secondary">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <h4 class="fw-bold" style="color: var(--text-main)">
+                Login to beatCode
+              </h4>
+            </div>
+            <form>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Email or Username</label>
+                <input
+                  type="text"
+                  class="form-control rounded-2"
+                  placeholder="Enter email or username"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Password</label>
+                <input
+                  type="password"
+                  class="form-control rounded-2"
+                  placeholder="Enter password"
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary w-100 rounded-2 fw-semibold py-2"
+              >
+                Login
+              </button>
+            </form>
+
+            <div class="d-flex align-items-center gap-3 my-4">
+              <hr class="flex-grow-1" />
+              <small class="text-muted">OR</small>
+              <hr class="flex-grow-1" />
+            </div>
+
+            <div class="row g-2">
+              <div class="col-6">
+                <button class="btn btn-outline-secondary w-100 rounded-2">
+                  <i class="fa-brands fa-google"></i> Google
+                </button>
+              </div>
+              <div class="col-6">
+                <button class="btn btn-outline-secondary w-100 rounded-2">
+                  <i class="fa-brands fa-github"></i> GitHub
+                </button>
+              </div>
+            </div>
+
+            <p class="text-center text-muted small mt-4">
+              Don't have an account?
+              <a
+                href="#"
+                class="text-primary fw-semibold text-decoration-none"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#signupModal"
+                >Sign Up</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <h4 class="fw-bold" style="color: var(--text-main)">
+                Create Account
+              </h4>
+            </div>
+            <form>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Full Name</label>
+                <input
+                  type="text"
+                  class="form-control rounded-2"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input
+                  type="email"
+                  class="form-control rounded-2"
+                  placeholder="Enter email"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Username</label>
+                <input
+                  type="text"
+                  class="form-control rounded-2"
+                  placeholder="Choose a username"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Password</label>
+                <input
+                  type="password"
+                  class="form-control rounded-2"
+                  placeholder="Create a password"
+                />
+              </div>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="termsCheck"
+                />
+                <label class="form-check-label small" for="termsCheck">
+                  I agree to the
+                  <a
+                    href="../pages/terms.html"
+                    class="text-primary text-decoration-none"
+                    >Terms of Service</a
+                  >
+                  and
+                  <a
+                    href="../pages/privacy-policy.html"
+                    class="text-primary text-decoration-none"
+                    >Privacy Policy</a
+                  >
+                </label>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary w-100 rounded-2 fw-semibold py-2"
+              >
+                Sign Up
+              </button>
+            </form>
+
+            <p class="text-center text-muted small mt-4">
+              Already have an account?
+              <a
+                href="#"
+                class="text-primary fw-semibold text-decoration-none"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+                >Login</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg);">
+        <div class="container text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                <i class="fa-solid fa-code fs-4"></i>
+                <span class="fw-bold fs-5">beatCode</span>
+            </div>
+            <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Theme Toggle Logic -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggle = document.getElementById("themeToggle");
+        const documentElement = document.documentElement;
+
+        // Initialize theme from localStorage or fallback to default
+        const savedTheme = localStorage.getItem("beatCode-theme") || "light";
+        documentElement.setAttribute("data-theme", savedTheme);
+        documentElement.setAttribute("data-bs-theme", savedTheme);
+        if (savedTheme === "dark") {
+          themeToggle.classList.add("theme-toggle--toggled");
+        }
+
+        themeToggle.addEventListener("click", () => {
+          const currentTheme = documentElement.getAttribute("data-theme");
+          const newTheme = currentTheme === "light" ? "dark" : "light";
+
+          documentElement.setAttribute("data-theme", newTheme);
+          documentElement.setAttribute("data-bs-theme", newTheme);
+          localStorage.setItem("beatCode-theme", newTheme);
+          themeToggle.classList.toggle("theme-toggle--toggled");
+        });
+      });
+
+      // Require Login Logic for protected links
+      function requireLogin(e) {
+        e.preventDefault();
+        const loginModal = new bootstrap.Modal(
+          document.getElementById("loginModal"),
+        );
+        loginModal.show();
+      }
+    </script>
+  </body>
+</html>

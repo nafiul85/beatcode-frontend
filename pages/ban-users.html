@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ban Users | Admin | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .admin-section {
+        padding: 6rem 0 4rem;
+      }
+
+      .admin-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        overflow: hidden;
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .table thead th {
+        background: var(--bg-soft);
+        color: var(--text-muted);
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 1rem 1.25rem;
+        border-bottom: 2px solid var(--border);
+      }
+
+      .status-active {
+        color: var(--success);
+        background: rgba(40, 167, 69, 0.1);
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .status-banned {
+        color: var(--danger);
+        background: rgba(220, 53, 69, 0.1);
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .search-box {
+        position: relative;
+        max-width: 450px;
+      }
+
+      .search-box i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+      }
+
+      .search-box input {
+        padding-left: 2.75rem;
+        border-radius: 10px;
+        background: var(--bg-main);
+        border: 1px solid var(--border);
+      }
+
+      .action-btn {
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--text-muted);
+      }
+
+      .action-btn:hover {
+        background: var(--bg-soft);
+        border-color: var(--border);
+      }
+
+      .action-btn.ban:hover {
+        color: var(--danger);
+      }
+
+      .action-btn.unban:hover {
+        color: var(--success);
+      }
+
+      .admin-sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s;
+        font-weight: 600;
+      }
+
+      .admin-sidebar-link:hover, .admin-sidebar-link.active {
+        background: var(--primary);
+        color: white;
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand d-flex align-items-center gap-2 brand-logo" href="../index.html">
+          <i class="fa-solid fa-code brand-icon"></i><span class="brand-text">beatCode <span class="badge bg-danger rounded-pill ms-1" style="font-size: 0.6rem; vertical-align: middle;">ADMIN</span></span>
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <button id="themeToggle" class="theme-toggle btn btn-link p-0 border-0" style="color: var(--text-main)" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="1.5em" height="1.5em" fill="currentColor" class="theme-toggle__around" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="8.4" /><g><circle cx="16" cy="3.3" r="2.3" /><circle cx="27" cy="9.7" r="2.3" /><circle cx="27" cy="22.3" r="2.3" /><circle cx="16" cy="28.7" r="2.3" /><circle cx="5" cy="22.3" r="2.3" /><circle cx="5" cy="9.7" r="2.3" /></g>
+                </svg>
+            </button>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle user-menu" data-bs-toggle="dropdown">
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff" class="rounded-circle" width="32">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                    <li><a class="dropdown-item" href="profile.html"><i class="fa-solid fa-user me-2"></i>Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow-1 admin-section">
+      <div class="container-fluid px-4 px-lg-5">
+        <div class="row g-4">
+          <!-- Sidebar -->
+          <div class="col-lg-3">
+            <div class="admin-card p-3">
+              <h6 class="fw-800 text-uppercase small text-muted mb-3 px-2">Management</h6>
+              <div class="d-flex flex-column gap-1">
+                <a href="#" class="admin-sidebar-link"><i class="fa-solid fa-chart-pie"></i>Overview</a>
+                <a href="ban-users.html" class="admin-sidebar-link active"><i class="fa-solid fa-user-slash"></i>Ban Users</a>
+                <a href="#" class="admin-sidebar-link"><i class="fa-solid fa-flag"></i>Reports</a>
+                <a href="problemset.html" class="admin-sidebar-link"><i class="fa-solid fa-file-invoice"></i>Problems</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Content -->
+          <div class="col-lg-9">
+            <div class="mb-4">
+              <h1 class="fw-800">User Management</h1>
+              <p class="text-muted">Monitor user activity and manage access permissions.</p>
+            </div>
+
+            <div class="admin-card">
+              <div class="p-4 border-bottom d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div class="search-box flex-grow-1">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input type="text" class="form-control" placeholder="Search by username, email, or user ID...">
+                </div>
+                <div class="d-flex gap-2">
+                  <select class="form-select w-auto">
+                    <option value="all">All Users</option>
+                    <option value="active">Active Only</option>
+                    <option value="banned">Banned Only</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table mb-0 align-middle">
+                  <thead>
+                    <tr>
+                      <th style="width: 250px">User</th>
+                      <th>Joined</th>
+                      <th>Rating</th>
+                      <th>Status</th>
+                      <th class="text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center gap-3">
+                          <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" class="user-avatar" alt="">
+                          <div>
+                            <div class="fw-700">John Doe</div>
+                            <div class="text-muted small">@john_doe</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-muted small">Jan 12, 2024</td>
+                      <td><span class="fw-bold text-primary">1842</span></td>
+                      <td><span class="status-active">Active</span></td>
+                      <td class="text-end">
+                        <button class="action-btn ban" title="Ban User" data-bs-toggle="modal" data-bs-target="#banModal">
+                          <i class="fa-solid fa-user-slash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex align-items-center gap-3">
+                          <img src="https://ui-avatars.com/api/?name=Spam+Bot&background=333&color=fff" class="user-avatar" alt="">
+                          <div>
+                            <div class="fw-700">Abusive User</div>
+                            <div class="text-muted small">@spammer_99</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-muted small">Feb 02, 2024</td>
+                      <td><span class="fw-bold text-muted">0</span></td>
+                      <td><span class="status-banned">Banned</span></td>
+                      <td class="text-end">
+                        <button class="action-btn unban" title="Unban User">
+                          <i class="fa-solid fa-user-check"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="p-4 border-top d-flex justify-content-between align-items-center">
+                <p class="text-muted mb-0 small">Showing 2 of 1,250 users</p>
+                <nav>
+                  <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item disabled"><a class="page-link" href="#"><i class="fa-solid fa-chevron-left"></i></a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-chevron-right"></i></a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Ban Modal -->
+    <div class="modal fade" id="banModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title fw-bold text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i>Ban User</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p class="text-muted">Are you sure you want to ban <strong>@john_doe</strong>? This user will not be able to log in, participate in contests, or submit problems.</p>
+            <div class="mb-3">
+              <label class="form-label">Reason for Ban</label>
+              <textarea class="form-control" rows="3" placeholder="e.g. Repeated plagiarism in contests..."></textarea>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="permanentBan">
+              <label class="form-check-label" for="permanentBan">Permanent Ban</label>
+            </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-light fw-bold" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger fw-bold px-4">Confirm Ban</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg)">
+      <div class="container text-center">
+        <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const themeToggle = document.getElementById("themeToggle");
+      const html = document.documentElement;
+
+      function updateTheme(theme) {
+        html.setAttribute("data-theme", theme);
+        html.setAttribute("data-bs-theme", theme);
+        localStorage.setItem("theme", theme);
+      }
+
+      const savedTheme = localStorage.getItem("theme") || "light";
+      updateTheme(savedTheme);
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = html.getAttribute("data-theme");
+        updateTheme(currentTheme === "light" ? "dark" : "light");
+      });
+    </script>
+  </body>
+</html>

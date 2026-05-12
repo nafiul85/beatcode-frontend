@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Snippets | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .snippets-section {
+        padding: 5.5rem 0 4rem;
+        margin-top: 1rem;
+      }
+
+      .snippet-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .snippet-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .snippet-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        transition: all 0.2s ease;
+      }
+
+      .snippet-card:hover {
+        border-color: var(--primary);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .snippet-trigger {
+        width: 100%;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: transparent;
+        border: none;
+        color: var(--text-main);
+        text-align: left;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .snippet-title-box {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+      }
+
+      .snippet-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--bg-soft);
+        border: 2px solid var(--border);
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary);
+        font-size: 1rem;
+        font-weight: 800;
+        font-family: "Fira Code", monospace;
+        transition: all 0.2s;
+      }
+
+      .snippet-card:hover .snippet-icon {
+        border-color: var(--primary);
+        background: var(--card-bg);
+      }
+
+      .snippet-name {
+        font-weight: 800;
+        font-size: 1.15rem;
+        color: var(--text-main);
+      }
+
+      .snippet-meta {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        font-weight: 600;
+      }
+
+      .code-container {
+        position: relative;
+        padding: 0;
+      }
+
+      .terminal-window {
+        background: #1e1e2e;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .terminal-header {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.75rem 1.25rem;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .terminal-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+
+      .dot-red { background: #ff5f56; }
+      .dot-yellow { background: #ffbd2e; }
+      .dot-green { background: #27c93f; }
+
+      .code-block {
+        font-family: "Fira Code", monospace;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #cdd6f4;
+        padding: 1.5rem;
+        margin: 0;
+        overflow-x: auto;
+        white-space: pre;
+      }
+
+      .snippet-actions {
+        display: flex;
+        gap: 1rem;
+        padding: 1.25rem 1.5rem;
+        border-top: 1px solid var(--border);
+        justify-content: flex-end;
+        background: var(--card-bg);
+      }
+
+      .limit-badge {
+        font-weight: 800;
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        background: var(--bg-soft);
+        border: 2px solid var(--border);
+        color: var(--text-main);
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        backdrop-filter: blur(8px);
+        transition: all 0.2s ease;
+        z-index: 10;
+      }
+
+      .copy-btn:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      .snippet-action-btn {
+        font-weight: 700;
+        padding: 0.5rem 1.5rem;
+        transition: all 0.2s;
+        border-radius: 2rem;
+      }
+
+      .snippet-action-btn:hover {
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div
+        class="container-fluid"
+        style="padding-left: 2rem; padding-right: 2rem"
+      >
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 brand-logo"
+          href="../index.html"
+        >
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul
+            class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center gap-2 justify-center"
+          >
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-newspaper me-2"></i>Updates
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="problemset.html">
+                <i class="fa-solid fa-code me-2"></i>Problem Set
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contests.html">
+                <i class="fa-solid fa-trophy me-2"></i>Contests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="submissions.html">
+                <i class="fa-solid fa-paper-plane me-2"></i>Submissions
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="leaderboard.html">
+                <i class="fa-solid fa-ranking-star me-2"></i>Leaderboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-pen-nib me-2"></i>Contribution
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <button
+                id="themeToggle"
+                class="theme-toggle btn btn-link p-0 border-0"
+                style="
+                  color: var(--text-main);
+                  display: flex;
+                  align-items: center;
+                "
+                type="button"
+                title="Toggle theme"
+                aria-label="Toggle theme"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  width="1.5em"
+                  height="1.5em"
+                  fill="currentColor"
+                  class="theme-toggle__around"
+                  viewBox="0 0 32 32"
+                >
+                  <clipPath id="theme-toggle__around__cutout">
+                    <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
+                  </clipPath>
+                  <g clip-path="url(#theme-toggle__around__cutout)">
+                    <circle cx="16" cy="16" r="8.4" />
+                    <g>
+                      <circle cx="16" cy="3.3" r="2.3" />
+                      <circle cx="27" cy="9.7" r="2.3" />
+                      <circle cx="27" cy="22.3" r="2.3" />
+                      <circle cx="16" cy="28.7" r="2.3" />
+                      <circle cx="5" cy="22.3" r="2.3" />
+                      <circle cx="5" cy="9.7" r="2.3" />
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a
+                class="nav-link p-0 border-0 position-relative d-flex align-items-center"
+                href="#"
+                onclick="requireLogin(event)"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-bell fs-5"></i>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="font-size: 0.6rem; padding: 0.25rem 0.4rem"
+                  >3</span
+                >
+              </a>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+              <button
+                class="btn btn-link nav-link dropdown-toggle p-0 border-0 d-flex align-items-center text-primary"
+                id="profileDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fa-solid fa-user-circle fs-5"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end shadow-sm"
+                aria-labelledby="profileDropdown"
+                style="
+                  background-color: var(--card-bg);
+                  border: 1px solid var(--border-color, #e0e0e0);
+                "
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="profile.html"
+                    ><i class="fa-solid fa-user me-2"></i>Profile</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="settings.html"
+                    ><i class="fa-solid fa-gear me-2"></i>Settings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="snippets.html"
+                    ><i class="fa-solid fa-code me-2"></i>Snippets</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+              <a class="dropdown-item" href="community.html"><i class="fa-solid fa-users me-2"></i>Community</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a
+                    class="dropdown-item text-danger"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow-1 snippets-section">
+      <div class="container animate-slide-up">
+        <div class="snippet-header">
+          <h1 class="gradient-text mb-2">
+            <i class="fa-solid fa-code me-3" style="color: var(--primary)"></i>My Snippets
+          </h1>
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <p class="text-muted mb-0">Store and manage your frequently used code reusable logic.</p>
+            <div class="d-flex align-items-center gap-3">
+              <span class="limit-badge"><span id="snippetCount">6</span> / 25 Snippets</span>
+              <button onclick="openCreateModal()" class="btn btn-primary-gradient px-4">
+                <i class="fa-solid fa-plus me-2"></i> New Snippet
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="snippet-grid" id="snippetsContainer">
+          <!-- Snippet 1: Segment Tree -->
+          <div class="snippet-card">
+            <button class="snippet-trigger" onclick="viewSnippet(1)">
+              <div class="snippet-title-box">
+                <div class="snippet-icon">01</div>
+                <div>
+                  <div class="snippet-name">Segment Tree</div>
+                  <div class="snippet-meta">C++ • Updated 2 days ago</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right text-muted"></i>
+            </button>
+            <div class="d-none snippet-data">
+              <span class="d-lang">C++</span>
+              <span class="d-date">May 10, 2026</span>
+              <code class="d-code">void build(int node, int start, int end) {
+    if(start == end) {
+        tree[node] = A[start];
+        return;
+    }
+    int mid = (start + end) / 2;
+    build(2*node, start, mid);
+    build(2*node+1, mid+1, end);
+    tree[node] = tree[2*node] + tree[2*node+1];
+}</code>
+            </div>
+          </div>
+
+          <!-- Snippet 2: Hashing -->
+          <div class="snippet-card">
+            <button class="snippet-trigger" onclick="viewSnippet(2)">
+              <div class="snippet-title-box">
+                <div class="snippet-icon">02</div>
+                <div>
+                  <div class="snippet-name">Double Hashing</div>
+                  <div class="snippet-meta">C++ • Updated 5 days ago</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right text-muted"></i>
+            </button>
+            <div class="d-none snippet-data">
+              <span class="d-lang">C++</span>
+              <span class="d-date">May 7, 2026</span>
+              <code class="d-code">struct Hash {
+    long long h1, h2;
+    bool operator==(const Hash& other) const {
+        return h1 == other.h1 && h2 == other.h2;
+    }
+};</code>
+            </div>
+          </div>
+
+          <!-- Snippet 3: Tries -->
+          <div class="snippet-card">
+            <button class="snippet-trigger" onclick="viewSnippet(3)">
+              <div class="snippet-title-box">
+                <div class="snippet-icon">03</div>
+                <div>
+                  <div class="snippet-name">Trie (Prefix Tree)</div>
+                  <div class="snippet-meta">C++ • Updated 1 week ago</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right text-muted"></i>
+            </button>
+            <div class="d-none snippet-data">
+              <span class="d-lang">C++</span>
+              <span class="d-date">May 5, 2026</span>
+              <code class="d-code">struct Node {
+    Node *links[26];
+    bool flag = false;
+    bool containsKey(char ch) { return links[ch - 'a'] != NULL; }
+    void put(char ch, Node *node) { links[ch - 'a'] = node; }
+    Node *get(char ch) { return links[ch - 'a']; }
+};</code>
+            </div>
+          </div>
+
+          <!-- Snippet 4: Fast I/O -->
+          <div class="snippet-card">
+            <button class="snippet-trigger" onclick="viewSnippet(4)">
+              <div class="snippet-title-box">
+                <div class="snippet-icon">04</div>
+                <div>
+                  <div class="snippet-name">Fast I/O Optimization</div>
+                  <div class="snippet-meta">C++ • Updated 2 weeks ago</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right text-muted"></i>
+            </button>
+            <div class="d-none snippet-data">
+              <span class="d-lang">C++</span>
+              <span class="d-date">Apr 28, 2026</span>
+              <code class="d-code">ios_base::sync_with_stdio(false);
+cin.tie(NULL);
+cout.tie(NULL);</code>
+            </div>
+          </div>
+
+          <!-- Snippet 5: Binary Search -->
+          <div class="snippet-card">
+            <button class="snippet-trigger" onclick="viewSnippet(5)">
+              <div class="snippet-title-box">
+                <div class="snippet-icon">05</div>
+                <div>
+                  <div class="snippet-name">Binary Search (Lower Bound)</div>
+                  <div class="snippet-meta">C++ • Updated 3 weeks ago</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right text-muted"></i>
+            </button>
+            <div class="d-none snippet-data">
+              <span class="d-lang">C++</span>
+              <span class="d-date">Apr 21, 2026</span>
+              <code class="d-code">int low = 0, high = n - 1, ans = -1;
+while (low <= high) {
+    int mid = low + (high - low) / 2;
+    if (a[mid] >= target) {
+        ans = mid;
+        high = mid - 1;
+    } else {
+        low = mid + 1;
+    }
+}</code>
+            </div>
+          </div>
+
+          <!-- Snippet 6: Dijkstra -->
+          <div class="snippet-card">
+            <button class="snippet-trigger" onclick="viewSnippet(6)">
+              <div class="snippet-title-box">
+                <div class="snippet-icon">06</div>
+                <div>
+                  <div class="snippet-name">Dijkstra's Algorithm</div>
+                  <div class="snippet-meta">C++ • Updated 1 month ago</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right text-muted"></i>
+            </button>
+            <div class="d-none snippet-data">
+              <span class="d-lang">C++</span>
+              <span class="d-date">Apr 12, 2026</span>
+              <code class="d-code">priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+dist[source] = 0;
+pq.push({0, source});
+while (!pq.empty()) {
+    int d = pq.top().first;
+    int u = pq.top().second;
+    pq.pop();
+    if (d > dist[u]) continue;
+    for (auto edge : adj[u]) {
+        if (dist[u] + edge.weight < dist[edge.to]) {
+            dist[edge.to] = dist[u] + edge.weight;
+            pq.push({dist[edge.to], edge.to});
+        }
+    }
+}</code>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- Snippet Detail Modal -->
+    <div class="modal fade" id="snippetModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-sm" style="background-color: var(--card-bg); border-radius: 0.5rem">
+          <div class="modal-header border-0 pb-0 container px-4 pt-4">
+            <div class="d-flex align-items-center gap-3">
+              <div id="modalIcon" class="snippet-icon text-primary bg-primary bg-opacity-10 border-primary border-opacity-25" style="width: 48px; height: 48px; font-size: 1.2rem; border-radius: 0.35rem;">01</div>
+              <div>
+                <h4 id="modalTitle" class="fw-800 mb-0 text-main">Snippet Title</h4>
+                <div class="d-flex gap-3 mt-1">
+                  <span id="modalMeta" class="snippet-meta">C++ • Updated 2 days ago</span>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+            <div class="terminal-window mb-4" style="border-radius: 0.35rem;">
+              <div class="terminal-header">
+                <div class="terminal-dot dot-red"></div>
+                <div class="terminal-dot dot-yellow"></div>
+                <div class="terminal-dot dot-green"></div>
+                <div class="ms-3 text-muted opacity-50" style="font-family: 'Fira Code', monospace; font-size: 0.75rem;">snippet.code</div>
+                <button class="ms-auto btn btn-link p-0 text-muted hover-primary" onclick="copyModalCode(this)" style="text-decoration: none; font-size: 0.8rem;">
+                  <i class="fa-regular fa-copy me-1"></i> Copy
+                </button>
+              </div>
+              <pre class="code-block"><code id="modalCode"></code></pre>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="text-muted small">
+                <i class="fa-regular fa-calendar me-1"></i> Created on <span id="modalDate">May 10, 2026</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button id="modalEditBtn" onclick="openEditModalFromView()" class="btn btn-outline-secondary snippet-action-btn" style="border-radius: 0.35rem;">
+                  <i class="fa-solid fa-pen-to-square me-1"></i> Edit
+                </button>
+                <button class="btn btn-outline-danger snippet-action-btn" style="border-radius: 0.35rem;">
+                  <i class="fa-solid fa-trash me-1"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create/Edit Snippet Modal -->
+    <div class="modal fade" id="editorModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-sm" style="background-color: var(--card-bg); border-radius: 0.5rem">
+          <div class="modal-header border-0 pb-0 px-4 pt-4">
+            <div class="d-flex align-items-center gap-3">
+              <div class="snippet-icon text-primary bg-primary bg-opacity-10 border-primary border-opacity-25" style="width: 48px; height: 48px; font-size: 1.2rem; border-radius: 0.35rem;"><i class="fa-solid fa-code"></i></div>
+              <h4 id="editorModalTitle" class="fw-800 mb-0 text-main">Create New Snippet</h4>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+            <form id="snippetForm">
+              <div class="mb-3">
+                <label class="form-label fw-bold small text-muted text-uppercase">Snippet Name</label>
+                <input type="text" id="snippetNameInput" class="form-control" placeholder="e.g. Dijkstra's Algorithm" style="background: var(--bg-soft); border: 2px solid var(--border); border-radius: 0.35rem; padding: 0.75rem 1rem;">
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold small text-muted text-uppercase">Language</label>
+                <select id="snippetLangInput" class="form-select" style="background: var(--bg-soft); border: 2px solid var(--border); border-radius: 0.35rem; padding: 0.75rem 1rem;">
+                  <option value="C++">C++</option>
+                  <option value="Python">Python</option>
+                  <option value="Java">Java</option>
+                  <option value="JavaScript">JavaScript</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="form-label fw-bold small text-muted text-uppercase">Code Content</label>
+                <div class="terminal-window" style="border-radius: 0.35rem;">
+                  <div class="terminal-header">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                    <div class="ms-3 text-muted opacity-50" style="font-family: 'Fira Code', monospace; font-size: 0.75rem;">editor.exe</div>
+                  </div>
+                  <textarea id="snippetCodeInput" class="form-control" rows="10" style="font-family: 'Fira Code', monospace; background: transparent; color: #cdd6f4; border: none; border-radius: 0; padding: 1.25rem; resize: vertical;" placeholder="// Paste your code here..."></textarea>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end gap-2 pt-2">
+                <button type="button" class="btn btn-outline-secondary px-4 py-2 fw-bold hover-scale" data-bs-dismiss="modal" style="border-radius: 0.35rem;">Cancel</button>
+                <button type="submit" class="btn btn-primary-gradient px-5 py-2 fw-bold hover-scale" style="border-radius: 0.35rem;">Save Snippet</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <h4 class="fw-bold" style="color: var(--text-main)">Login to beatCode</h4>
+            </div>
+            <form>
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email or Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="loginEmail"
+                  placeholder="Enter your email or username"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="loginPassword"
+                  placeholder="Enter your password"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary w-100 rounded-2 fw-semibold py-2"
+              >
+                Login
+              </button>
+            </form>
+
+            <div class="d-flex align-items-center gap-3 my-4">
+              <hr class="flex-grow-1" />
+              <small class="text-muted">OR</small>
+              <hr class="flex-grow-1" />
+            </div>
+
+            <div class="row g-2">
+              <div class="col-6">
+                <button
+                  class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center gap-2"
+                >
+                  <i class="fa-brands fa-google"></i> Google
+                </button>
+              </div>
+              <div class="col-6">
+                <button
+                  class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center gap-2"
+                >
+                  <i class="fa-brands fa-github"></i> GitHub
+                </button>
+              </div>
+            </div>
+
+            <p class="text-center text-muted small mt-4">
+              Don't have an account?
+              <a
+                href="#"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#signupModal"
+                >Sign Up</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <h4 class="fw-bold" style="color: var(--text-main)">Create Account</h4>
+            </div>
+            <form>
+              <div class="mb-3">
+                <label for="signupName" class="form-label">Full Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="signupName"
+                  placeholder="Enter your full name"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="signupEmail" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="signupEmail"
+                  placeholder="Enter your email"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="signupUsername" class="form-label">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="signupUsername"
+                  placeholder="Choose a username"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="signupPassword" class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="signupPassword"
+                  placeholder="Create a password"
+                  style="background-color: var(--bg-main); border-color: var(--border); color: var(--text-main)"
+                />
+              </div>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="agreeTerms"
+                  style="border-color: var(--border); accent-color: var(--primary)"
+                />
+                <label class="form-check-label" for="agreeTerms">
+                  I agree to the Terms and Conditions
+                </label>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary w-100 rounded-2 fw-semibold py-2"
+              >
+                Sign Up
+              </button>
+            </form>
+
+            <p class="text-center text-muted small mt-4">
+              Already have an account?
+              <a
+        
+        // Store current index for editing
+        document.getElementById('snippetModal').dataset.currentIndex = index;
+
+        const modal = new bootstrap.Modal(document.getElementById('snippetModal'));
+        modal.show();
+      }
+
+      function openCreateModal() {
+        document.getElementById('editorModalTitle').innerText = 'Create New Snippet';
+        document.getElementById('snippetForm').reset();
+        const editorModal = new bootstrap.Modal(document.getElementById('editorModal'));
+        editorModal.show();
+      }
+
+      function openEditModalFromView() {
+        const viewModal = bootstrap.Modal.getInstance(document.getElementById('snippetModal'));
+        const index = document.getElementById('snippetModal').dataset.currentIndex;
+        
+        // Populate editor with current data
+        const title = document.getElementById('modalTitle').innerText;
+        const code = document.getElementById('modalCode').innerText;
+        const meta = document.getElementById('modalMeta').innerText;
+        const lang = meta.split(' • ')[0];
+
+        document.getElementById('editorModalTitle').innerText = 'Edit Snippet';
+        document.getElementById('snippetNameInput').value = title;
+        document.getElementById('snippetLangInput').value = lang;
+        document.getElementById('snippetCodeInput').value = code;
+
+        // Hide view modal and show editor modal
+        viewModal.hide();
+        const editorModal = new bootstrap.Modal(document.getElementById('editorModal'));
+        editorM       data-bs-target="#loginModal"
+                >Login</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg);">
+        <div class="container text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                <i class="fa-solid fa-code fs-4"></i>
+                <span class="fw-bold fs-5">beatCode</span>
+            </div>
+            <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function viewSnippet(index) {
+        const cards = document.querySelectorAll('.snippet-card');
+        const trigger = cards[index-1].querySelector('.snippet-trigger');
+        const data = cards[index-1].querySelector('.snippet-data');
+        
+        const title = trigger.querySelector('.snippet-name').innerText;
+        const meta = trigger.querySelector('.snippet-meta').innerText;
+        const icon = trigger.querySelector('.snippet-icon').innerText;
+        
+        const lang = data.querySelector('.d-lang').innerText;
+        const date = data.querySelector('.d-date').innerText;
+        const code = data.querySelector('.d-code').innerText;
+
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalMeta').innerText = meta;
+        document.getElementById('modalIcon').innerText = icon;
+        document.getElementById('modalCode').innerText = code;
+        document.getElementById('modalDate').innerText = date;
+        
+        // Store current index for editing
+        document.getElementById('snippetModal').dataset.currentIndex = index;
+
+        const modal = new bootstrap.Modal(document.getElementById('snippetModal'));
+        modal.show();
+      }
+
+      function openCreateModal() {
+        document.getElementById('editorModalTitle').innerText = 'Create New Snippet';
+        document.getElementById('snippetForm').reset();
+        const editorModal = new bootstrap.Modal(document.getElementById('editorModal'));
+        editorModal.show();
+      }
+
+      function openEditModalFromView() {
+        const viewModalElement = document.getElementById('snippetModal');
+        const viewModal = bootstrap.Modal.getInstance(viewModalElement);
+        const index = viewModalElement.dataset.currentIndex;
+        
+        // Populate editor with current data
+        const title = document.getElementById('modalTitle').innerText;
+        const code = document.getElementById('modalCode').innerText;
+        const meta = document.getElementById('modalMeta').innerText;
+        const lang = meta.split(' • ')[0];
+
+        document.getElementById('editorModalTitle').innerText = 'Edit Snippet';
+        document.getElementById('snippetNameInput').value = title;
+        document.getElementById('snippetLangInput').value = lang;
+        document.getElementById('snippetCodeInput').value = code;
+
+        // Hide view modal and show editor modal
+        viewModal.hide();
+        const editorModal = new bootstrap.Modal(document.getElementById('editorModal'));
+        editorModal.show();
+      }
+
+      function copyModalCode(button) {
+        const code = document.getElementById('modalCode').innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          const originalText = button.innerHTML;
+          button.innerHTML = '<i class="fa-solid fa-check me-1"></i> Copied!';
+          button.classList.add('bg-success', 'border-success', 'text-white');
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            button.classList.remove('bg-success', 'border-success', 'text-white');
+          }, 2000);
+        });
+      }
+
+      // Theme toggle logic...
+      const themeToggle = document.getElementById("themeToggle");
+      const html = document.documentElement;
+      function updateTheme(theme) {
+        html.setAttribute("data-theme", theme);
+        html.setAttribute("data-bs-theme", theme);
+        localStorage.setItem("theme", theme);
+      }
+      const savedTheme = localStorage.getItem("theme") || "light";
+      updateTheme(savedTheme);
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = html.getAttribute("data-theme");
+        updateTheme(currentTheme === "light" ? "dark" : "light");
+      });
+      // Require Login Logic for protected links
+      function requireLogin(e) {
+        e.preventDefault();
+        const loginModal = new bootstrap.Modal(
+          document.getElementById("loginModal"),
+        );
+        loginModal.show();
+      }
+    </script>
+  </body>
+</html>

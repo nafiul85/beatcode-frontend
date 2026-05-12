@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>beatCode | Competitive Programming Platform</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Theme Toggles CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2 brand-logo" href="index.html">
+                <i class="fa-solid fa-code brand-icon"></i>
+                <span class="brand-text">beatCode</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="pages/problemset.html">Problemset</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/contests.html">Contests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/leaderboard.html">Leaderboard</a>
+                    </li> -->
+                    <li class="nav-item theme-switch-wrapper d-flex align-items-center">
+                        <button
+                          id="themeToggle"
+                          class="theme-toggle btn btn-link p-0 border-0 ms-2"
+                          style="color: var(--text-main);"
+                          type="button"
+                          title="Toggle theme"
+                          aria-label="Toggle theme"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            width="1.5em"
+                            height="1.5em"
+                            fill="currentColor"
+                            class="theme-toggle__around"
+                            viewBox="0 0 32 32"
+                          >
+                            <clipPath id="theme-toggle__around__cutout">
+                              <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
+                            </clipPath>
+                            <g clip-path="url(#theme-toggle__around__cutout)">
+                              <circle cx="16" cy="16" r="8.4" />
+                              <g>
+                                <circle cx="16" cy="3.3" r="2.3" />
+                                <circle cx="27" cy="9.7" r="2.3" />
+                                <circle cx="27" cy="22.3" r="2.3" />
+                                <circle cx="16" cy="28.7" r="2.3" />
+                                <circle cx="5" cy="22.3" r="2.3" />
+                                <circle cx="5" cy="9.7" r="2.3" />
+                              </g>
+                            </g>
+                          </svg>
+                        </button>
+                    </li>
+                    <li class="nav-item auth-buttons d-flex gap-2">
+                        <button type="button" class="btn btn-outline-primary btn-sm px-4 rounded-3" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                        <button type="button" class="btn btn-primary btn-sm px-4 rounded-3" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section position-relative overflow-hidden animate-slide-up" style="padding-top: 6rem; padding-bottom: 4rem;">
+        <div class="bg-pattern"></div>
+        <div class="container position-relative z-1 text-center hero-content">
+            
+            <h1 class="hero-title mb-4" style="font-size: 60px; font-weight: 600;">Code, Compete, and<br><span class="text-primary">Conquer the Leaderboard</span></h1>
+            
+            <p class="hero-subtitle mb-5 mx-auto">
+                Join beatCode to practice algorithms, host your own contests, and utilize our unique whiteboard tool. Climb the global ranks and prove your skills.
+            </p>
+            
+            <div class="hero-actions d-flex justify-content-center gap-3">
+                <button type="button" class="btn btn-primary btn-lg rounded-3 px-5 btn-shine shadow-md" data-bs-toggle="modal" data-bs-target="#signupModal">Start Coding Now</button>
+                <a href="#features" class="btn btn-outline-secondary btn-lg rounded-3 px-5 shadow-sm">Explore Features</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Overview -->
+    <section id="features" class="features-section py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="section-title gradient-text">Everything You Need to Excel</h2>
+                <p class="text-muted">Designed for competitive programmers, by competitive programmers.</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <!-- Highlight 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card user-card h-100 p-4 shadow-sm transition-lift" style="background-color: var(--card-bg);">
+                        <div class="icon-badge mb-3 text-primary">
+                            <i class="fa-solid fa-highlighter"></i>
+                        </div>
+                        <h5 class="mb-3 fw-bold" style="color: var(--text-main);">Statement Highlighting</h5>
+                        <p class="text-muted mb-0 small">Easily read complex problems with bold formatting and distinct highlighting for core problem constraints and details.</p>
+                    </div>
+                </div>
+                <!-- Highlight 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card user-card h-100 p-4 shadow-sm transition-lift" style="background-color: var(--card-bg);">
+                        <div class="icon-badge mb-3 text-coral">
+                            <i class="fa-solid fa-pen-nib"></i>
+                        </div>
+                        <h5 class="mb-3 fw-bold" style="color: var(--text-main);">Integrated Whiteboard</h5>
+                        <p class="text-muted mb-0 small">A unique canvas drawing system right inside the practice area. Sketch diagrams, trees, and logic flows while solving problems.</p>
+                    </div>
+                </div>
+                <!-- Highlight 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card user-card h-100 p-4 shadow-sm transition-lift" style="background-color: var(--card-bg);">
+                        <div class="icon-badge mb-3 text-secondary">
+                            <i class="fa-solid fa-file-code"></i>
+                        </div>
+                        <h5 class="mb-3 fw-bold" style="color: var(--text-main);">Snippet Container</h5>
+                        <p class="text-muted mb-0 small">Create and save your favorite boilerplate code or algorithms directly in your personalized snippet/template container.</p>
+                    </div>
+                </div>
+                <!-- Highlight 4 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card user-card h-100 p-4 shadow-sm transition-lift" style="background-color: var(--card-bg);">
+                        <div class="icon-badge mb-3 text-warning">
+                            <i class="fa-solid fa-cloud-download-alt"></i>
+                        </div>
+                        <h5 class="mb-3 fw-bold" style="color: var(--text-main);">Fetch 3rd Party Problems</h5>
+                        <p class="text-muted mb-0 small">Practice safely by importing and fetching algorithmic challenges directly from recognized 3rd party platforms.</p>
+                    </div>
+                </div>
+                <!-- Highlight 5 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card user-card h-100 p-4 shadow-sm transition-lift" style="background-color: var(--card-bg);">
+                        <div class="icon-badge mb-3" style="color: var(--text-main);">
+                            <i class="fa-solid fa-users-cog"></i>
+                        </div>
+                        <h5 class="mb-3 fw-bold" style="color: var(--text-main);">Mass Account Creation</h5>
+                        <p class="text-muted mb-0 small">Organizing a coding workshop or university course? Generate dozens of verified accounts instantly for your participants.</p>
+                    </div>
+                </div>
+                <!-- Highlight 6 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-card user-card h-100 p-4 shadow-sm transition-lift" style="background-color: var(--card-bg);">
+                        <div class="icon-badge mb-3 text-danger">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </div>
+                        <h5 class="mb-3 fw-bold" style="color: var(--text-main);">Secure Contests</h5>
+                        <p class="text-muted mb-0 small">Automatically hide all solutions and discussion boards during an active contest to maintain strict competitive integrity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works & Roles -->
+    <section class="roles-section py-5 position-relative overflow-hidden border-top">
+        <div class="bg-pattern"></div>
+        <div class="container py-5 position-relative z-1 animate-slide-up">
+            <div class="row g-5">
+                <div class="col-lg-5">
+                    <div class="pe-lg-4">
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-3 mb-3 fw-semibold">Platform Roles</span>
+                        <h2 class="fw-bold mb-3">One Profile,<br>Dynamic Control</h2>
+                        <p class="text-muted mb-4">Seamlessly switch between competing globally and hosting your own exclusive algorithmic challenges.</p>
+                        
+                        <div class="d-flex flex-column gap-3">
+                            <div class="role-item p-4 border rounded-3 position-relative d-flex gap-3 hover-scale" style="background-color: var(--card-bg);">
+                                <div class="role-icon-box text-primary mt-1">
+                                    <i class="fa-solid fa-laptop-code fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-1" style="color: var(--text-main);">The Contestant</h5>
+                                    <p class="text-muted small mb-0">Solve problems, submit code in multiple languages, and build your rating globally.</p>
+                                </div>
+                            </div>
+
+                            <div class="role-item p-4 border rounded-3 position-relative d-flex gap-3 hover-scale" style="background-color: var(--card-bg);">
+                                <div class="role-icon-box text-info mt-1">
+                                    <i class="fa-solid fa-server fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-1" style="color: var(--text-main);">The Host</h5>
+                                    <p class="text-muted small mb-0">Create contests, manage problems, set schedules, and monitor participant solutions.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="preview-box border rounded-3 shadow-sm overflow-hidden h-100 d-flex flex-column" style="background-color: var(--card-bg);">
+                        <div class="terminal-header">
+                            <div class="terminal-dot dot-red"></div>
+                            <div class="terminal-dot dot-yellow"></div>
+                            <div class="terminal-dot dot-green"></div>
+                            <div class="ms-3 text-muted" style="font-family: 'Fira Code', monospace; font-size: 0.75rem;">judge0</div>
+                        </div>
+                        <div class="p-5 text-center flex-grow-1 d-flex flex-column justify-content-center align-items-center">
+                            <div class="mb-4 text-primary bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 80px; height: 80px;">
+                                <i class="fa-solid fa-bolt fs-2"></i>
+                            </div>
+                            <h3 class="fw-bold mb-3" style="color: var(--text-main);">Robust Judge System</h3>
+                            <p class="text-muted mb-4 mx-auto" style="max-width: 400px;">Powered by the robust, open-source <strong>Judge0</strong> execution environment, your code is instantly compiled and evaluated against rigorous test cases.</p>
+                            <div class="d-flex justify-content-center flex-wrap gap-2 mt-4">
+                                <span class="badge px-3 py-2 fw-semibold" style="background-color: var(--success); color: #fff; border-radius: 8px;">Accepted</span>
+                                <span class="badge px-3 py-2 fw-semibold" style="background-color: #dc3545; color: #fff; border-radius: 8px;">Wrong Answer</span>
+                                <span class="badge px-3 py-2 fw-semibold" style="background-color: var(--warning); color: #fff; border-radius: 8px;">Time Limit Exceeded</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section py-5 border-top">
+        <div class="container py-4">
+            <div class="cta-banner border rounded-3 text-start position-relative overflow-hidden d-flex align-items-center p-4 p-md-5 hover-scale" style="background-color: var(--card-bg);">
+                <div class="me-auto position-relative z-1">
+                    <h3 class="fw-bold mb-2">Ready to climb the ranks?</h3>
+                    <p class="text-muted mb-0">Join the community, solve algorithm challenges, and grow your rating.</p>
+                </div>
+                <div class="ms-4 position-relative z-1 flex-shrink-0">
+                    <button type="button" class="btn btn-primary px-4 py-2 fw-semibold rounded-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#signupModal">Start Coding Now <i class="fa-solid fa-arrow-right ms-1"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get in Touch -->
+    <section class="contact-section py-5 mb-4 border-top position-relative overflow-hidden">
+        <div class="bg-pattern"></div>
+        <div class="container position-relative z-1">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center border p-4 p-md-5 rounded-3 shadow-sm" style="background-color: var(--card-bg);">
+                    <div class="mb-4">
+                        <h4 class="fw-bold mb-2" style="color: var(--text-main);">Have a question?</h4>
+                        <p class="text-muted small">Drop us a message. We usually reply within 24 hours.</p>
+                    </div>
+                    <form>
+                        <div class="row g-3 text-start">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-semibold mb-1">Name</label>
+                                <input type="text" class="form-control bg-transparent rounded-3" placeholder="John Doe">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-semibold mb-1">Email</label>
+                                <input type="email" class="form-control bg-transparent rounded-3" placeholder="john@beatCode.com">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-semibold mb-1">Message</label>
+                                <textarea class="form-control bg-transparent rounded-3" rows="3" placeholder="How can we help you?"></textarea>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-primary w-100 rounded-3 fw-semibold shadow-sm">Send Message <i class="fa-regular fa-paper-plane ms-2"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg);">
+        <div class="container text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                <i class="fa-solid fa-code fs-4"></i>
+                <span class="fw-bold fs-5">beatCode</span>
+            </div>
+            <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-md" style="background-color: var(--card-bg); border-radius: 0.5rem;">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 pb-5 pt-0">
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-code text-primary fs-2 mb-2"></i>
+                        <h4 class="fw-bold mb-1" style="color: var(--text-main);">Welcome Back</h4>
+                        <p class="text-muted small mb-0">Sign in to continue to beatCode</p>
+                    </div>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium small text-muted">Handle or Email</label>
+                            <input type="text" class="form-control rounded-3" placeholder="yourhandle or you@example.com" style="background: var(--bg-main); border-color: var(--border); color: var(--text-main);" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label fw-medium small text-muted">Password</label>
+                            <input type="password" class="form-control rounded-3" placeholder="Enter your password" style="background: var(--bg-main); border-color: var(--border); color: var(--text-main);" required>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" style="border-color: var(--border);">
+                                <label class="form-check-label small text-muted" for="remember">Remember me</label>
+                            </div>
+                            <a href="#" class="text-primary small text-decoration-none fw-medium">Forgot password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded-3 text-white w-100 shadow-sm fw-medium">Sign In</button>
+                    </form>
+                    
+                    <div class="d-flex align-items-center gap-3 my-4">
+                        <hr class="flex-grow-1 m-0" style="border-color: var(--border);">
+                        <span class="text-muted small">or continue with</span>
+                        <hr class="flex-grow-1 m-0" style="border-color: var(--border);">
+                    </div>
+                    
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button class="btn w-100 d-flex align-items-center justify-content-center gap-2 rounded-3 border" style="background: var(--outline-btn-bg); color: var(--text-main); border-color: var(--border) !important;" type="button"><i class="fa-brands fa-google"></i> Google</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn w-100 d-flex align-items-center justify-content-center gap-2 rounded-3 border" style="background: var(--outline-btn-bg); color: var(--text-main); border-color: var(--border) !important;" type="button"><i class="fa-brands fa-github"></i> GitHub</button>
+                        </div>
+                    </div>
+                    
+                    <p class="text-muted mt-4 mb-0 text-center small">
+                        New to beatCode?
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" class="text-primary text-decoration-none fw-medium">Create an account</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-md" style="background-color: var(--card-bg); border-radius: 0.5rem;">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 pb-5 pt-0">
+                    <div class="text-center mb-4">
+                        <i class="fa-solid fa-code text-primary fs-2 mb-2"></i>
+                        <h4 class="fw-bold mb-1" style="color: var(--text-main);">Create an Account</h4>
+                        <p class="text-muted small mb-0">Join thousands of programmers</p>
+                    </div>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium small text-muted">Handle</label>
+                            <input type="text" class="form-control rounded-3" placeholder="Choose a unique handle" style="background: var(--bg-main); border-color: var(--border); color: var(--text-main);" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium small text-muted">Email</label>
+                            <input type="email" class="form-control rounded-3" placeholder="your@email.com" style="background: var(--bg-main); border-color: var(--border); color: var(--text-main);" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium small text-muted">Password</label>
+                            <input type="password" class="form-control rounded-3" placeholder="Create a strong password" style="background: var(--bg-main); border-color: var(--border); color: var(--text-main);" required>
+                        </div>
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="terms" style="border-color: var(--border);" required>
+                                <label class="form-check-label small text-muted" for="terms">
+                                    I agree to the <a href="pages/terms.html" class="text-primary text-decoration-none">Terms</a> and <a href="pages/privacy-policy.html" class="text-primary text-decoration-none">Privacy Policy</a>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary rounded-3 text-white w-100 shadow-sm fw-medium">Create Account</button>
+                    </form>
+                    
+                    <div class="d-flex align-items-center gap-3 my-4">
+                        <hr class="flex-grow-1 m-0" style="border-color: var(--border);">
+                        <span class="text-muted small">or sign up with</span>
+                        <hr class="flex-grow-1 m-0" style="border-color: var(--border);">
+                    </div>
+                    
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button class="btn w-100 d-flex align-items-center justify-content-center gap-2 rounded-3 border" style="background: var(--outline-btn-bg); color: var(--text-main); border-color: var(--border) !important;" type="button"><i class="fa-brands fa-google"></i> Google</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn w-100 d-flex align-items-center justify-content-center gap-2 rounded-3 border" style="background: var(--outline-btn-bg); color: var(--text-main); border-color: var(--border) !important;" type="button"><i class="fa-brands fa-github"></i> GitHub</button>
+                        </div>
+                    </div>
+                    
+                    <p class="text-muted mt-4 mb-0 text-center small">
+                        Already have an account?
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" class="text-primary text-decoration-none fw-medium">Sign in here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const documentElement = document.documentElement;
+
+        // Initialize theme from localStorage or fallback to default
+        const savedTheme = localStorage.getItem('beatCode-theme') || 'light';
+        documentElement.setAttribute('data-theme', savedTheme);
+        documentElement.setAttribute('data-bs-theme', savedTheme);
+        if (savedTheme === 'dark') {
+            themeToggle.classList.add('theme-toggle--toggled');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            documentElement.setAttribute('data-theme', newTheme);
+            documentElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('beatCode-theme', newTheme);
+            themeToggle.classList.toggle('theme-toggle--toggled');
+        });
+
+        // Require Login Logic for protected links
+        function requireLogin(e) {
+            e.preventDefault();
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        }
+    </script>
+</body>
+</html>

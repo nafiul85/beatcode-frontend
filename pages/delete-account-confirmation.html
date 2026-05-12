@@ -1,0 +1,234 @@
+cat << 'EOF' > pages/delete-account-confirmation.html
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Deletion | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .confirmation-section {
+        padding: 8rem 0 4rem;
+      }
+
+      .confirmation-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        padding: 3rem;
+        box-shadow: var(--shadow-sm);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .safety-icon-box {
+        width: 80px;
+        height: 80px;
+        background: rgba(220, 38, 38, 0.1);
+        color: #dc2626;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        margin: 0 auto 2rem;
+      }
+
+      .confirmation-header h1 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .warning-box {
+        background: var(--bg-soft);
+        border-left: 4px solid #dc2626;
+        padding: 1.25rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin-bottom: 2rem;
+      }
+
+      .warning-box p {
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      .warning-box p:last-child {
+        margin-bottom: 0;
+      }
+
+      .form-label {
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        margin-bottom: 0.6rem;
+      }
+
+      .form-control {
+        background-color: var(--bg-soft);
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        padding: 0.85rem 1.1rem;
+        border-radius: 0.4rem;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+      }
+
+      .form-control:focus {
+        background-color: var(--card-bg);
+        border-color: #dc2626;
+        box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div class="container-fluid" style="padding-left: 2rem; padding-right: 2rem">
+        <a class="navbar-brand d-flex align-items-center gap-2 brand-logo" href="../index.html">
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center gap-2 justify-center">
+            <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-newspaper me-2"></i>Updates</a></li>
+            <li class="nav-item"><a class="nav-link" href="problemset.html"><i class="fa-solid fa-code me-2"></i>Problem Set</a></li>
+            <li class="nav-item"><a class="nav-link" href="contests.html"><i class="fa-solid fa-trophy me-2"></i>Contests</a></li>
+            <li class="nav-item"><a class="nav-link" href="submissions.html"><i class="fa-solid fa-paper-plane me-2"></i>Submissions</a></li>
+            <li class="nav-item"><a class="nav-link" href="leaderboard.html"><i class="fa-solid fa-ranking-star me-2"></i>Leaderboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-pen-nib me-2"></i>Contribution</a></li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <button id="themeToggle" class="theme-toggle btn btn-link p-0 border-0" style="color: var(--text-main)" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="1.5em" height="1.5em" fill="currentColor" class="theme-toggle__around" viewBox="0 0 32 32">
+                  <circle cx="16" cy="16" r="8.4" /><g><circle cx="16" cy="3.3" r="2.3" /><circle cx="27" cy="9.7" r="2.3" /><circle cx="27" cy="22.3" r="2.3" /><circle cx="16" cy="28.7" r="2.3" /><circle cx="5" cy="22.3" r="2.3" /><circle cx="5" cy="9.7" r="2.3" /></g>
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="flex-grow-1 confirmation-section">
+      <div class="container-fluid px-4 px-lg-5">
+        <div class="confirmation-card animate-slide-up">
+          <div class="safety-icon-box">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div class="confirmation-header">
+            <h1>Are you absolutely sure?</h1>
+          </div>
+
+          <div class="warning-box">
+            <p class="fw-bold text-danger">Unexpected bad things will happen if you don’t read this!</p>
+            <p class="text-muted">This action <strong>cannot</strong> be undone. This will permanently delete your account, remove all solve points, and clear your submission history.</p>
+          </div>
+
+          <form id="deleteForm">
+            <div class="mb-4">
+              <label class="form-label d-block mb-3">Please type <strong class="text-danger">DELETE</strong> to confirm.</label>
+              <input type="text" id="confirmInput" class="form-control" placeholder="Type DELETE" autocomplete="off">
+            </div>
+
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="confirmCheck">
+              <label class="form-check-label small text-muted" for="confirmCheck">
+                I understand the consequences and I want to delete my account.
+              </label>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" id="deleteBtn" class="btn btn-danger py-2 fw-bold" disabled>Permanently Delete My Account</button>
+              <a href="settings.html" class="btn btn-light py-2 fw-bold border">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="footer py-4 border-top mt-auto"
+      style="background-color: var(--footer-bg)"
+    >
+      <div class="container text-center">
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+          <i class="fa-solid fa-code fs-4"></i>
+          <span class="fw-bold fs-5">beatCode</span>
+        </div>
+        <p class="text-muted mb-0">
+          Developed by
+          <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span>
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const themeToggle = document.getElementById("themeToggle");
+      const html = document.documentElement;
+      function updateTheme(theme) {
+        html.setAttribute("data-theme", theme);
+        html.setAttribute("data-bs-theme", theme);
+        localStorage.setItem("theme", theme);
+      }
+      const savedTheme = localStorage.getItem("theme") || "light";
+      updateTheme(savedTheme);
+      themeToggle?.addEventListener("click", () => {
+        const currentTheme = html.getAttribute("data-theme");
+        updateTheme(currentTheme === "light" ? "dark" : "light");
+      });
+
+      const checkbox = document.getElementById('confirmCheck');
+      const confirmInput = document.getElementById('confirmInput');
+      const deleteBtn = document.getElementById('deleteBtn');
+      const form = document.getElementById('deleteForm');
+
+      function validateForm() {
+        const isChecked = checkbox.checked;
+        const isDeleteTyped = confirmInput.value.trim().toUpperCase() === 'DELETE';
+        deleteBtn.disabled = !(isChecked && isDeleteTyped);
+      }
+
+      checkbox.addEventListener('change', validateForm);
+      confirmInput.addEventListener('input', validateForm);
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Account deletion request submitted. (Demo only)');
+        window.location.href = '../index.html';
+      });
+    </script>
+  </body>
+</html>

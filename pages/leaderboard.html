@@ -1,0 +1,1170 @@
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Theme Toggles CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .leaderboard-section {
+        padding: 5.5rem 0 4rem;
+        margin-top: 1rem;
+      }
+
+      .leaderboard-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .leaderboard-header h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+      }
+
+      .rank-tabs {
+        display: flex;
+        gap: 0.8rem;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+      }
+
+      .rank-tab-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+      }
+
+      .rank-tab-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .rank-tab-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .filter-section {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .filter-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .filter-group label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .filter-group select,
+      .filter-group input {
+        background: var(--bg-main);
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.4rem;
+        font-size: 0.9rem;
+        font-family: "Inter", sans-serif;
+      }
+
+      .search-group input {
+        min-width: 200px;
+      }
+
+      .filter-group select:focus,
+      .filter-group input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--glow-primary);
+      }
+
+      .search-group {
+        position: relative;
+      }
+
+      .leaderboard-table {
+        display: grid;
+        grid-template-columns: 60px 1.5fr 100px 120px 160px 100px 120px;
+        gap: 0;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .leaderboard-table-header {
+        display: contents;
+      }
+
+      .leaderboard-header-row {
+        display: contents;
+      }
+
+      .leaderboard-header-cell {
+        background: var(--bg-soft);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        text-align: center;
+      }
+
+      .leaderboard-header-cell:first-child {
+        border-right: 1px solid var(--border);
+      }
+
+      .leaderboard-header-cell:nth-child(3),
+      .leaderboard-header-cell:nth-child(4),
+      .leaderboard-header-cell:nth-child(5),
+      .leaderboard-header-cell:nth-child(6) {
+        border-right: 1px solid var(--border);
+      }
+
+      .leaderboard-cell:nth-child(3),
+      .leaderboard-cell:nth-child(4),
+      .leaderboard-cell:nth-child(5),
+      .leaderboard-cell:nth-child(6) {
+        border-right: 1px solid var(--border);
+      }
+
+      .leaderboard-row {
+        display: contents;
+      }
+
+      .leaderboard-cell {
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      .leaderboard-username-cell a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: color 0.2s ease;
+        display: block;
+        word-break: break-word;
+      }
+
+      .leaderboard-row:hover .leaderboard-cell {
+        background: var(--bg-soft);
+      }
+
+      .leaderboard-cell:first-child {
+        background: var(--bg-soft);
+        border-right: 1px solid var(--border);
+        font-weight: 700;
+      }
+
+      .leaderboard-cell:nth-child(2) {
+        text-align: left;
+        border-right: 1px solid var(--border);
+      }
+
+      .leaderboard-cell:nth-child(3),
+      .leaderboard-cell:nth-child(4),
+      .leaderboard-cell:nth-child(5),
+      .leaderboard-cell:nth-child(6) {
+        border-right: 1px solid var(--border);
+      }
+
+      .leaderboard-rank {
+        font-family: "Fira Code", monospace;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .leaderboard-rank.top1 {
+        color: #ffd700;
+        font-size: 1.1rem;
+      }
+
+      .leaderboard-rank.top2 {
+        color: #c0c0c0;
+        font-size: 1.05rem;
+      }
+
+      .leaderboard-rank.top3 {
+        color: #cd7f32;
+        font-size: 1.05rem;
+      }
+
+      .rank-badge {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.4rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-align: center;
+        border: 1px solid;
+      }
+
+      .rank-badge.top1 {
+        background: rgba(255, 215, 0, 0.2);
+        color: #ffd700;
+        border-color: #ffd700;
+      }
+
+      .rank-badge.top2 {
+        background: rgba(192, 192, 192, 0.2);
+        color: #c0c0c0;
+        border-color: #c0c0c0;
+      }
+
+      .rank-badge.top3 {
+        background: rgba(205, 127, 50, 0.2);
+        color: #cd7f32;
+        border-color: #cd7f32;
+      }
+
+      .username-link {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+
+      .username-link:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+      }
+
+      .points-badge {
+        display: inline-block;
+        background: var(--primary);
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.4rem;
+        font-weight: 700;
+        font-family: "Fira Code", monospace;
+      }
+
+      .stats-breakdown {
+        display: flex;
+        gap: 0.4rem;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .stat-item.easy {
+        color: var(--success);
+      }
+
+      .stat-item.medium {
+        color: #935d07;
+      }
+
+      .stat-item.hard {
+        color: #9f1239;
+      }
+
+      .location-info {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      @media (max-width: 1024px) {
+        .leaderboard-table {
+          grid-template-columns: 50px 1.5fr 90px 110px 150px 90px 110px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .leaderboard-table {
+          grid-template-columns: 50px 1.5fr 140px 100px 120px;
+        }
+
+        .leaderboard-header-cell:nth-child(3),
+        .leaderboard-header-cell:nth-child(4),
+        .leaderboard-cell:nth-child(3),
+        .leaderboard-cell:nth-child(4) {
+          display: none;
+        }
+
+        .filter-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .leaderboard-table {
+          grid-template-columns: 45px 1.5fr 70px;
+        }
+
+        .leaderboard-header-cell:nth-child(n + 4),
+        .leaderboard-cell:nth-child(n + 4) {
+          display: none;
+        }
+
+        .rank-tabs {
+          flex-direction: column;
+        }
+
+        .rank-tab-btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div
+        class="container-fluid"
+        style="padding-left: 2rem; padding-right: 2rem"
+      >
+        <a
+          class="navbar-brand d-flex align-items-center gap-2 brand-logo"
+          href="../index.html"
+        >
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul
+            class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center gap-2 justify-center"
+          >
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-newspaper me-2"></i>Updates
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="problemset.html">
+                <i class="fa-solid fa-code me-2"></i>Problem Set
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contests.html">
+                <i class="fa-solid fa-trophy me-2"></i>Contests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="submissions.html">
+                <i class="fa-solid fa-paper-plane me-2"></i>Submissions
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="leaderboard.html">
+                <i class="fa-solid fa-ranking-star me-2"></i>Leaderboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="requireLogin(event)">
+                <i class="fa-solid fa-pen-nib me-2"></i>Contribution
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <button
+                id="themeToggle"
+                class="theme-toggle btn btn-link p-0 border-0"
+                style="
+                  color: var(--text-main);
+                  display: flex;
+                  align-items: center;
+                "
+                type="button"
+                title="Toggle theme"
+                aria-label="Toggle theme"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  width="1.5em"
+                  height="1.5em"
+                  fill="currentColor"
+                  class="theme-toggle__around"
+                  viewBox="0 0 32 32"
+                >
+                  <clipPath id="theme-toggle__around__cutout">
+                    <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
+                  </clipPath>
+                  <g clip-path="url(#theme-toggle__around__cutout)">
+                    <circle cx="16" cy="16" r="8.4" />
+                    <g>
+                      <circle cx="16" cy="3.3" r="2.3" />
+                      <circle cx="27" cy="9.7" r="2.3" />
+                      <circle cx="27" cy="22.3" r="2.3" />
+                      <circle cx="16" cy="28.7" r="2.3" />
+                      <circle cx="5" cy="22.3" r="2.3" />
+                      <circle cx="5" cy="9.7" r="2.3" />
+                    </g>
+                  </g>
+                </svg>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a
+                class="nav-link p-0 border-0 position-relative d-flex align-items-center"
+                href="#"
+                onclick="requireLogin(event)"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-bell fs-5"></i>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="font-size: 0.6rem; padding: 0.25rem 0.4rem"
+                  >3</span
+                >
+              </a>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+              <button
+                class="btn btn-link nav-link dropdown-toggle p-0 border-0 d-flex align-items-center"
+                id="profileDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-user-circle fs-5"></i>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end shadow-sm"
+                aria-labelledby="profileDropdown"
+                style="
+                  background-color: var(--card-bg);
+                  border: 1px solid var(--border-color, #e0e0e0);
+                "
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-user me-2"></i>Profile</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-gear me-2"></i>Settings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="snippets.html"
+                    ><i class="fa-solid fa-code me-2"></i>Snippets</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+              <a class="nav-link" href="community.html"><i class="fa-solid fa-users me-2"></i>Community</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="requireLogin(event)"
+                    ><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <section class="leaderboard-section position-relative overflow-hidden">
+        <div class="container">
+          <!-- Header -->
+          <div class="leaderboard-header mb-4 animate-slide-up">
+            <h1 style="color: var(--text-main)">
+              <i
+                class="fa-solid fa-ranking-star me-3"
+                style="color: var(--primary)"
+              ></i
+              >Leaderboard
+            </h1>
+            <p class="text-muted">Compete and climb the ranks</p>
+          </div>
+
+          <!-- Statistics Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value">2,456</div>
+              <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">48.5K</div>
+              <div class="stat-label">Avg Points</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">12</div>
+              <div class="stat-label">Your Rank</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">4,250</div>
+              <div class="stat-label">Your Points</div>
+            </div>
+          </div>
+
+          <!-- Rank Filter Tabs -->
+          <div class="rank-tabs">
+            <button
+              class="rank-tab-btn active"
+              onclick="switchRankView('country')"
+            >
+              <i class="fa-solid fa-globe me-2"></i>Country Rank
+            </button>
+            <button
+              class="rank-tab-btn"
+              onclick="switchRankView('institution')"
+            >
+              <i class="fa-solid fa-building me-2"></i>Institutional Rank
+            </button>
+            <button class="rank-tab-btn" onclick="switchRankView('city')">
+              <i class="fa-solid fa-map-location-dot me-2"></i>City Rank
+            </button>
+          </div>
+
+          <!-- Filter Section -->
+          <div class="filter-section animate-slide-up">
+            <div class="filter-row">
+              <div class="filter-group" id="countryFilterGroup">
+                <label for="countryFilter">Country</label>
+                <select id="countryFilter">
+                  <option value="">All Countries</option>
+                  <option value="bd">Bangladesh</option>
+                  <option value="in">India</option>
+                  <option value="pk">Pakistan</option>
+                  <option value="us">United States</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="ca">Canada</option>
+                </select>
+              </div>
+              <div
+                class="filter-group"
+                id="institutionFilterGroup"
+                style="display: none"
+              >
+                <label for="institutionFilter">Institution</label>
+                <select id="institutionFilter">
+                  <option value="">All Institutions</option>
+                  <option value="buet">BUET</option>
+                  <option value="du">Dhaka University</option>
+                  <option value="iut">Islamic University of Technology</option>
+                  <option value="iit">IIT Bombay</option>
+                  <option value="ntu">NTU</option>
+                </select>
+              </div>
+              <div
+                class="filter-group"
+                id="cityFilterGroup"
+                style="display: none"
+              >
+                <label for="cityFilter">City</label>
+                <select id="cityFilter">
+                  <option value="">All Cities</option>
+                  <option value="dhaka">Dhaka</option>
+                  <option value="chittagong">Chittagong</option>
+                  <option value="sylhet">Sylhet</option>
+                  <option value="delhi">Delhi</option>
+                  <option value="mumbai">Mumbai</option>
+                  <option value="bangalore">Bangalore</option>
+                </select>
+              </div>
+              <div class="filter-group search-group">
+                <label for="searchInput">Search</label>
+                <input
+                  type="text"
+                  id="searchInput"
+                  placeholder="Search username..."
+                  style="min-width: 250px"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Leaderboard Table -->
+          <div class="leaderboard-table animate-slide-up">
+            <!-- Table Header -->
+            <div class="leaderboard-header-row">
+              <div class="leaderboard-header-cell">Rank</div>
+              <div class="leaderboard-header-cell">Username</div>
+              <div class="leaderboard-header-cell">Points</div>
+              <div class="leaderboard-header-cell">Solved</div>
+              <div class="leaderboard-header-cell">Institution</div>
+              <div class="leaderboard-header-cell">City</div>
+              <div class="leaderboard-header-cell">Country</div>
+            </div>
+
+            <!-- Sample Data Rows -->
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">1</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=codemaster" class="username-link"
+                  >codemaster</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">5,840</span>
+              </div>
+              <div class="leaderboard-cell">156</div>
+              <div class="leaderboard-cell location-info">BUET</div>
+              <div class="leaderboard-cell location-info">Dhaka</div>
+              <div class="leaderboard-cell location-info">Bangladesh</div>
+            </div>
+
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">2</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=algorithmlover" class="username-link"
+                  >algorithmlover</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">5,620</span>
+              </div>
+              <div class="leaderboard-cell">148</div>
+              <div class="leaderboard-cell location-info">DU</div>
+              <div class="leaderboard-cell location-info">Dhaka</div>
+              <div class="leaderboard-cell location-info">Bangladesh</div>
+            </div>
+
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">3</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=debuggerpro" class="username-link"
+                  >debuggerpro</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">5,390</span>
+              </div>
+              <div class="leaderboard-cell">142</div>
+              <div class="leaderboard-cell location-info">IIT Bombay</div>
+              <div class="leaderboard-cell location-info">Mumbai</div>
+              <div class="leaderboard-cell location-info">India</div>
+            </div>
+
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">4</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=pythonista" class="username-link"
+                  >pythonista</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">5,180</span>
+              </div>
+              <div class="leaderboard-cell">138</div>
+              <div class="leaderboard-cell location-info">BUET</div>
+              <div class="leaderboard-cell location-info">Dhaka</div>
+              <div class="leaderboard-cell location-info">Bangladesh</div>
+            </div>
+
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">5</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=innovator2024" class="username-link"
+                  >innovator2024</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">4,950</span>
+              </div>
+              <div class="leaderboard-cell">132</div>
+              <div class="leaderboard-cell location-info">NIT Rourkee</div>
+              <div class="leaderboard-cell location-info">Rourkee</div>
+              <div class="leaderboard-cell location-info">India</div>
+            </div>
+
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">6</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=datawiz" class="username-link"
+                  >datawiz</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">4,720</span>
+              </div>
+              <div class="leaderboard-cell">128</div>
+              <div class="leaderboard-cell location-info">FAST NUCES</div>
+              <div class="leaderboard-cell location-info">Karachi</div>
+              <div class="leaderboard-cell location-info">Pakistan</div>
+            </div>
+
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">7</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=competitively" class="username-link"
+                  >competitively</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">4,510</span>
+              </div>
+              <div class="leaderboard-cell">124</div>
+              <div class="leaderboard-cell location-info">IUT</div>
+              <div class="leaderboard-cell location-info">Gazipur</div>
+              <div class="leaderboard-cell location-info">Bangladesh</div>
+            </div>
+
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">8</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=codeninjas" class="username-link"
+                  >codeninjas</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">4,280</span>
+              </div>
+              <div class="leaderboard-cell">120</div>
+              <div class="leaderboard-cell location-info">MIT</div>
+              <div class="leaderboard-cell location-info">Cambridge</div>
+              <div class="leaderboard-cell location-info">United States</div>
+            </div>
+
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">9</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=techvoyager" class="username-link"
+                  >techvoyager</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">4,050</span>
+              </div>
+              <div class="leaderboard-cell">116</div>
+              <div class="leaderboard-cell location-info">IIT Delhi</div>
+              <div class="leaderboard-cell location-info">Delhi</div>
+              <div class="leaderboard-cell location-info">India</div>
+            </div>
+
+            <div class="leaderboard-row">
+              <div class="leaderboard-cell">
+                <span class="leaderboard-rank">10</span>
+              </div>
+              <div class="leaderboard-cell leaderboard-username-cell">
+                <a href="profile.html?user=craftscode" class="username-link"
+                  >craftscode</a
+                >
+              </div>
+              <div class="leaderboard-cell">
+                <span class="points-badge">3,820</span>
+              </div>
+              <div class="leaderboard-cell">112</div>
+              <div class="leaderboard-cell location-info">DU</div>
+              <div class="leaderboard-cell location-info">Dhaka</div>
+              <div class="leaderboard-cell location-info">Bangladesh</div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination-section">
+            <button class="btn btn-outline-secondary">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="btn btn-primary">1</button>
+            <button class="btn btn-outline-secondary">2</button>
+            <button class="btn btn-outline-secondary">3</button>
+            <button class="btn btn-outline-secondary">...</button>
+            <button class="btn btn-outline-secondary">245</button>
+            <button class="btn btn-outline-secondary">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <i class="fa-solid fa-code text-primary fs-2 mb-2"></i>
+              <h4 class="fw-bold mb-1" style="color: var(--text-main)">
+                Welcome Back
+              </h4>
+              <p class="text-muted small mb-0">
+                Sign in to continue to beatCode
+              </p>
+            </div>
+
+            <form>
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label fw-600"
+                  >Email or Username</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="loginEmail"
+                  placeholder="Enter your email or username"
+                  style="
+                    background: var(--bg-main);
+                    border: 1px solid var(--border);
+                    color: var(--text-main);
+                  "
+                />
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label fw-600"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="loginPassword"
+                  placeholder="Enter your password"
+                  style="
+                    background: var(--bg-main);
+                    border: 1px solid var(--border);
+                    color: var(--text-main);
+                  "
+                />
+              </div>
+              <button type="submit" class="btn btn-primary w-100 fw-bold mb-3">
+                Sign In
+              </button>
+            </form>
+
+            <div class="text-center mb-3">
+              <small class="text-muted">Or continue with</small>
+            </div>
+            <div class="d-flex gap-2 mb-3">
+              <button class="btn btn-outline-secondary flex-grow-1">
+                <i class="fa-brands fa-google me-2"></i>Google
+              </button>
+              <button class="btn btn-outline-secondary flex-grow-1">
+                <i class="fa-brands fa-github me-2"></i>GitHub
+              </button>
+            </div>
+
+            <p class="text-center small text-muted">
+              Don't have an account?
+              <a
+                href="#"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#signupModal"
+                class="text-primary text-decoration-none fw-bold"
+              >
+                Sign up
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content border-0 shadow-md"
+          style="background-color: var(--card-bg); border-radius: 0.5rem"
+        >
+          <div class="modal-header border-0 pb-0">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body px-4 pb-5 pt-0">
+            <div class="text-center mb-4">
+              <i class="fa-solid fa-code text-primary fs-2 mb-2"></i>
+              <h4 class="fw-bold mb-1" style="color: var(--text-main)">
+                Join beatCode
+              </h4>
+              <p class="text-muted small mb-0">
+                Create your account to start coding
+              </p>
+            </div>
+
+            <form>
+              <div class="mb-3">
+                <label for="signupName" class="form-label fw-600"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="signupName"
+                  placeholder="Enter your full name"
+                  style="
+                    background: var(--bg-main);
+                    border: 1px solid var(--border);
+                    color: var(--text-main);
+                  "
+                />
+              </div>
+              <div class="mb-3">
+                <label for="signupEmail" class="form-label fw-600">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="signupEmail"
+                  placeholder="Enter your email"
+                  style="
+                    background: var(--bg-main);
+                    border: 1px solid var(--border);
+                    color: var(--text-main);
+                  "
+                />
+              </div>
+              <div class="mb-3">
+                <label for="signupUsername" class="form-label fw-600"
+                  >Username</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="signupUsername"
+                  placeholder="Choose a username"
+                  style="
+                    background: var(--bg-main);
+                    border: 1px solid var(--border);
+                    color: var(--text-main);
+                  "
+                />
+              </div>
+              <div class="mb-3">
+                <label for="signupPassword" class="form-label fw-600"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  class="form-control"
+                  id="signupPassword"
+                  placeholder="Create a password"
+                  style="
+                    background: var(--bg-main);
+                    border: 1px solid var(--border);
+                    color: var(--text-main);
+                  "
+                />
+              </div>
+              <div class="mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="termsCheck"
+                  />
+                  <label class="form-check-label" for="termsCheck">
+                    I agree to the
+                    <a href="pages/terms.html" class="text-primary"
+                      >Terms of Service</a
+                    >
+                  </label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 fw-bold mb-3">
+                Create Account
+              </button>
+            </form>
+
+            <div class="text-center mb-3">
+              <small class="text-muted">Or sign up with</small>
+            </div>
+            <div class="d-flex gap-2 mb-3">
+              <button class="btn btn-outline-secondary flex-grow-1">
+                <i class="fa-brands fa-google me-2"></i>Google
+              </button>
+              <button class="btn btn-outline-secondary flex-grow-1">
+                <i class="fa-brands fa-github me-2"></i>GitHub
+              </button>
+            </div>
+
+            <p class="text-center small text-muted">
+              Already have an account?
+              <a
+                href="#"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#loginModal"
+                class="text-primary text-decoration-none fw-bold"
+              >
+                Sign in
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg);">
+        <div class="container text-center">
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+                <i class="fa-solid fa-code fs-4"></i>
+                <span class="fw-bold fs-5">beatCode</span>
+            </div>
+            <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Theme Toggle Logic -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggle = document.getElementById("themeToggle");
+        const documentElement = document.documentElement;
+
+        // Initialize theme from localStorage or fallback to default
+        const savedTheme = localStorage.getItem("beatCode-theme") || "light";
+        documentElement.setAttribute("data-theme", savedTheme);
+        documentElement.setAttribute("data-bs-theme", savedTheme);
+        if (savedTheme === "dark") {
+          themeToggle.classList.add("theme-toggle--toggled");
+        }
+
+        themeToggle.addEventListener("click", () => {
+          const currentTheme = documentElement.getAttribute("data-theme");
+          const newTheme = currentTheme === "light" ? "dark" : "light";
+
+          documentElement.setAttribute("data-theme", newTheme);
+          documentElement.setAttribute("data-bs-theme", newTheme);
+          localStorage.setItem("beatCode-theme", newTheme);
+          themeToggle.classList.toggle("theme-toggle--toggled");
+        });
+      });
+
+      // Rank View Switcher
+      function switchRankView(view) {
+        // Update active button
+        document.querySelectorAll(".rank-tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.closest(".rank-tab-btn").classList.add("active");
+
+        // Show/hide filter groups
+        document.getElementById("countryFilterGroup").style.display =
+          view === "country" ? "flex" : "none";
+        document.getElementById("institutionFilterGroup").style.display =
+          view === "institution" ? "flex" : "none";
+        document.getElementById("cityFilterGroup").style.display =
+          view === "city" ? "flex" : "none";
+      }
+
+      // Require Login Logic for protected links
+      function requireLogin(e) {
+        e.preventDefault();
+        const loginModal = new bootstrap.Modal(
+          document.getElementById("loginModal"),
+        );
+        loginModal.show();
+      }
+    </script>
+  </body>
+</html>
