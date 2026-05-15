@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="light" data-bs-theme="light">
   <head>
     <meta charset="UTF-8" />
@@ -21,183 +21,185 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <!-- Theme Toggles CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/around.min.css"
-    />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/common.css" />
     <style>
       .create-contest-section {
         padding: 5.5rem 0 4rem;
         margin-top: 1rem;
+        padding-bottom: 100px;
       }
 
-      .btn-square {
-        border-radius: 0.5rem;
-        font-weight: 700;
-        transition: all 0.2s;
+      .create-contest-header {
+        margin-bottom: 2.5rem;
       }
 
-      .progress-container {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        padding: 1.5rem 2rem;
-        border-radius: 1rem;
-        margin-bottom: 2rem;
-        box-shadow: var(--shadow-sm);
-        width: 100%;
-      }
-      .step-progress-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 800px;
-        margin: 0 auto;
-        padding-bottom: 1.5rem;
-        position: relative;
-      }
-      .step-progress-wrapper::before {
-        content: "";
-        position: absolute;
-        top: 18px; /* Half of circle height */
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: var(--border);
-        z-index: 1;
-      }
-      .progress-line-fill {
-        position: absolute;
-        top: 18px;
-        left: 0;
-        height: 2px;
-        background: var(--primary);
-        z-index: 1;
-        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        width: 0%;
-      }
-      .step-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        z-index: 2;
-        flex: 1;
-      }
-      .step-circle {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: var(--card-bg);
-        border: 2px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        transition: all 0.3s ease;
-      }
-      .step-item.active .step-circle {
-        background: var(--card-bg);
-        border-color: var(--primary);
-        color: var(--primary);
-        box-shadow: 0 0 0 4px var(--glow-primary);
-        transform: scale(1.1);
-      }
-      .step-item.completed .step-circle {
-        background: var(--primary);
-        border-color: var(--primary);
-        color: white;
-      }
-      .step-label {
-        position: absolute;
-        top: 45px;
-        text-align: center;
-        white-space: nowrap;
-        font-size: 0.7rem;
+      .create-contest-header h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
         font-weight: 800;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.8px;
-        transition: all 0.3s ease;
-      }
-      .step-item.active .step-label {
-        color: var(--primary);
+        margin-bottom: 0.5rem;
       }
 
-      .card-step {
+      .nav-tabs {
+        border-bottom: 2px solid var(--border);
+        margin-bottom: 2rem;
+        gap: 0.5rem;
+      }
+
+      .nav-tabs .nav-link {
+        color: var(--text-muted);
+        border: none;
+        border-bottom: 3px solid transparent;
+        padding: 0.75rem 1.2rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        margin-bottom: -2px;
+      }
+
+      .nav-tabs .nav-link:hover {
+        color: var(--primary);
+        background-color: var(--bg-soft);
+      }
+
+      .nav-tabs .nav-link.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        background-color: transparent;
+      }
+
+      .tab-content {
+        margin-top: 1.5rem;
+      }
+
+      .tab-pane {
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .settings-card {
         background: var(--card-bg);
         border: 1px solid var(--border);
         border-radius: 1rem;
-        padding: 2.5rem;
-        margin-bottom: 2rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
         box-shadow: var(--shadow-sm);
-        display: none;
-      }
-      .card-step.active {
-        display: block;
-        animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      @keyframes slideUpFade {
-        from { opacity: 0; transform: translateY(15px); }
-        to { opacity: 1; transform: translateY(0); }
       }
 
-      /* Professional Form Styling */
-      .form-label-custom {
-        display: block;
+      .form-label {
         font-size: 0.75rem;
         font-weight: 800;
-        color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 0.6rem;
-      }
-      .form-control-custom {
-        background: var(--bg-soft);
-        border: 1px solid var(--border);
-        border-radius: 0.5rem;
-        padding: 0.75rem 1rem;
-        font-size: 0.95rem;
-        color: var(--text-main);
-        transition: all 0.2s ease;
-      }
-      .form-control-custom:focus {
-        background: var(--card-bg);
-        border-color: var(--primary);
-        box-shadow: 0 0 0 4px var(--glow-primary);
-        outline: none;
+        color: var(--text-muted);
+        margin-bottom: 0.5rem;
       }
 
-      /* Drag and Drop Problems Display */
+      .form-control, .form-select {
+        border-radius: 0.5rem;
+        padding: 0.6rem 1rem;
+        border: 1px solid var(--border);
+        background-color: var(--bg-main);
+        color: var(--text-main);
+        font-size: 0.9rem;
+      }
+
+      .form-control:focus, .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.1);
+        background-color: var(--bg-main);
+        color: var(--text-main);
+      }
+
+      .btn-primary {
+        padding: 0.6rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .btn-outline-primary {
+        border-radius: 0.5rem;
+        font-weight: 600;
+      }
+
+      .dashed-border {
+        border: 2px dashed var(--border) !important;
+        background: transparent !important;
+      }
+
+      .sticky-actions {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow-sm);
+        margin-top: 3rem;
+      }
+
+      .info-box {
+        background: var(--bg-soft);
+        border-left: 4px solid var(--primary);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-top: 1rem;
+      }
+
+      .info-box small {
+        color: var(--text-muted);
+      }
+
+      .visibility-card {
+        background: var(--card-bg);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .visibility-card:hover {
+        border-color: var(--primary) !important;
+        background-color: var(--bg-soft);
+      }
+
+      .visibility-card.active {
+        border-color: var(--primary) !important;
+        background-color: var(--glow-primary);
+      }
+
+      .visibility-card.active .fw-bold {
+        color: var(--primary);
+      }
+
       .problem-row {
         background: var(--card-bg);
         border: 1px solid var(--border);
-        border-radius: 0.75rem;
-        padding: 1.15rem 1.25rem;
+        border-radius: 0.5rem;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+        position: relative;
+        box-shadow: var(--shadow-sm);
         display: flex;
         align-items: center;
-        gap: 1.25rem;
-        margin-bottom: 0.75rem;
-        transition: all 0.2s ease;
-        cursor: grab;
+        gap: 1rem;
       }
+
       .problem-row:hover {
         background-color: var(--bg-soft);
         transform: translateX(4px);
       }
-      .problem-row:active {
-        cursor: grabbing;
-      }
-      .problem-row.dragging {
-        opacity: 0.4;
-        border: 2px dashed var(--primary);
-        transform: scale(0.98);
-      }
+
       .problem-alias {
         width: 38px;
         height: 38px;
@@ -211,39 +213,11 @@
         font-family: 'Fira Code', monospace;
         font-size: 1rem;
       }
+
       .drag-handle {
         color: var(--text-muted);
         cursor: grab;
         padding: 0.5rem;
-      }
-
-      /* Custom Tabs for Step 3 */
-      .nav-tabs-custom {
-        border-bottom: 2px solid var(--border);
-        margin-bottom: 2rem;
-        gap: 0;
-      }
-      .nav-tabs-custom .nav-link {
-        color: var(--text-muted);
-        border-bottom: 3px solid transparent;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        border-radius: 0;
-        padding: 0.75rem 1.5rem;
-        font-weight: 600;
-        transition: all 0.2s ease;
-        margin-bottom: -2px;
-        background: transparent;
-      }
-      .nav-tabs-custom .nav-link:hover {
-        color: var(--primary);
-        border-bottom-color: var(--primary);
-      }
-      .nav-tabs-custom .nav-link.active {
-        color: var(--primary) !important;
-        border-bottom-color: var(--primary) !important;
-        background-color: transparent !important;
       }
 
       .drop-zone {
@@ -254,6 +228,7 @@
         background: var(--bg-soft);
         transition: all 0.2s;
       }
+
       .drop-zone:hover {
         border-color: var(--primary);
         background: var(--glow-primary);
@@ -270,72 +245,42 @@
         background-color: var(--bg-soft);
       }
 
-      .btn-primary {
-        background-color: var(--primary);
-        border-color: var(--primary);
-      }
-      .btn-primary:hover {
-        background-color: var(--primary-dark);
-        border-color: var(--primary-dark);
+      @media (max-width: 768px) {
+        .nav-tabs .nav-link {
+          padding: 0.6rem 1rem;
+          font-size: 0.85rem;
+        }
+
+        .sticky-actions {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: stretch;
+          padding: 1rem;
+        }
+
+        .sticky-actions > div {
+          width: 100%;
+        }
+        
+        main {
+          padding-bottom: 280px;
+        }
       }
 
-      .text-primary {
-        color: var(--primary) !important;
-      }
+      @media (max-width: 576px) {
+        .create-contest-header h1 {
+          font-size: 1.8rem;
+        }
 
-      .brand-icon {
-        color: var(--primary);
-        font-size: 1.5rem;
-      }
+        .nav-tabs .nav-link {
+          padding: 0.5rem 0.8rem;
+          font-size: 0.75rem;
+        }
 
-      .brand-text {
-        font-size: 1.5rem;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        color: var(--text-main);
-      }
-
-      .nav-link {
-        color: var(--text-muted);
-        font-weight: 600;
-        font-size: 0.95rem;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-      }
-
-      .nav-link:hover, .nav-link.active {
-        color: var(--primary);
-        background: var(--bg-soft);
-      }
-
-      .beat-nav {
-        background-color: var(--nav-bg);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--nav-border);
-      }
-
-      /* Theme Toggle Styles */
-      .theme-toggle-btn {
-        background: var(--bg-soft);
-        border: 1px solid var(--border);
-        color: var(--text-main);
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .theme-toggle-btn:hover {
-        background: var(--border);
-        transform: translateY(-2px);
+        .form-control, .form-select {
+          font-size: 0.85rem;
+          padding: 0.5rem 0.8rem;
+        }
       }
     </style>
   </head>
@@ -411,27 +356,23 @@
                 aria-label="Toggle theme"
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                  width="1.5em"
-                  height="1.5em"
-                  fill="currentColor"
-                  class="theme-toggle__around"
+                  class="sun-icon"
+                  width="20"
+                  height="20"
                   viewBox="0 0 32 32"
                 >
-                  <clipPath id="theme-toggle__around__cutout">
-                    <path d="M0 0h42v30a1 1 0 00-16 13H0Z" />
-                  </clipPath>
-                  <g clip-path="url(#theme-toggle__around__cutout)">
-                    <circle cx="16" cy="16" r="8.4" />
-                    <g>
-                      <circle cx="16" cy="3.3" r="2.3" />
-                      <circle cx="27" cy="9.7" r="2.3" />
-                      <circle cx="27" cy="22.3" r="2.3" />
-                      <circle cx="16" cy="28.7" r="2.3" />
-                      <circle cx="5" cy="22.3" r="2.3" />
-                      <circle cx="5" cy="9.7" r="2.3" />
-                    </g>
+                  <circle
+                    cx="16"
+                    cy="16"
+                    r="6"
+                    fill="currentColor"
+                    opacity="1"
+                  />
+                  <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="16" y1="26" x2="16" y2="30" />
+                    <line x1="6" y1="16" x2="2" y2="16" />
+                    <line x1="30" y1="16" x2="26" y2="16" />
                   </g>
                 </svg>
               </button>
@@ -470,40 +411,27 @@
                 "
               >
                 <li>
-                  <a
-                    class="dropdown-item"
-                    href="#"
-                    onclick="requireLogin(event)"
-                    ><i class="fa-solid fa-user me-2"></i>Profile</a
+                  <a class="dropdown-item" href="profile.html"
+                    ><i class="fa-solid fa-user me-2"></i>My Profile</a
                   >
                 </li>
                 <li>
-                  <a
-                    class="dropdown-item"
-                    href="#"
-                    onclick="requireLogin(event)"
+                  <a class="dropdown-item" href="settings.html"
                     ><i class="fa-solid fa-gear me-2"></i>Settings</a
                   >
                 </li>
                 <li>
-                  <a
-                    class="dropdown-item"
-                    href="snippets.html"
-                    ><i class="fa-solid fa-code me-2"></i>Snippets</a
+                  <a class="dropdown-item" href="snippets.html"
+                    ><i class="fa-solid fa-code me-2"></i>My Snippets</a
                   >
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item" href="community.html"
-                    ><i class="fa-solid fa-users me-2"></i>Community</a
-                  >
+                  <a class="dropdown-item" href="community.html"><i class="fa-solid fa-users me-2"></i>Community</a>
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a
-                    class="dropdown-item"
-                    href="#"
-                    onclick="requireLogin(event)"
+                  <a class="dropdown-item" href="#"
                     ><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a
                   >
                 </li>
@@ -514,199 +442,265 @@
       </div>
     </nav>
 
-    <div class="create-contest-section container">
-      <div class="row">
-        <div class="col-12 mb-4">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <h1 class="fw-800 mb-1">
-                <i class="fa-solid fa-trophy me-2 text-primary"></i>Create New Contest
-              </h1>
-              <p class="text-muted small m-0"><i class="fa-solid fa-cloud-arrow-up me-1"></i> Autosaved your progress</p>
-            </div>
-            <button class="btn btn-outline-secondary btn-square btn-sm px-3 fw-700">Discard</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="row justify-content-center">
-        <div class="col-lg-10">
-          <div class="progress-container">
-            <div class="step-progress-wrapper">
-              <div class="progress-line-fill" id="progress-line-fill"></div>
-              <div class="step-item active" id="step-item-1">
-                <div class="step-circle">1</div>
-                <div class="step-label">Basic Info</div>
-              </div>
-              <div class="step-item" id="step-item-2">
-                <div class="step-circle">2</div>
-                <div class="step-label">Problems</div>
-              </div>
-              <div class="step-item" id="step-item-3">
-                <div class="step-circle">3</div>
-                <div class="step-label">Finalize</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row justify-content-center">
-        <div class="col-lg-10">
-
-
-          <!-- Step 1 -->
-          <div class="card-step active" id="step-1">
-            <h5 class="fw-700 mb-4">Contest Details</h5>
-            <div class="row g-4">
-              <div class="col-12">
-                <label class="form-label-custom">TITLE</label>
-                <input type="text" class="form-control form-control-custom w-100" placeholder="e.g. Weekly Algorithm Challenge #42">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label-custom">START DATE & TIME</label>
-                <input type="datetime-local" class="form-control form-control-custom w-100">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label-custom">DURATION (MIN)</label>
-                <input type="number" class="form-control form-control-custom w-100" placeholder="120">
-              </div>
-              <div class="col-12">
-                <label class="form-label-custom">DESCRIPTION</label>
-                <textarea class="form-control form-control-custom w-100" rows="5" placeholder="Add rules, prize info, or instructions..."></textarea>
-              </div>
-            </div>
-            <div class="mt-5 pt-3 d-flex justify-content-end">
-              <button class="btn btn-primary btn-square px-5 py-2 fw-800" onclick="goToStep(2)">
-                Add Problems <i class="fa-solid fa-arrow-right ms-2"></i>
-              </button>
-            </div>
+    <!-- Main Content -->
+    <main>
+      <section class="create-contest-section position-relative overflow-hidden">
+        <div class="container position-relative z-1">
+          <div class="create-contest-header animate-slide-up">
+            <h1 class="gradient-text">
+              <i class="fa-solid fa-trophy me-3" style="color: var(--primary)"></i>Create New Contest
+            </h1>
+            <p class="text-muted">
+              Set up a new contest with problems, rules, and access controls
+            </p>
           </div>
 
-          <!-- Step 2 -->
-          <div class="card-step" id="step-2">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h5 class="fw-700 m-0">Problems Selection</h5>
-              <button class="btn btn-sm btn-primary btn-square px-3 fw-700" data-bs-toggle="modal" data-bs-target="#addProblemModal">
-                <i class="fa-solid fa-plus me-1"></i> New Problem
-              </button>
-            </div>
-            
-            <div id="problemList" ondragover="handleDragOver(event)">
-              <div class="problem-row" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
-                <div class="problem-alias">A</div>
-                <div class="flex-grow-1">
-                  <div class="fw-700">Two Sum</div>
-                  <div class="text-muted small">#841 • Easy</div>
+          <form id="contestForm">
+            <!-- Basic Info Section -->
+            <div class="settings-card">
+              <div class="row g-4">
+                <div class="col-md-9">
+                  <label class="form-label">Contest Title</label>
+                  <input type="text" class="form-control" placeholder="e.g. Weekly Algorithm Challenge #42">
                 </div>
-                <div class="d-flex gap-2">
-                  <div class="drag-handle"><i class="fa-solid fa-grip-vertical"></i></div>
-                  <button class="btn btn-sm text-danger hover-bg-light btn-square"><i class="fa-solid fa-trash"></i></button>
+                <div class="col-md-3">
+                  <label class="form-label">Level</label>
+                  <select class="form-select">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
                 </div>
               </div>
-              <div class="problem-row" draggable="true" ondragstart="handleDragStart(event)" ondragend="handleDragEnd(event)">
-                <div class="problem-alias">B</div>
-                <div class="flex-grow-1">
-                  <div class="fw-700">Palindrome Number</div>
-                  <div class="text-muted small">#902 • Medium</div>
+              <div class="row g-4 mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Start Date & Time</label>
+                  <input type="datetime-local" class="form-control">
                 </div>
-                <div class="d-flex gap-2">
-                  <div class="drag-handle"><i class="fa-solid fa-grip-vertical"></i></div>
-                  <button class="btn btn-sm text-danger hover-bg-light btn-square"><i class="fa-solid fa-trash"></i></button>
+                <div class="col-md-6">
+                  <label class="form-label">Duration (Minutes)</label>
+                  <input type="number" class="form-control" value="120">
                 </div>
               </div>
-            </div>
-            
-            <div class="text-center py-5 border rounded mt-3 bg-light opacity-50 border-dashed" style="border-style: dashed !important; border-width: 2px !important;">
-               <p class="small text-muted mb-2">Drag and drop to reorder problems</p>
-               <button class="btn btn-outline-secondary btn-sm btn-square" data-bs-toggle="modal" data-bs-target="#addProblemModal">Search Library</button>
+              <div class="info-box">
+                <i class="fa-solid fa-circle-info me-2"></i>
+                <small>Participants can register and join the contest before the start time.</small>
+              </div>
             </div>
 
-            <div class="mt-5 pt-3 d-flex justify-content-between">
-              <button class="btn btn-light border btn-square px-4 py-2 fw-700" onclick="goToStep(1)">
-                Back
-              </button>
-              <button class="btn btn-primary btn-square px-5 py-2 fw-800" onclick="goToStep(3)">
-                Configure Access <i class="fa-solid fa-arrow-right ms-2"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Step 3 -->
-          <div class="card-step" id="step-3">
-            <h5 class="fw-700 mb-4">Contest Access</h5>
-            <ul class="nav nav-tabs nav-tabs-custom mb-4" id="accessTabs">
-              <li class="nav-item">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#publicTab">Public</button>
+            <!-- Main Tabs -->
+            <ul class="nav nav-tabs" id="contestTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#problems" type="button" role="tab">
+                  <i class="fa-solid fa-file-lines me-2"></i>Problems
+                </button>
               </li>
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#privateTab">Private</button>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">
+                  <i class="fa-solid fa-file-alt me-2"></i>Description
+                </button>
               </li>
-              <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#collabTab">Collaborators</button>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#access" type="button" role="tab">
+                  <i class="fa-solid fa-lock me-2"></i>Access Control
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#collaborators" type="button" role="tab">
+                  <i class="fa-solid fa-users me-2"></i>Collaborators
+                </button>
               </li>
             </ul>
 
             <div class="tab-content">
-              <div class="tab-pane fade show active" id="publicTab">
-                <div class="p-4 bg-soft rounded border border-info border-opacity-25">
-                  <p class="small fw-600 m-0"><i class="fa-solid fa-globe me-2 text-info"></i> Visible to all users. Registration opens at start time.</p>
+              <!-- Problems Tab -->
+              <div class="tab-pane fade show active" id="problems" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h5 class="fw-bold mb-0">Add Problems</h5>
+                  <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addProblemModal">
+                    <i class="fa-solid fa-plus me-1"></i>Add Problem
+                  </button>
+                </div>
+                <div id="problemList">
+                </div>
+                <button type="button" class="btn btn-outline-primary w-100 py-3 border-2 dashed-border mt-3" data-bs-toggle="modal" data-bs-target="#addProblemModal">
+                  <i class="fa-solid fa-plus me-2"></i>Add More Problems
+                </button>
+                <div class="info-box">
+                  <i class="fa-solid fa-circle-info me-2"></i>
+                  <small>Problems will be assigned letters (A, B, C, etc.) in the order you add them.</small>
                 </div>
               </div>
-              <div class="tab-pane fade" id="privateTab">
-                <div class="row g-4">
-                  <div class="col-md-6">
-                    <div class="drop-zone" onclick="document.getElementById('csvInp').click()">
+
+              <!-- Description Tab -->
+              <div class="tab-pane fade" id="description" role="tabpanel">
+                <label class="form-label">Contest Description & Rules</label>
+                <textarea class="form-control" rows="8" placeholder="Add rules, prize info, or special instructions..."></textarea>
+                <div class="info-box">
+                  <i class="fa-solid fa-circle-info me-2"></i>
+                  <small>You can use Markdown and LaTeX for formatting. This will be visible to all participants.</small>
+                </div>
+              </div>
+
+              <!-- Access Control Tab -->
+              <div class="tab-pane fade" id="access" role="tabpanel">
+                <div class="mb-5">
+                  <label class="form-label">Contest Visibility</label>
+                  <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                      <div class="visibility-card p-4 border rounded-2 cursor-pointer" style="border: 2px solid var(--border); cursor: pointer; transition: all 0.2s;" onclick="selectVisibility('public')">
+                        <div class="form-check mb-0">
+                          <input class="form-check-input" type="radio" name="visibility" id="publicRadio" value="public" checked onchange="handleVisibilityChange()" style="cursor: pointer;">
+                          <label class="form-check-label w-100" for="publicRadio" style="cursor: pointer;">
+                            <div class="fw-bold d-flex align-items-center gap-2">
+                              <i class="fa-solid fa-globe"></i>Public
+                            </div>
+                            <div class="text-muted small mt-2">Visible to all users</div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="visibility-card p-4 border rounded-2 cursor-pointer" style="border: 2px solid var(--border); cursor: pointer; transition: all 0.2s;" onclick="selectVisibility('private')">
+                        <div class="form-check mb-0">
+                          <input class="form-check-input" type="radio" name="visibility" id="privateRadio" value="private" onchange="handleVisibilityChange()" style="cursor: pointer;">
+                          <label class="form-check-label w-100" for="privateRadio" style="cursor: pointer;">
+                            <div class="fw-bold d-flex align-items-center gap-2">
+                              <i class="fa-solid fa-lock"></i>Private
+                            </div>
+                            <div class="text-muted small mt-2">Invitation only</div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-card mt-4" id="privateOptionsContainer" style="display: none;">
+                  <h6 class="fw-bold mb-4">Private Contest Options</h6>
+                  
+                  <div class="mb-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="privateOption" id="csvOption" value="csv" checked onchange="handlePrivateOptionChange()">
+                      <label class="form-check-label" for="csvOption">
+                        <span class="fw-bold">Upload Participant List</span>
+                        <div class="text-muted small">Upload CSV with user handles or emails</div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="privateOption" id="massAccountOption" value="massAccount" onchange="handlePrivateOptionChange()">
+                      <label class="form-check-label" for="massAccountOption">
+                        <span class="fw-bold">Request Mass Account Creation</span>
+                        <div class="text-muted small">Generate accounts for participants</div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div id="csvUploadSection">
+                    <label class="form-label">Upload Participant List (CSV)</label>
+                    <div class="drop-zone" id="csvDropZone" style="cursor: pointer;">
                       <i class="fa-solid fa-file-import fs-2 mb-3 text-muted"></i>
                       <div class="fw-700 small">Upload Invitations</div>
                       <div class="text-muted" style="font-size: 0.7rem;">CSV with handles or emails</div>
-                      <input type="file" id="csvInp" class="d-none">
+                    </div>
+                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+                    <div id="csvFileName" class="text-muted small mt-2"></div>
+                    <div class="alert alert-warning mt-3 mb-0" style="background-color: var(--bg-soft); border: 1px solid #ffc107;">
+                      <i class="fa-solid fa-triangle-exclamation me-2" style="color: #ffc107;"></i>
+                      <small><strong>Warning:</strong> If the CSV is incorrect or invalid, the contest will not be approved.</small>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="p-4 bg-soft border rounded h-100 d-flex flex-column">
-                      <div class="fw-700 small mb-2">Mass Creation</div>
-                      <p class="text-muted mb-4" style="font-size: 0.75rem;">Generate temporary credentials for onsite competitions.</p>
-                      <button class="btn btn-outline-secondary btn-sm btn-square mt-auto">Batch Generate</button>
+
+                  <div id="massAccountSection" style="display: none;">
+                    <label class="form-label">Number of Accounts</label>
+                    <input type="number" class="form-control mb-4" placeholder="Enter number of accounts to create" min="1">
+                    
+                    <label class="form-label">Upload Email Addresses (CSV)</label>
+                    <div class="drop-zone" id="emailDropZone" style="cursor: pointer;">
+                      <i class="fa-solid fa-file-import fs-2 mb-3 text-muted"></i>
+                      <div class="fw-700 small">Upload Email List</div>
+                      <div class="text-muted" style="font-size: 0.7rem;">CSV with email addresses for account creation</div>
+                    </div>
+                    <input type="file" id="emailFileInput" accept=".csv" style="display: none;">
+                    <div id="emailFileName" class="text-muted small mt-2"></div>
+                    <div class="alert alert-warning mt-3 mb-0" style="background-color: var(--bg-soft); border: 1px solid #ffc107;">
+                      <i class="fa-solid fa-triangle-exclamation me-2" style="color: #ffc107;"></i>
+                      <small><strong>Warning:</strong> If the CSV is incorrect or invalid, the contest will not be approved.</small>
+                    </div>
+                    
+                    <div class="info-box mt-3">
+                      <i class="fa-solid fa-circle-info me-2"></i>
+                      <small>Accounts will be automatically generated and credentials will be sent to the provided email addresses.</small>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="tab-pane fade" id="collabTab">
-                <div class="fw-700 small mb-2 uppercase text-muted">Add Moderator</div>
-                <div class="input-group mb-4">
-                  <input type="text" class="form-control form-control-custom" placeholder="Search by name or @handle">
-                  <button class="btn btn-primary btn-square px-4">Add</button>
-                </div>
-                <div class="collab-list border rounded overflow-hidden">
-                  <div class="d-flex align-items-center gap-3 p-3 border-bottom last-border-0 hover-bg-light">
-                    <img src="https://ui-avatars.com/api/?name=Sabid+Hasan" width="40" class="rounded-circle border border-primary border-2">
+
+              <!-- Collaborators Tab -->
+              <div class="tab-pane fade" id="collaborators" role="tabpanel">
+                <div class="settings-card">
+                  <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                      <div class="fw-700 small">Sabid Hasan (@sabid_hasan)</div>
-                      <div class="text-muted" style="font-size: 0.7rem;">Owner • Administrator</div>
+                      <h5 class="fw-bold mb-1">Collaboration</h5>
+                      <p class="text-muted small mb-0">Manage who can view and edit this contest.</p>
                     </div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCollaboratorModal">
+                      <i class="fa-solid fa-user-plus me-2"></i>Add Collaborator
+                    </button>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                      <thead style="background-color: var(--bg-soft);">
+                        <tr>
+                          <th>User</th>
+                          <th>Role</th>
+                          <th>Status</th>
+                          <th class="text-end">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-3">
+                              <img src="https://ui-avatars.com/api/?name=You&background=random" class="rounded-circle" width="40">
+                              <div>
+                                <div class="fw-bold">Your Name</div>
+                                <div class="text-muted small">@your_username</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td><span class="badge bg-dark">Owner</span></td>
+                          <td><span class="badge bg-success">Active</span></td>
+                          <td class="text-end">-</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="mt-5 pt-3 d-flex justify-content-between">
-              <button class="btn btn-outline-secondary border btn-square px-4 py-2 fw-700" onclick="goToStep(2)">
-                <i class="fa-solid fa-arrow-left me-2"></i> Back
-              </button>
-              <div class="d-flex gap-3">
-                <button class="btn btn-outline-primary btn-square px-4 py-2 fw-800">
-                  Save as Draft
-                </button>
-                <button class="btn btn-success btn-square px-5 py-2 fw-800">
-                  Go Live <i class="fa-solid fa-rocket ms-2"></i>
-                </button>
+            <!-- Bottom Actions -->
+            <div class="sticky-actions">
+              <div class="d-flex gap-3 align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                  <i id="visibilityIcon" class="fa-solid fa-globe" style="color: var(--primary); font-size: 1.1rem;"></i>
+                  <span id="visibilityPreview" class="fw-bold" style="font-size: 0.9rem;">Public</span>
+                </div>
+              </div>
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-danger fw-bold px-5">Discard</button>
+                <button type="button" class="btn btn-outline-secondary fw-bold px-5">Save as Draft</button>
+                <button type="submit" class="btn btn-primary fw-bold px-5">Create Contest</button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
 
     <!-- Modal Selection -->
     <div class="modal fade" id="addProblemModal" tabindex="-1">
@@ -735,6 +729,40 @@
       </div>
     </div>
 
+      </div>
+    </div>
+
+    <!-- Add Collaborator Modal -->
+    <div class="modal fade" id="addCollaboratorModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-sm" style="background-color: var(--card-bg); border-radius: 0.5rem;">
+          <div class="modal-header border-0 pb-0">
+            <h5 class="modal-title fw-bold">Add Collaborator</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-4">
+              <label class="form-label">Search Users</label>
+              <div class="input-group">
+                <span class="input-group-text" style="background-color: var(--bg-soft); border-end: none;">
+                  <i class="fa-solid fa-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control" style="border-start: none;" placeholder="Username or email...">
+              </div>
+            </div>
+            <div>
+              <label class="form-label">Set Permission</label>
+              <select class="form-select">
+                <option value="editor">Editor (Can edit and test)</option>
+                <option value="viewer">Viewer (Can only view)</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-outline-secondary fw-bold" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary fw-bold px-4">Send Invite</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -963,6 +991,24 @@
           localStorage.setItem("beatCode-theme", newTheme);
           themeToggle.classList.toggle("theme-toggle--toggled");
         });
+
+        // Initialize visibility card styling
+        const publicRadio = document.getElementById('publicRadio');
+        if (publicRadio && publicRadio.checked) {
+          publicRadio.closest('.visibility-card').classList.add('active');
+        }
+
+        // Add event listeners to visibility radio buttons
+        const visibilityRadios = document.querySelectorAll('input[name="visibility"]');
+        visibilityRadios.forEach(radio => {
+          radio.addEventListener('change', (e) => {
+            // Remove active class from all cards
+            document.querySelectorAll('.visibility-card').forEach(card => card.classList.remove('active'));
+            // Add active class to selected card
+            e.target.closest('.visibility-card').classList.add('active');
+            handleVisibilityChange();
+          });
+        });
       });
 
       // Require Login Logic for protected links
@@ -972,6 +1018,55 @@
           document.getElementById("loginModal"),
         );
         loginModal.show();
+      }
+
+      // Handle visibility change for access control
+      function handleVisibilityChange() {
+        const visibilitySelect = document.querySelector('input[name="visibility"]:checked');
+        const privateOptionsContainer = document.getElementById('privateOptionsContainer');
+        const visibilityPreview = document.getElementById('visibilityPreview');
+        const visibilityIcon = document.getElementById('visibilityIcon');
+        
+        if (visibilitySelect.value === 'private') {
+          privateOptionsContainer.style.display = 'block';
+          visibilityPreview.textContent = 'Private';
+          visibilityIcon.className = 'fa-solid fa-lock';
+        } else {
+          privateOptionsContainer.style.display = 'none';
+          visibilityPreview.textContent = 'Public';
+          visibilityIcon.className = 'fa-solid fa-globe';
+        }
+      }
+
+      // Select visibility card and update radio button
+      function selectVisibility(value) {
+        const radio = document.getElementById(value === 'public' ? 'publicRadio' : 'privateRadio');
+        const cards = document.querySelectorAll('.visibility-card');
+        
+        // Remove active class from all cards
+        cards.forEach(card => card.classList.remove('active'));
+        
+        // Add active class to selected card
+        radio.closest('.visibility-card').classList.add('active');
+        
+        // Check the radio button
+        radio.checked = true;
+        handleVisibilityChange();
+      }
+
+      // Handle private option change (CSV upload vs mass account creation)
+      function handlePrivateOptionChange() {
+        const csvUploadSection = document.getElementById('csvUploadSection');
+        const massAccountSection = document.getElementById('massAccountSection');
+        const selectedOption = document.querySelector('input[name="privateOption"]:checked').value;
+        
+        if (selectedOption === 'csv') {
+          csvUploadSection.style.display = 'block';
+          massAccountSection.style.display = 'none';
+        } else {
+          csvUploadSection.style.display = 'none';
+          massAccountSection.style.display = 'block';
+        }
       }
 
       function updateProgress(s) {
@@ -1036,6 +1131,89 @@
           r.querySelector('.problem-alias').innerText = String.fromCharCode(65 + idx);
         });
       }
+
+      // CSV Upload Functionality
+      function setupCSVUpload() {
+        const csvDropZone = document.getElementById('csvDropZone');
+        const csvFileInput = document.getElementById('csvFileInput');
+        const csvFileName = document.getElementById('csvFileName');
+        const emailDropZone = document.getElementById('emailDropZone');
+        const emailFileInput = document.getElementById('emailFileInput');
+        const emailFileName = document.getElementById('emailFileName');
+
+        // CSV Upload Zone
+        if (csvDropZone) {
+          csvDropZone.addEventListener('click', () => csvFileInput.click());
+          
+          csvDropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            csvDropZone.style.borderColor = 'var(--primary)';
+            csvDropZone.style.backgroundColor = 'var(--glow-primary)';
+          });
+          
+          csvDropZone.addEventListener('dragleave', () => {
+            csvDropZone.style.borderColor = 'var(--border)';
+            csvDropZone.style.backgroundColor = 'var(--bg-soft)';
+          });
+          
+          csvDropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            csvDropZone.style.borderColor = 'var(--border)';
+            csvDropZone.style.backgroundColor = 'var(--bg-soft)';
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+              csvFileInput.files = files;
+              csvFileName.textContent = `✓ ${files[0].name}`;
+              csvFileName.style.color = 'var(--primary)';
+            }
+          });
+          
+          csvFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+              csvFileName.textContent = `✓ ${e.target.files[0].name}`;
+              csvFileName.style.color = 'var(--primary)';
+            }
+          });
+        }
+
+        // Email Upload Zone
+        if (emailDropZone) {
+          emailDropZone.addEventListener('click', () => emailFileInput.click());
+          
+          emailDropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            emailDropZone.style.borderColor = 'var(--primary)';
+            emailDropZone.style.backgroundColor = 'var(--glow-primary)';
+          });
+          
+          emailDropZone.addEventListener('dragleave', () => {
+            emailDropZone.style.borderColor = 'var(--border)';
+            emailDropZone.style.backgroundColor = 'var(--bg-soft)';
+          });
+          
+          emailDropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            emailDropZone.style.borderColor = 'var(--border)';
+            emailDropZone.style.backgroundColor = 'var(--bg-soft)';
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+              emailFileInput.files = files;
+              emailFileName.textContent = `✓ ${files[0].name}`;
+              emailFileName.style.color = 'var(--primary)';
+            }
+          });
+          
+          emailFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+              emailFileName.textContent = `✓ ${e.target.files[0].name}`;
+              emailFileName.style.color = 'var(--primary)';
+            }
+          });
+        }
+      }
+
+      // Initialize CSV upload functionality
+      setupCSVUpload();
     </script>
   </body>
 </html>

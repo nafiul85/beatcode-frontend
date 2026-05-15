@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | beatCode</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome (Icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/common.css" />
+    <style>
+      .admin-section {
+        padding: 5.5rem 0 4rem;
+        margin-top: 1rem;
+      }
+
+      .admin-header {
+        margin-bottom: 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .admin-header h1 {
+        font-size: clamp(1.8rem, 3vw, 2.5rem);
+        font-weight: 800;
+        margin-bottom: 0;
+      }
+
+      .admin-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        padding: 0.6rem 1rem;
+        width: 250px;
+      }
+
+      .search-box input {
+        border: none;
+        background: transparent;
+        color: var(--text-main);
+        outline: none;
+        flex: 1;
+        font-size: 0.9rem;
+      }
+
+      .search-box input::placeholder {
+        color: var(--text-muted);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .stat-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+      }
+
+      .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        background: var(--bg-soft);
+        color: var(--primary);
+      }
+
+      .stat-content {
+        flex: 1;
+      }
+
+      .stat-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--text-main);
+      }
+
+      .stat-label {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-top: 0.25rem;
+      }
+
+      .nav-tabs {
+        border-bottom: 2px solid var(--border);
+        margin-bottom: 2rem;
+        gap: 0.5rem;
+      }
+
+      .nav-tabs .nav-link {
+        color: var(--text-muted);
+        border: none;
+        border-bottom: 3px solid transparent;
+        padding: 0.75rem 1.2rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        margin-bottom: -2px;
+      }
+
+      .nav-tabs .nav-link:hover {
+        color: var(--primary);
+        background-color: var(--bg-soft);
+      }
+
+      .nav-tabs .nav-link.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+        background-color: transparent;
+      }
+
+      .tab-content {
+        margin-top: 1.5rem;
+      }
+
+      .tab-pane {
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .admin-table {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .admin-table-header {
+        background: var(--bg-soft);
+        display: grid;
+        grid-template-columns: 60px 2fr 1fr 1fr 100px 100px;
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        border-bottom: 1px solid var(--border);
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+        align-items: center;
+      }
+
+      .admin-table-row {
+        display: grid;
+        grid-template-columns: 60px 2fr 1fr 1fr 100px 100px;
+        gap: 1rem;
+        padding: 1.2rem;
+        border-bottom: 1px solid var(--border);
+        align-items: center;
+        transition: background-color 0.2s ease;
+      }
+
+      .admin-table-row:last-child {
+        border-bottom: none;
+      }
+
+      .admin-table-row:hover {
+        background-color: var(--bg-soft);
+      }
+
+      .row-index {
+        text-align: center;
+        font-weight: 700;
+        color: var(--text-muted);
+      }
+
+      .row-name {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        word-break: break-word;
+      }
+
+      .row-name:hover {
+        text-decoration: underline;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.4rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .status-pending {
+        background: rgba(183, 121, 31, 0.2);
+        color: #935d07;
+        border: 1px solid #935d07;
+      }
+
+      .status-approved {
+        background: rgba(20, 151, 78, 0.2);
+        color: var(--success);
+        border: 1px solid var(--success);
+      }
+
+      .status-rejected {
+        background: rgba(159, 18, 57, 0.2);
+        color: #9f1239;
+        border: 1px solid #9f1239;
+      }
+
+      .status-active {
+        background: rgba(59, 130, 246, 0.2);
+        color: #3b82f6;
+        border: 1px solid #3b82f6;
+      }
+
+      .status-banned {
+        background: rgba(100, 100, 100, 0.2);
+        color: #666;
+        border: 1px solid #666;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 0.4rem;
+        justify-content: center;
+      }
+
+      .action-btn {
+        padding: 0.4rem 0.6rem;
+        border: 1px solid var(--border);
+        border-radius: 0.3rem;
+        background-color: transparent;
+        color: var(--text-main);
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .action-btn:hover {
+        background-color: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .action-btn.danger:hover {
+        background-color: #dc3545;
+        border-color: #dc3545;
+      }
+
+      .filter-bar {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .filter-btn {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 0.35rem;
+        background: transparent;
+        color: var(--text-main);
+        font-weight: 500;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+      }
+
+      .filter-btn.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: var(--text-muted);
+      }
+
+      .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+      }
+
+      .modal-content-custom {
+        border-radius: 1rem;
+        border: none;
+        box-shadow: var(--shadow-md);
+        background: var(--card-bg);
+      }
+
+      @media (max-width: 768px) {
+        .admin-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .search-box {
+          width: 100%;
+        }
+
+        .admin-table-header,
+        .admin-table-row {
+          grid-template-columns: 50px 1.5fr 90px 90px 70px;
+          font-size: 0.75rem;
+          padding: 1rem;
+          gap: 0.8rem;
+        }
+
+        .nav-tabs .nav-link {
+          padding: 0.6rem 1rem;
+          font-size: 0.85rem;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .admin-header h1 {
+          font-size: 1.8rem;
+        }
+
+        .admin-actions {
+          width: 100%;
+          flex-direction: column;
+        }
+
+        .search-box {
+          width: 100%;
+        }
+
+        .admin-table-header,
+        .admin-table-row {
+          grid-template-columns: 45px 1fr 60px 60px;
+          gap: 0.5rem;
+          padding: 0.8rem;
+        }
+
+        .action-buttons {
+          gap: 0.3rem;
+        }
+
+        .action-btn {
+          width: 28px;
+          height: 28px;
+          font-size: 0.7rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top beat-nav shadow-sm">
+      <div class="container-fluid" style="padding-left: 2rem; padding-right: 2rem">
+        <a class="navbar-brand d-flex align-items-center gap-2 brand-logo" href="../index.html">
+          <i class="fa-solid fa-code brand-icon"></i>
+          <span class="brand-text">beatCode</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 align-items-center gap-2 justify-center">
+            <li class="nav-item">
+              <a class="nav-link" href="problemset.html">
+                <i class="fa-solid fa-code me-2"></i>Problem Set
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contests.html">
+                <i class="fa-solid fa-trophy me-2"></i>Contests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">
+                <i class="fa-solid fa-shield me-2"></i>Admin
+              </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <button
+                id="themeToggle"
+                class="theme-toggle btn btn-link p-0 border-0"
+                style="color: var(--text-main); display: flex; align-items: center;"
+                type="button"
+                title="Toggle theme"
+              >
+                <svg class="sun-icon" width="20" height="20" viewBox="0 0 32 32">
+                  <circle cx="16" cy="16" r="6" fill="currentColor" opacity="1" />
+                  <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="16" y1="26" x2="16" y2="30" />
+                    <line x1="6" y1="16" x2="2" y2="16" />
+                    <line x1="30" y1="16" x2="26" y2="16" />
+                  </g>
+                </svg>
+              </button>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a class="nav-link p-0 border-0 position-relative d-flex align-items-center" href="#" style="color: var(--text-main)">
+                <i class="fa-solid fa-bell fs-5"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem; padding: 0.25rem 0.4rem">5</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown d-flex align-items-center">
+              <button
+                class="btn btn-link nav-link dropdown-toggle p-0 border-0 d-flex align-items-center"
+                id="profileDropdown"
+                data-bs-toggle="dropdown"
+                style="color: var(--text-main)"
+              >
+                <i class="fa-solid fa-user-circle fs-5"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="background-color: var(--card-bg); border: 1px solid var(--border);">
+                <li><a class="dropdown-item" href="profile.html"><i class="fa-solid fa-user me-2"></i>My Profile</a></li>
+                <li><a class="dropdown-item" href="settings.html"><i class="fa-solid fa-gear me-2"></i>Settings</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-sign-out-alt me-2"></i>Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <section class="admin-section position-relative overflow-hidden">
+        <div class="container position-relative z-1">
+          <!-- Header -->
+          <div class="admin-header">
+            <div>
+              <h1 class="gradient-text">
+                <i class="fa-solid fa-shield-cat me-3" style="color: var(--primary)"></i>Admin Dashboard
+              </h1>
+              <p class="text-muted mt-2">Manage users, problems, contests, and reports</p>
+            </div>
+            <div class="admin-actions">
+              <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+                <input type="text" placeholder="Search...">
+              </div>
+            </div>
+          </div>
+
+          <!-- Statistics -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fa-solid fa-users"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value">2,456</div>
+                <div class="stat-label">Total Users</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fa-solid fa-trophy"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Pending Contests</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fa-solid fa-ban"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value">14</div>
+                <div class="stat-label">Banned Users</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fa-solid fa-check-circle"></i>
+              </div>
+              <div class="stat-content">
+                <div class="stat-value">1,247</div>
+                <div class="stat-label">Approved Items</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">
+                <i class="fa-solid fa-users me-2"></i>Users
+              </button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#contests" type="button" role="tab">
+                <i class="fa-solid fa-trophy me-2"></i>Contests
+              </button>
+            </li>
+
+
+          </ul>
+
+          <!-- Tab Content -->
+          <div class="tab-content">
+            <!-- Users Tab -->
+            <div class="tab-pane fade show active" id="users" role="tabpanel">
+              <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterUsers('all')">All</button>
+                <button class="filter-btn" onclick="filterUsers('active')">Active</button>
+                <button class="filter-btn" onclick="filterUsers('banned')">Banned</button>
+              </div>
+
+              <div class="admin-table">
+                <div class="admin-table-header">
+                  <div>ID</div>
+                  <div>User</div>
+                  <div>Email</div>
+                  <div>Status</div>
+                  <div>Joined</div>
+                  <div>Actions</div>
+                </div>
+
+                <div class="admin-table-row">
+                  <div class="row-index">1</div>
+                  <div><a class="row-name" href="#">John Doe</a></div>
+                  <div class="text-muted small">john@example.com</div>
+                  <div><span class="status-badge status-active">Active</span></div>
+                  <div class="text-muted small">2 months ago</div>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="View"><i class="fa-solid fa-eye"></i></button>
+                    <button class="action-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                    <button class="action-btn" title="Ban"><i class="fa-solid fa-ban"></i></button>
+                  </div>
+                </div>
+
+                <div class="admin-table-row">
+                  <div class="row-index">2</div>
+                  <div><a class="row-name" href="#">Sarah Smith</a></div>
+                  <div class="text-muted small">sarah@example.com</div>
+                  <div><span class="status-badge status-active">Active</span></div>
+                  <div class="text-muted small">1 month ago</div>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="View"><i class="fa-solid fa-eye"></i></button>
+                    <button class="action-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                    <button class="action-btn" title="Ban"><i class="fa-solid fa-ban"></i></button>
+                  </div>
+                </div>
+
+                <div class="admin-table-row">
+                  <div class="row-index">3</div>
+                  <div><a class="row-name" href="#">Alex Johnson</a></div>
+                  <div class="text-muted small">alex@example.com</div>
+                  <div><span class="status-badge status-banned">Banned</span></div>
+                  <div class="text-muted small">3 weeks ago</div>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="View"><i class="fa-solid fa-eye"></i></button>
+                    <button class="action-btn" title="Unban"><i class="fa-solid fa-check"></i></button>
+                  </div>
+                </div>
+
+                <div class="admin-table-row">
+                  <div class="row-index">4</div>
+                  <div><a class="row-name" href="#">Mike Chen</a></div>
+                  <div class="text-muted small">mike@example.com</div>
+                  <div><span class="status-badge status-active">Active</span></div>
+                  <div class="text-muted small">1 week ago</div>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="View"><i class="fa-solid fa-eye"></i></button>
+                    <button class="action-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                    <button class="action-btn" title="Ban"><i class="fa-solid fa-ban"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Contests Tab -->
+            <div class="tab-pane fade" id="contests" role="tabpanel">
+              <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterContests('all')">All</button>
+                <button class="filter-btn" onclick="filterContests('pending')">Pending</button>
+                <button class="filter-btn" onclick="filterContests('approved')">Approved</button>
+                <button class="filter-btn" onclick="filterContests('running')">Running</button>
+              </div>
+
+              <div class="admin-table">
+                <div class="admin-table-header">
+                  <div>ID</div>
+                  <div>Contest Name</div>
+                  <div>Organizer</div>
+                  <div>Status</div>
+                  <div>Start Date</div>
+                  <div>Actions</div>
+                </div>
+
+                <div class="admin-table-row">
+                  <div class="row-index">1</div>
+                  <div><a class="row-name" href="#">Algorithm Mega 2026</a></div>
+                  <div class="text-muted small">John Doe</div>
+                  <div><span class="status-badge status-pending">Pending</span></div>
+                  <div class="text-muted small">May 25, 2026</div>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="View"><i class="fa-solid fa-eye"></i></button>
+                    <button class="action-btn" title="Approve"><i class="fa-solid fa-check"></i></button>
+                    <button class="action-btn danger" title="Reject"><i class="fa-solid fa-times"></i></button>
+                  </div>
+                </div>
+
+                <div class="admin-table-row">
+                  <div class="row-index">2</div>
+                  <div><a class="row-name" href="#">Spring Code Challenge</a></div>
+                  <div class="text-muted small">Sarah Smith</div>
+                  <div><span class="status-badge status-approved">Running</span></div>
+                  <div class="text-muted small">May 15, 2026</div>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="View"><i class="fa-solid fa-eye"></i></button>
+                    <button class="action-btn" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                    <button class="action-btn danger" title="Cancel"><i class="fa-solid fa-stop"></i></button>
+                  </div>
+                </div>
+
+                <div class="admin-table-row">
+                  <div class="row-index">3</div>
+                  <div><a class="row-name" href="#">Competitive Programming Boot</a></div>
+                  <div class="text-muted small">Mike Chen</div>
+                  <div><span class="status-badge status-pending">Pending</span></div>
+                  <div class="text-muted small">June 1, 2026</div>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="View"><i class="fa-solid fa-eye"></i></button>
+                    <button class="action-btn" title="Approve"><i class="fa-solid fa-check"></i></button>
+                    <button class="action-btn danger" title="Reject"><i class="fa-solid fa-times"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-4 border-top mt-auto" style="background-color: var(--footer-bg);">
+      <div class="container text-center">
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+          <i class="fa-solid fa-code fs-4"></i>
+          <span class="fw-bold fs-5">beatCode</span>
+        </div>
+        <p class="text-muted mb-0">Developed by <span class="fw-bold text-primary">অরুণ প্রাতের তরুণ দল</span></p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggle = document.getElementById("themeToggle");
+        const documentElement = document.documentElement;
+
+        // Initialize theme from localStorage or fallback to default
+        const savedTheme = localStorage.getItem("beatCode-theme") || "light";
+        documentElement.setAttribute("data-theme", savedTheme);
+        documentElement.setAttribute("data-bs-theme", savedTheme);
+        if (savedTheme === "dark") {
+          themeToggle.classList.add("theme-toggle--toggled");
+        }
+
+        themeToggle.addEventListener("click", () => {
+          const currentTheme = documentElement.getAttribute("data-theme");
+          const newTheme = currentTheme === "light" ? "dark" : "light";
+
+          documentElement.setAttribute("data-theme", newTheme);
+          documentElement.setAttribute("data-bs-theme", newTheme);
+          localStorage.setItem("beatCode-theme", newTheme);
+          themeToggle.classList.toggle("theme-toggle--toggled");
+        });
+      });
+
+      // Filter Functions
+      function filterUsers(type) {
+        console.log("Filtering users by:", type);
+        updateFilterButtons(event.target);
+      }
+
+      function updateFilterButtons(button) {
+        const parent = button.parentElement;
+        parent.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      }
+    </script>
+  </body>
+</html>
